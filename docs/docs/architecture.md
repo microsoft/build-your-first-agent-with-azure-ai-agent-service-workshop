@@ -2,7 +2,7 @@
 
 The Contoso Sales Assistant is a conversational agent that can answer questions about sales data, generate charts, and create Excel files for further analysis.
 
-The app is built with [Azure AI Agents Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"} and uses the [Azure OpenAI gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions) LLM.
+The app is built with the [Azure AI Agents Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"} and uses the [Azure OpenAI gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions) LLM.
 
 The app uses a read-only SQLite Contoso Sales Database with 40,000 rows of synthetic data. When the app starts, it reads the sales database schema, product categories, product types, and reporting years, then adds this data to the Azure AI Agent Service instruction context.
 
