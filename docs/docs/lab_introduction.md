@@ -8,14 +8,14 @@ Each lab in this workshop has an **introduction** that explains the relevant con
 
 ## Prerequisites
 
-1. If you are at an event such as the AI Tour then the complete environment is already set up for you. Follow these instructions:
+If you are at an event such as the AI Tour then the complete environment is already set up for you. Follow these instructions:
 
-2. Clone the workshop repo
-3. Navigate to the workshop directory `src/workshop`
-4. Open in VS Code
-5. Reopen the workshop in devcontainer.
+1. Clone the workshop repo
+2. Navigate to the workshop directory `src/workshop`
+3. Open in VS Code
+4. You'll be prompted to reopen the workshop in devcontainer, click "Reopen in Container".
 
-You can skip this section and move to the next section.
+<!-- You can skip this section and move to the next section. -->
 
 <!-- ## Setting up the Environment
 
