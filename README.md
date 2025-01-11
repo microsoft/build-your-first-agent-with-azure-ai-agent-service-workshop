@@ -1,11 +1,5 @@
-# Contoso Sales Assistant Built with the Azure OpenAI Assistant API and Chainlit
+# Contoso Sales AI Agent built with the Azure AI Agent Service
 
 ## Documentation
 
-See the full documentation at [Contoso Sales Assistant](https://azure-samples.github.io/contoso-sales-azure-openai-assistants-api/)
-
-The documentation includes:
-
-1. How to use the assistant
-2. How to develop the assistant
-3. How to deploy the assistant
+See the full documentation at [Contoso Sales AI Agent](https://gloveboxes.github.io/contoso-sales-ai-agent-service-workshop/)
