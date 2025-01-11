@@ -1,6 +1,6 @@
 # Contoso Sales Assistant
 
-## Introduction to the Contoso Sales Assistant
+## Introduction to the Contoso Sales Assistant AI Agent
 
 You are a sales manager at Contoso, a multinational retail company that sells outdoor equipment. You need to analyze sales data to find trends, understand customer preferences, and make informed business decisions. To help you, Contoso has developed a conversational AI Agent that can answer questions about your sales data.
 
