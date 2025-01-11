@@ -2,25 +2,24 @@
 
 The Contoso Sales Assistant is a conversational agent that can answer questions about sales data, generate charts, and create Excel files for further analysis.
 
-// TODO - get the URL for AI Agent URL
-
-The app is built with [Azure OpenAI GPT-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models){:target="_blank"} , the [Azure AI Agent Agent service](https://learn.microsoft.com/azure/ai-services/openai/concepts/assistants){:target="_blank"}.
+The app is built with [Azure AI Agents Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"} and uses the [Azure OpenAI gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions) LLM.
 
 The app uses a read-only SQLite Contoso Sales Database with 40,000 rows of synthetic data. When the app starts, it reads the sales database schema, product categories, product types, and reporting years, then adds this data to the Azure AI Agent Service instruction context.
 
-The Azure AI Agent Service offers several "out-of-the-box" tools, including support for data within Fabric, SharePoint, and Azure Storage. It also allows the creation of custom integrations using the Function Calling tool and supports RAG-style search capabilities through a built-in "file search" vector store and semantic search functionality.
+## Extending the Workshop Solution
 
-## Why use the Azure AI Agent Service?
+The workshop solution is easily adaptable to various scenarios, such as customer support, by modifying the database and tailoring the Azure AI Agent Service instructions to suit the specific use case. The workshop solution is intentionally UX-agnostic, enabling you to focus on the core functionality of the AI Agent Service and apply the foundational concepts to build your own conversational agent.
 
-## Overview of Best Practices in Conversational Agent Development
+### Best Practices Demonstrated in the App
 
-The app showcases best practices for creating a conversational agent:
+- **Asynchronous APIs**:  
+  The workshop sample uses asynchronous APIs for the Azure AI Agent Service and SQLite, optimizing resource utilization and enhancing scalability.
 
-- The workshop sample uses asynchronous APIs for the Azure AI Agent Service and SQLite, optimizing resource use and enhancing scalability.
-- It incorporates token streaming to enhance user experience by improving perceived response times from the LLM-powered app.
+- **Token Streaming**:  
+  Token streaming is incorporated to improve the user experience by reducing perceived response times in the LLM-powered app.
 
-## Solution structure
+<!-- ## Solution structure
 
 //TODO include a description of the VS Code project
 
-//TODO Screenshots - File Explorer on the left and down in white
+//TODO Screenshots - File Explorer on the left and down in white -->

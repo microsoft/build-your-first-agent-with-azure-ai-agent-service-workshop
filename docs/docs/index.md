@@ -26,6 +26,4 @@ Learn more about the Azure AI Agent Service in the [Azure AI Agent Service docum
 
 Popular agent frameworks include LangChain, Semantic Kernel, and CrewAI. What sets the Azure AI Agent Service apart is its dual offering as both a service and an SDK. For more complex multi-agent projects, it is common to combine SDKs like Semantic Kernel and AutoGen with the Azure AI Agent Service to build robust solutions.
 
-## Extending the workshop solution
 
-This solution can be easily adapted to support other scenarios, such as customer support, simply by changing the database and adjusting the Azure AI Agent Service instructions to fit the new use case. The solution is deliberately UX-agnostic, allowing you to focus on the core functionality of the AI Agent Service and take the core concepts to build your own conversational agent.

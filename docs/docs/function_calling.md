@@ -2,7 +2,9 @@
 
 ## What is Function Calling
 
-...
+Azure OpenAI Function Calling allows Large Language Models (LLMs) to interact with external systems and execute tasks by invoking functions. This feature enables seamless integration with APIs, data retrieval, and action execution. The LLM determines when and how to call a function based on user prompts and returns structured data for easier processing and use in applications.
+
+It’s important to understand that the developer is responsible for implementing the function logic within the application. By defining the function and its expected inputs, developers can create intelligent, task-oriented solutions that dynamically leverage the power of LLMs while maintaining control over the application’s behavior.
 
 ## Enabling Function Calling
 
