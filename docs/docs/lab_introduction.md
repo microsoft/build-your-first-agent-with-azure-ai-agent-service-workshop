@@ -10,10 +10,20 @@ Each lab in this workshop has an **introduction** that explains the relevant con
 
 If you are at an event such as the AI Tour then the complete environment is already set up for you. Follow these instructions:
 
-1. Clone the workshop repo
+1. Clone the workshop repo. From a terminal window, run the following command:
+
+    ```shell
+    git clone https://github.com/gloveboxes/contoso-sales-ai-agent-service-workshop.git
+    ```
+
 2. Navigate to the workshop directory `src/workshop`
-3. Open in VS Code
-4. You'll be prompted to reopen the workshop in devcontainer, click "Reopen in Container".
+3. Open in VS Code. From the terminal window, run the following command:
+
+    ```shell
+    code .
+    ```
+
+4. You'll be prompted to reopen the workshop in devcontainer, select "Reopen in Container".
 
 <!-- You can skip this section and move to the next section. -->
 
