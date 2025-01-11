@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Uvicorn",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "src.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "80"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "ENV": "development"
+            }
+        }
+    ]
+}

@@ -1,0 +1,70 @@
+site_name: Contoso Sales AI Assistant
+
+nav:
+  - Workshop introduction: index.md
+  - Solution Overview: architecture.md
+  - Security considerations: security.md
+  # - Getting started resources: resources.md
+  - Lab 1 The power of Function Calling: function_calling.md
+  - Lab 2 Intro to the Code Interpreter: code_interpreter.md
+  - Lab 3 File search made easy: file_search.md
+  - Lab 4 Grounding with Bing: bing_search.md
+  - Lab 5 Chain of Thought: cot.md
+  - Lab 6 Instrumentation: instrumentation.md
+  # - Conversation: conversation.md
+  # - Development: development.md
+  # - Deployment: deployment.md
+  - Summary: summary.md
+
+
+
+plugins:
+  - glightbox
+
+theme:
+  name: material
+  logo: media/favicon.png
+  favicon: media/favicon.png
+  features:
+    - navigation.instant
+    - navigation.footer
+    - content.code.copy
+
+  # Change Font: https://squidfunk.github.io/mkdocs-material/setup/changing-the-fonts/?h=fonts
+  # Google Fonts Supported By Default: https://fonts.google.com/
+  font:
+    code: Roboto Mono #Monospaced
+    text: Roboto #Regular
+  # logo: docs/media/azure-ai-studio.svg
+  palette:
+    - scheme: default  # Light Mode
+      primary: black
+      accent: pink
+      toggle:
+        icon: material/brightness-2
+        name: Switch to dark mode
+    - scheme: slate # Dark Mode
+      primary: amber
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      toc_depth: 0
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  # - pymdownx.emoji:
+      # emoji_index: !!python/name:material.extensions.emoji.twemoji
+      # emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+
+extra_css:
+  - css/custom.css

@@ -1,0 +1,11 @@
+aiosqlite>=0.20.0, <1.0.0
+httpx>=0.27.2, <1.0.0
+aiohttp
+python_dotenv>=1.0.1, <2.0.0
+azure-identity>=1.19.0, <2.0.0
+azure-ai-projects==1.0.0b5
+openai
+pandas>=2.2.3, <3.0.0
+pydantic==2.10.1
+azure.ai.inference
+pillow

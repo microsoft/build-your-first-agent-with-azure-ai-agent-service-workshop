@@ -1,0 +1,19 @@
+__pycache__
+*.py[co]
+[.][v]env/
+.DS_Store
+.ruff_cache
+.env
+.coverage
+*.orig
+# .NET stuff
+bin
+obj
+appsettings.*.json
+*.csproj.user
+.mono
+*.user
+
+# AZD
+.azure/
+.files/
