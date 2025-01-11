@@ -1,4 +1,6 @@
-## Lab 3 File search made easy
+# Lab 3 File search made easy
+
+## Introduction
 
 ## Vector Store and Semantic Search
 
@@ -12,7 +14,9 @@ Depending the use case it can make sense to upload and attach files to the Agent
 
 The **contoso-tents-datasheet.pdf** file used in the sample can be found in the [datasheet](https://github.com/gloveboxes/contoso-sales-azure-openai-assistant/tree/main/resources) folder of this repository.
 
-## Update the Instructions
+## Lab 3 Exercise
 
-## ### Add File Search to the Toolset
+### Update the Instructions
+
+### ### Add File Search to the Toolset
 
