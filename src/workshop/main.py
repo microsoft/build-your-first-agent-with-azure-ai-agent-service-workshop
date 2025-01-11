@@ -54,13 +54,13 @@ code_interpreter = CodeInterpreterTool()
 bing_connection = project_client.connections.get(connection_name=BING_CONNECTION_NAME)
 bing_grounding = BingGroundingTool(bing_connection)
 
-vector_store = utilities.upload_file("datasheet/contoso-tents-datasheet.pdf")
-file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
+# vector_store = utilities.upload_file("datasheet/contoso-tents-datasheet.pdf")
+# file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
 
 toolset = AsyncToolSet()
 toolset.add(functions)
 toolset.add(code_interpreter)
-toolset.add(file_search_tool)
+# toolset.add(file_search_tool)
 # toolset.add(bing_grounding)
 
 
@@ -105,7 +105,7 @@ async def cleanup(agent: Agent, thread: AgentThread) -> None:
     await sales_data.close()
 
 
-async def post_message(thread_id: str, content: str, thread: AgentThread) -> None:
+async def post_message(thread_id: str, content: str, agent: Agent, thread: AgentThread) -> None:
     """Post a message to the Azure AI Agent Service."""
     await project_client.agents.create_message(
         thread_id=thread_id,
@@ -137,7 +137,7 @@ async def main() -> None:
         prompt = input("\033[32mEnter your query: \033[0m")
         if prompt == "exit":
             break
-        await post_message(thread_id=thread.id, content=prompt, thread=thread)
+        await post_message(agent=agent, thread_id=thread.id, content=prompt, thread=thread)
 
     await cleanup(agent, thread)
 

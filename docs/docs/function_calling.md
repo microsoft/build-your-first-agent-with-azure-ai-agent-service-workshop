@@ -16,13 +16,13 @@ For example, in the sales_data.py file, you’ll see structured information in t
 
 ``` python
 
-async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_query: str) -> pd.DataFrame:
+async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_query: str) -> str:
     """
     This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.
 
     :param sqlite_query: The input should be a well-formed SQLite query to extract information based on the user's question. The query result will be returned as a JSON object.
     :return: Return data in JSON serializable format.
-    :rtype: pd.DataFrame
+    :rtype: str
     """
 
     print("\033[34mFunction Call Tools: async_fetch_sales_data_using_sqlite_query\033[0m")

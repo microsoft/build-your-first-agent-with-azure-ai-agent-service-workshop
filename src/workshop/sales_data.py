@@ -72,7 +72,8 @@ class SalesData:
         table_dicts = []
         for table_name in await self.__get_table_names():
             columns_names = await self.__get_column_info(table_name)
-            table_dicts.append({"table_name": table_name, "column_names": columns_names})
+            table_dicts.append(
+                {"table_name": table_name, "column_names": columns_names})
 
         database_info = "\n".join(
             [
@@ -93,23 +94,25 @@ class SalesData:
 
         return database_info
 
-    async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_query: str) -> pd.DataFrame:
+    async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_query: str) -> str:
         """
         This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.
 
         :param sqlite_query: The input should be a well-formed SQLite query to extract information based on the user's question. The query result will be returned as a JSON object.
         :return: Return data in JSON serializable format.
-        :rtype: pd.DataFrame
+        :rtype: str
         """
 
-        print("\033[34mFunction Call Tools: async_fetch_sales_data_using_sqlite_query\033[0m")
+        print(
+            "\033[34mFunction Call Tools: async_fetch_sales_data_using_sqlite_query\033[0m")
         print(f"\033[34mExecuting query: {sqlite_query}\033[0m")
 
         try:
             # Perform the query asynchronously
             async with self.conn.execute(sqlite_query) as cursor:
                 rows = await cursor.fetchall()
-                columns = [description[0] for description in cursor.description]
+                columns = [description[0]
+                           for description in cursor.description]
 
             if not rows:  # No need to create DataFrame if there are no rows
                 return json.dumps("The query returned no results. Try a different question.")
