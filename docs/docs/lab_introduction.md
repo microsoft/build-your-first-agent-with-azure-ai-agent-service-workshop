@@ -4,7 +4,7 @@ This workshop is designed to help you get started with the Azure AI Agents Servi
 
 ## Lab Structure
 
-Each lab in this workshop has an **introduction** that explains the relevant concepts, thus is followed by an **exercise** that guide you through the process of implementing the feature.
+Each lab in this workshop has an **introduction** that explains the relevant concepts, this is followed by an **exercise** that guides you through the process of implementing the feature.
 
 ## Prerequisites
 

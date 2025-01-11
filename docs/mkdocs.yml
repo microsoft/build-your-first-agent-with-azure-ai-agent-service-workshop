@@ -4,7 +4,7 @@ nav:
   - Workshop introduction: index.md
   - Solution Overview: architecture.md
   - Security considerations: security.md
-  # - Getting started resources: resources.md
+  - Lab Introduction: lab_introduction.md
   - Lab 1 Function Calling Power: lab-1-function_calling.md
   - Lab 2 Intro to the Code Interpreter: lab-2-code_interpreter.md
   - Lab 3 File search made easy: lab-3-file_search.md
