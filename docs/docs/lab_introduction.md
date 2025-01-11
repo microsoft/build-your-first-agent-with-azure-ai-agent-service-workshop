@@ -23,7 +23,7 @@ If you are at an event such as the AI Tour then the complete environment is alre
     code .
     ```
 
-4. You'll be prompted to reopen the workshop in devcontainer, select "Reopen in Container".
+4. You'll be prompted to reopen the workshop in a **Dev Container**, select **Reopen in Container**.
 
 <!-- You can skip this section and move to the next section. -->
 
