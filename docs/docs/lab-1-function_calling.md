@@ -12,7 +12,7 @@ If you’re familiar with OpenAI Function Calling, it requires defining a functi
 
 With the Azure AI Agent Service and its Python SDK, you can define the function definition directly in the Python function’s docstring. This keeps the definition and implementation together, simplifying maintenance and enhancing readability.
 
-For example, in sales_data.py `async_fetch_sales_data_using_sqlite_query` function, the docstring specifies the function’s signature, inputs, and outputs. The SDK automatically extracts this information to define the callable function for the LLM.
+For example, in sales_data.py `async_fetch_sales_data_using_sqlite_query` function, the docstring specifies the function’s signature, inputs, and outputs. The SDK parses the docstring to define the callable function for the LLM.
 
 ``` python
 
