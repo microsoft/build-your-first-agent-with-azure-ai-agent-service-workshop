@@ -1,10 +1,12 @@
 # Lab 1 The power of Function Calling
 
-## What is Function Calling
+## Introduction
+
+### What is Function Calling
 
 Function Calling enables Large Language Models (LLMs) to interact with external systems, execute tasks, and integrate with APIs. The LLM determines when to invoke a function based on user prompts and returns **structured data** for application use. It’s then up to the developer to implement the function logic within the application. In this workshop solution, the function logic is used to execute dynamic SQL queries against the SQLite database.
 
-## Enabling Function Calling
+### Enabling Function Calling
 
 If you’re familiar with OpenAI Function Calling, it requires defining a function schema for the LLM. Azure AI Agent Service supports this but also offers a more flexible option.
 

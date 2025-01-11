@@ -2,6 +2,10 @@
 
 This workshop is designed to help you get started with the Azure AI Agents Service and the Python SDK. The workshop is divided into multiple labs, each focusing on a specific feature of the Azure AI Agents Service. The labs are designed to be completed in sequence, with each lab building on the previous one.
 
+## Lab Structure
+
+Each lab in this workshop has an **introduction** that explains the relevant concepts, thus is followed by an **exercise** that guide you through the process of implementing the feature.
+
 ## Prerequisites
 
 1. If you are at an event such as the AI Tour then the complete environment is already set up for you. Follow these instructions:
