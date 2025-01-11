@@ -8,9 +8,9 @@ nav:
   - Lab 1 Function Calling Power: lab-1-function_calling.md
   - Lab 2 Intro to the Code Interpreter: lab-2-code_interpreter.md
   # - Lab 3 File search made easy: lab-3-file_search.md
-  - Lab 3 Grounding with Bing: lab-4-bing_search.md
-  - Lab 4 Chain of Thought: lab-5-cot.md
-  - Lab 5 Instrumentation: lab-6-instrumentation.md
+  - Lab 3 Grounding with Bing: lab-3-bing_search.md
+  # - Lab 4 Chain of Thought: lab-5-cot.md
+  - Lab 4 Instrumentation: lab-4-instrumentation.md
   # - Conversation: conversation.md
   # - Development: development.md
   # - Deployment: deployment.md
