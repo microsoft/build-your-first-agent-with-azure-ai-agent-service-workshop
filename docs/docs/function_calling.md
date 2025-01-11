@@ -27,3 +27,17 @@ async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_qu
 ### Dynamic SQL Generation
 
 When the app starts, it incorporates the database schema and key data into the instructions for the Azure AI Agent Service. Using this input, the Large Language Model (LLM) generates SQLite-compatible SQL queries, which are executed to respond to user requests expressed in natural language.
+
+## Lab 1 Exercise
+
+In this lab, you will enable the function logic to execute dynamic SQL queries against the SQLite database. The function will be called by the LLM to answer user questions about Contoso sales data.
+
+1. Open the `main.py` file in the `src/workshop` directory.
+2. Uncomment the **# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"** line.
+3. Uncomment the **# functions = AsyncFunctionTool(user_async_functions)"** line.
+4. Uncomment the **# toolset.add(functions)** line.
+5. Review the `instructions/instructions_function_calling.txt` file. This file contains the instructions for the LLM to call the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file.
+6. Review the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file. This is the function that will be called by the LLM to execute dynamic SQL queries against the SQLite database.
+7. Press <kbd>F5</kbd> to run the application.
+8. In the terminal, you will see the application start and the LLM prompt you for a question. Ask a question about Contoso sales data, such as "What are the sales by region?".
+9. The LLM calls the `async_fetch_sales_data_using_sqlite_query` function to execute a dynamic SQL query on the SQLite database. The retrieved data is returned to the LLM, formatted as `Markdown` according to the specifications in the instruction file, and returned to the user.
