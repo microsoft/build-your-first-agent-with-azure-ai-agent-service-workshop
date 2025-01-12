@@ -44,16 +44,16 @@ functions = AsyncFunctionTool(
 )
 
 # INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
-INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
+# INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
 # INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
 
 
 async def add_agent_tools():
-    """Add tools to the agent."""
-    toolset.add(functions)
+    """Add tools for the agent."""
+    # toolset.add(functions)
 
-    code_interpreter = CodeInterpreterTool()
-    toolset.add(code_interpreter)
+    # code_interpreter = CodeInterpreterTool()
+    # toolset.add(code_interpreter)
 
     # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
     # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
