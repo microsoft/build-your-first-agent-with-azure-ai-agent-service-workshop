@@ -63,9 +63,8 @@ If you’re participating in this workshop as part of the AI Tour, the environme
 
 ## Configure the Environment
 
-1. Create an .env File
-   - In the root of the workshop folder, use VS Code to create a .env file.
+1. In the root of the workshop folder, use VS Code to create a .env file.
 1. Copy the Configuration
-    - Open the .env file on the **desktop** and copy its contents into the .env file in the root of the **workshop** folder.
+    - Open the .env file on the **desktop** and copy its contents into the .env file in the root of the **workshop** folder you just created.
 1. Save Changes
    - Save the changes to the .env file.
