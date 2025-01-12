@@ -72,7 +72,7 @@ Review the **instructions/instructions_code_interpreter.txt** file. This file pr
     - This will download the data in CSV format.
     - If you review the instructions, you’ll notice that the default download file format is CSV. However, you can change the file format to JSON or Excel by specifying your preferred format in the query.
 
-    Try **Download as JSON**
+    Try typing **Download as JSON**
 
 4. Ask More Questions:
 
