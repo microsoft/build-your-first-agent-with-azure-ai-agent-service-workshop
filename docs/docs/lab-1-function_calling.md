@@ -104,5 +104,8 @@ Start asking questions about Contoso sales data. For example:
 2. **What are the sales by region?**
       - The LLM calls the `async_fetch_sales_data_using_sqlite_query` function to execute a dynamic SQL query on the SQLite database. The retrieved data is returned to the LLM, formatted as `Markdown` according to the specifications in the instruction file, and returned to the user.
       - Try setting a breakpoint in the `async_fetch_sales_data_using_sqlite_query` function to see the data being processed.
+
+        ![Breakpoint](./media/breakpoint.png)
+
 3. **What countries have the highest sales?**
 4. **What were the sales of tents in the United States in April 2022?**
