@@ -64,7 +64,7 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
 
 ### Review the Instructions
 
-Review the **instructions/instructions_function_calling.txt** file. Look in the **Tools** tools section for the function calling instructions. Note, the **{database_schema_string}** placeholder is replaced with the  actual database schema string when the application starts.
+Review the **instructions/instructions_function_calling.txt** file and refer to the **Tools** section for details on the function-calling instructions. Keep in mind that the **{database_schema_string}** placeholder is replaced with the actual database schema string when the application initializes.
 
 ### Review the Function Logic
 
