@@ -3,6 +3,8 @@ import json
 import aiosqlite
 import pandas as pd
 
+from terminal_colors import TerminalColors as tc
+
 DATA_BASE = "database/contoso-sales.db"
 
 
@@ -72,8 +74,7 @@ class SalesData:
         table_dicts = []
         for table_name in await self.__get_table_names():
             columns_names = await self.__get_column_info(table_name)
-            table_dicts.append(
-                {"table_name": table_name, "column_names": columns_names})
+            table_dicts.append({"table_name": table_name, "column_names": columns_names})
 
         database_info = "\n".join(
             [
@@ -103,16 +104,14 @@ class SalesData:
         :rtype: str
         """
 
-        print(
-            "\033[34mFunction Call Tools: async_fetch_sales_data_using_sqlite_query\033[0m")
-        print(f"\033[34mExecuting query: {sqlite_query}\033[0m")
+        print(f"{tc.BLUE}Function Call Tools: async_fetch_sales_data_using_sqlite_query{tc.RESET}")
+        print(f"{tc.BLUE}Executing query: {sqlite_query}{tc.RESET}")
 
         try:
             # Perform the query asynchronously
             async with self.conn.execute(sqlite_query) as cursor:
                 rows = await cursor.fetchall()
-                columns = [description[0]
-                           for description in cursor.description]
+                columns = [description[0] for description in cursor.description]
 
             if not rows:  # No need to create DataFrame if there are no rows
                 return json.dumps("The query returned no results. Try a different question.")

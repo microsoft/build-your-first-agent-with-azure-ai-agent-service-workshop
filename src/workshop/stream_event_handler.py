@@ -17,6 +17,7 @@ from utilities import Utilities
 
 
 class StreamEventHandler(AsyncAgentEventHandler[str]):
+    """Handle LLM streaming events and tokens."""
 
     def __init__(self, functions: AsyncFunctionTool, project_client: AIProjectClient, utilities: Utilities) -> None:
         self.functions = functions
@@ -25,9 +26,11 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         super().__init__()
 
     async def on_message_delta(self, delta: MessageDeltaChunk) -> None:
+        """Handle message delta events. This will be the streamed token"""
         self.util.log_token_blue(delta.text)
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
+        """Handle thread message events."""
         if message.status == MessageStatus.COMPLETED:
             print()
         self.util.log_msg_purple(f"ThreadMessage created. ID: {message.id}, " f"Status: {message.status}")
@@ -35,6 +38,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         await self.util.get_files(message, self.project_client)
 
     async def on_thread_run(self, run: ThreadRun) -> None:
+        """Handle thread run events"""
         # print(f"ThreadRun status: {run.status}")
 
         if run.status == "failed":
@@ -52,7 +56,9 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         print(f"An error occurred. Data: {data}")
 
     async def on_done(self) -> None:
+        """Handle stream completion."""
         self.util.log_msg_purple(f"\nStream completed.")
 
     async def on_unhandled_event(self, event_type: str, event_data: Any) -> None:
+        """Handle unhandled events."""
         print(f"Unhandled Event Type: {event_type}, Data: {event_data}")

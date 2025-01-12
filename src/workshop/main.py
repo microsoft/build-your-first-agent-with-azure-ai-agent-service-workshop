@@ -16,6 +16,7 @@ from azure.identity import DefaultAzureCredential
 from stream_event_handler import StreamEventHandler
 from sales_data import SalesData
 from utilities import Utilities
+from terminal_colors import TerminalColors as tc
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
@@ -42,14 +43,14 @@ functions = AsyncFunctionTool(
     }
 )
 
-# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
 # INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
 # INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
 
 
 async def add_agent_tools():
     """Add tools for the agent."""
-    # toolset.add(functions)
+    toolset.add(functions)
 
     # code_interpreter = CodeInterpreterTool()
     # toolset.add(code_interpreter)
@@ -71,6 +72,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
         with open(INSTRUCTIONS_FILE, "r") as file:
             instructions = file.read()
 
+        # Replace the placeholder with the database schema string
         instructions = instructions.replace("{database_schema_string}", database_schema_string)
 
         print("Creating agent...")
@@ -79,7 +81,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
             name="Contoso Sales AI Agent",
             instructions=instructions,
             toolset=toolset,
-            temperature=0.2,
+            temperature=TEMPERATURE,
             headers={"x-ms-enable-preview": "true"},
         )
         print(f"Created agent, ID: {agent.id}")
@@ -130,8 +132,9 @@ async def main() -> None:
     agent, thread = await initialize()
 
     while True:
-        prompt = input("\033[32mEnter your query: \033[0m")
-        if prompt == "exit":
+        # Get user input prompt in the terminal using a pretty shade of green
+        prompt = input(f"{tc.GREEN}Enter your query (type exit to finish): {tc.RESET}")
+        if prompt.lower() == "exit":
             break
         if not prompt:
             continue
