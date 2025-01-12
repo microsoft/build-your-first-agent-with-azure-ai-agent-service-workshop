@@ -10,12 +10,11 @@ from azure.ai.projects.models import (
     AsyncToolSet,
     BingGroundingTool,
     CodeInterpreterTool,
-    FileSearchTool,
-    Agent
+    Agent,
 )
 from azure.identity import DefaultAzureCredential
 
-from my_event_handler import MyEventHandler
+from stream_event_handler import StreamEventHandler
 from sales_data import SalesData
 from utilities import Utilities
 
@@ -26,22 +25,18 @@ API_DEPLOYMENT_NAME = os.getenv("MODEL_DEPLOYMENT_NAME")
 PROJECT_CONNECTION_STRING = os.environ["PROJECT_CONNECTION_STRING"]
 BING_CONNECTION_NAME = os.getenv("BING_CONNECTION_NAME")
 MAX_COMPLETION_TOKENS = 4096
-MAX_PROMPT_TOKENS = 4096
+MAX_PROMPT_TOKENS = 10240
 TEMPERATURE = 0.2
 
+toolset = AsyncToolSet()
+
+
 # INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
-INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_file_search.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
+# INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
 
 sales_data = SalesData()
 utilities = Utilities()
-# agent = None
-# thread = None
-
-user_async_functions: Set[Callable[..., Any]] = {
-    sales_data.async_fetch_sales_data_using_sqlite_query,
-}
 
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
@@ -49,24 +44,29 @@ project_client = AIProjectClient.from_connection_string(
 )
 
 
-functions = AsyncFunctionTool(user_async_functions)
-code_interpreter = CodeInterpreterTool()
-bing_connection = project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-bing_grounding = BingGroundingTool(bing_connection)
+functions = AsyncFunctionTool(
+    {
+        sales_data.async_fetch_sales_data_using_sqlite_query,
+    }
+)
 
-# vector_store = utilities.upload_file("datasheet/contoso-tents-datasheet.pdf")
-# file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
 
-toolset = AsyncToolSet()
-toolset.add(functions)
-toolset.add(code_interpreter)
-# toolset.add(file_search_tool)
-# toolset.add(bing_grounding)
+async def add_agent_tools():
+    """Add Bing grounding tool to the toolset."""
+    toolset.add(functions)
+
+    code_interpreter = CodeInterpreterTool()
+    toolset.add(code_interpreter)
+
+    bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+    bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+    toolset.add(bing_grounding)
 
 
 async def initialize() -> tuple[Agent, AgentThread]:
     """Initialize the assistant with the sales data schema and instructions."""
-    # global agent, thread
+
+    await add_agent_tools()
 
     await sales_data.connect()
     database_schema_string = await sales_data.get_database_info()
@@ -116,7 +116,7 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
     stream = await project_client.agents.create_stream(
         thread_id=thread.id,
         assistant_id=agent.id,
-        event_handler=MyEventHandler(functions=functions, project_client=project_client, utilities=utilities),
+        event_handler=StreamEventHandler(functions=functions, project_client=project_client, utilities=utilities),
         max_completion_tokens=MAX_COMPLETION_TOKENS,
         max_prompt_tokens=MAX_PROMPT_TOKENS,
         temperature=TEMPERATURE,
@@ -137,6 +137,8 @@ async def main() -> None:
         prompt = input("\033[32mEnter your query: \033[0m")
         if prompt == "exit":
             break
+        if not prompt:
+            continue
         await post_message(agent=agent, thread_id=thread.id, content=prompt, thread=thread)
 
     await cleanup(agent, thread)

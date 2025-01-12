@@ -10,10 +10,10 @@ class Utilities:
     def log_msg_green(self, msg: str) -> None:
         print(f"\033[32m{msg}\033[0m")
 
-    def log_msg_purple(self, msg:str) -> None:
+    def log_msg_purple(self, msg: str) -> None:
         print(f"\033[35m{msg}\033[0m")
 
-    def log_token_blue(self, msg:str) -> None:
+    def log_token_blue(self, msg: str) -> None:
         print(f"\033[34m{msg}\033[0m", end="", flush=True)
 
     async def get_file(self, project_client: AIProjectClient, file_id: str, attachment_name: str) -> None:
@@ -40,13 +40,16 @@ class Utilities:
     async def get_files(self, message: ThreadMessage, project_client: AIProjectClient) -> None:
         if message.image_contents:
             for index, image in enumerate(message.image_contents, start=0):
-                attachment_name = message.file_path_annotations[index].text
+                attachment_name = (
+                    "unknown" if not message.file_path_annotations else message.file_path_annotations[index].text
+                )
                 await self.get_file(project_client, image.image_file.file_id, attachment_name)
         elif message.attachments:
             for index, attachment in enumerate(message.attachments, start=0):
-                attachment_name = message.file_path_annotations[index].text
+                attachment_name = (
+                    "unknown" if not message.file_path_annotations else message.file_path_annotations[index].text
+                )
                 await self.get_file(project_client, attachment.file_id, attachment_name)
-
 
     async def upload_file(self, file_path: str) -> VectorStore:
         """ """

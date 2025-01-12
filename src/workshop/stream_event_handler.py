@@ -16,7 +16,7 @@ from azure.ai.projects.models import (
 from utilities import Utilities
 
 
-class MyEventHandler(AsyncAgentEventHandler[str]):
+class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     def __init__(self, functions: AsyncFunctionTool, project_client: AIProjectClient, utilities: Utilities) -> None:
         self.functions = functions

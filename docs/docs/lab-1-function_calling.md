@@ -8,7 +8,7 @@ Function Calling enables Large Language Models (LLMs) to interact with external 
 
 ### Enabling Function Calling
 
-If you’re familiar with OpenAI Function Calling, it requires defining a function schema for the LLM. Azure AI Agent Service supports this but also offers a more flexible option.
+If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling){:target="_blank"}, it requires defining a function schema for the LLM. Azure AI Agent Service supports this but also offers a more flexible option.
 
 With the Azure AI Agent Service and its Python SDK, you can define the function definition directly in the Python function’s docstring. This keeps the definition and implementation together, simplifying maintenance and enhancing readability.
 
@@ -34,7 +34,7 @@ When the app starts, it incorporates the database schema and key data into the i
 
 In this lab, you will enable the function logic to execute dynamic SQL queries against the SQLite database. The function will be called by the LLM to answer user questions about Contoso sales data.
 
-1. Open the `main.py` file in the `src/workshop` directory.
+1. Open the `main.py` file in the `src/workshop` folder.
 2. Uncomment the **# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"** line.
 3. Uncomment the **# functions = AsyncFunctionTool(user_async_functions)"** line.
 4. Uncomment the **# toolset.add(functions)** line.
