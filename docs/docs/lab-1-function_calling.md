@@ -38,8 +38,28 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
 2. Uncomment the **# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"** line.
 3. Uncomment the **# functions = AsyncFunctionTool(user_async_functions)"** line.
 4. Uncomment the **# toolset.add(functions)** line.
-5. Review the `instructions/instructions_function_calling.txt` file. This file contains the instructions for the LLM to call the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file.
-6. Review the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file. This is the function that will be called by the LLM to execute dynamic SQL queries against the SQLite database.
-7. Press <kbd>F5</kbd> to run the application.
-8. In the terminal, you will see the application start and the LLM prompt you for a question. Ask a question about Contoso sales data, such as "What are the sales by region?".
-9. The LLM calls the `async_fetch_sales_data_using_sqlite_query` function to execute a dynamic SQL query on the SQLite database. The retrieved data is returned to the LLM, formatted as `Markdown` according to the specifications in the instruction file, and returned to the user.
+5. Review the code in the `main.py` file. You code should look like the following:
+
+    ``` python
+    INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
+    # INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
+    # INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
+
+
+    async def add_agent_tools():
+        """Add tools to the agent."""
+        toolset.add(functions)
+
+        # code_interpreter = CodeInterpreterTool()
+        # toolset.add(code_interpreter)
+
+        # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+        # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+        # toolset.add(bing_grounding)
+    ```
+
+6. Review the `instructions/instructions_function_calling.txt` file. This file contains the instructions for the LLM to call the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file.
+7. Review the `async_fetch_sales_data_using_sqlite_query` function in the `sales_data.py` file. This is the function that will be called by the LLM to execute dynamic SQL queries against the SQLite database.
+8. Press <kbd>F5</kbd> to run the application.
+9. In the terminal, you will see the application start and the LLM prompt you for a question. Ask a question about Contoso sales data, such as "What are the sales by region?".
+10.  The LLM calls the `async_fetch_sales_data_using_sqlite_query` function to execute a dynamic SQL query on the SQLite database. The retrieved data is returned to the LLM, formatted as `Markdown` according to the specifications in the instruction file, and returned to the user.

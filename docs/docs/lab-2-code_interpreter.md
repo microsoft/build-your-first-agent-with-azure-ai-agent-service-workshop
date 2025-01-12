@@ -20,27 +20,17 @@ In this lab, you will enable the Code Interpreter to execute Python code generat
     INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
     # INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
 
-    sales_data = SalesData()
-    utilities = Utilities()
 
-    user_async_functions: Set[Callable[..., Any]] = {
-        sales_data.async_fetch_sales_data_using_sqlite_query,
-    }
+    async def add_agent_tools():
+        """Add tools to the agent."""
+        toolset.add(functions)
 
-    project_client = AIProjectClient.from_connection_string(
-        credential=DefaultAzureCredential(),
-        conn_str=PROJECT_CONNECTION_STRING,
-    )
+        code_interpreter = CodeInterpreterTool()
+        toolset.add(code_interpreter)
 
-    functions = AsyncFunctionTool(user_async_functions)
-    code_interpreter = CodeInterpreterTool()
-    # bing_connection = project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-    # bing_grounding = BingGroundingTool(bing_connection)
-
-    toolset = AsyncToolSet()
-    toolset.add(functions)
-    toolset.add(code_interpreter)
-    <!-- # toolset.add(bing_grounding) -->
+        # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+        # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+        # toolset.add(bing_grounding)
     ```
 
 6. Review the `instructions/instructions_code_interpreter.txt` file. This file provides the LLM with instructions on how to utilize the Code Interpreter.

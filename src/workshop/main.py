@@ -29,12 +29,6 @@ MAX_PROMPT_TOKENS = 10240
 TEMPERATURE = 0.2
 
 toolset = AsyncToolSet()
-
-
-INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
-
 sales_data = SalesData()
 utilities = Utilities()
 
@@ -43,20 +37,23 @@ project_client = AIProjectClient.from_connection_string(
     conn_str=PROJECT_CONNECTION_STRING,
 )
 
-
 functions = AsyncFunctionTool(
     {
         sales_data.async_fetch_sales_data_using_sqlite_query,
     }
 )
 
+# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
+# INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
+
 
 async def add_agent_tools():
     """Add tools to the agent."""
     toolset.add(functions)
 
-    # code_interpreter = CodeInterpreterTool()
-    # toolset.add(code_interpreter)
+    code_interpreter = CodeInterpreterTool()
+    toolset.add(code_interpreter)
 
     # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
     # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
@@ -115,7 +112,7 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
 
     stream = await project_client.agents.create_stream(
         thread_id=thread.id,
-        agent_id=agent.id,
+        assistant_id=agent.id,
         event_handler=StreamEventHandler(functions=functions, project_client=project_client, utilities=utilities),
         max_completion_tokens=MAX_COMPLETION_TOKENS,
         max_prompt_tokens=MAX_PROMPT_TOKENS,
