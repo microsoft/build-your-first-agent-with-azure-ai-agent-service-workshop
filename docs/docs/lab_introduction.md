@@ -60,22 +60,7 @@ If you’re participating in this workshop as part of the AI Tour, the environme
 
 ## Configure the Environment
 
-1. Open the **.env** file on the desktop.
-1. Copy the contents of the **.env** file on the **desktop** to the **.env** file in the root of the **workshop** folder.
-1. Save the changes to the .env file.
-
-
-<!-- 5. You'll be prompted to reopen the workshop in a **Dev Container**, select **Reopen in Container**. -->
-
-<!-- You can skip this section and move to the next section. -->
-
-<!-- ## Setting up the Environment
-
-To complete this workshop, you need to set up your environment. This includes creating an Azure subscription, access to a GitHub account with Codespaces enabled, and an Azure AI Agents Service project.
-
-Before you begin, ensure you have the following:
-
-1. An Azure subscription. If you don't have an Azure subscription, create a [free account](https://azure.microsoft.com/free/) before you begin.
-2. A GitHub account. If you don't have a GitHub account, create one at [GitHub]()
-3. GitHub Codespaces enabled on your GitHub account.
-4. Docker installed on your local machine. For more information, see [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/) or [Install Docker Desktop on Mac](https://docs.docker.com/desktop/install/mac-install/). -->
+1. Create a **.env** file in the **root** of the workshop folder.
+2. Open the **.env** file on the desktop.
+3. Copy the contents of the **.env** file on the **desktop** to the **.env** file in the root of the **workshop** folder.
+4. Save the changes to the .env file.
