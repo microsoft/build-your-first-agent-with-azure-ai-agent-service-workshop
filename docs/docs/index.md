@@ -22,4 +22,4 @@ Learn more about the Azure AI Agent Service in the [Azure AI Agent Service docum
 
 ## AI Agent Frameworks
 
-Popular agent frameworks include LangChain, Semantic Kernel, and CrewAI. What distinguishes the Azure AI Agent Service is its seamless integration capabilities and an SDK optimized for rapid deployment. In complex multi-agent scenarios, solutions often combine SDKs like Semantic Kernel and AutoGen with the Azure AI Agent Service to create robust and scalable systems.
+Popular agent frameworks include LangChain, Semantic Kernel, and CrewAI. What distinguishes the Azure AI Agent Service is its seamless integration capabilities and an SDK optimized for rapid deployment. In complex multi-agent scenarios, solutions will combine SDKs like Semantic Kernel and AutoGen with the Azure AI Agent Service to build robust and scalable systems.
