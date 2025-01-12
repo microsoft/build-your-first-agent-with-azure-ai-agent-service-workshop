@@ -67,4 +67,4 @@ If you’re participating in this workshop as part of the AI Tour, the environme
 1. Copy the Configuration
     - Open the .env file on the **desktop** and **copy** its contents into the .env file in the root of the **workshop** folder you just created.
 1. Save Changes
-   - **Save** the changes to the .env file.
+    - **Save** the changes to the .env file.
