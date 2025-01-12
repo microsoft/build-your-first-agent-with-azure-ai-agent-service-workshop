@@ -31,9 +31,9 @@ TEMPERATURE = 0.2
 toolset = AsyncToolSet()
 
 
-# INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
 # INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
-INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
+# INSTRUCTIONS_FILE = "instructions/instructions_code_bing_grounding.txt"
 
 sales_data = SalesData()
 utilities = Utilities()
@@ -52,19 +52,19 @@ functions = AsyncFunctionTool(
 
 
 async def add_agent_tools():
-    """Add Bing grounding tool to the toolset."""
+    """Add tools to the agent."""
     toolset.add(functions)
 
-    code_interpreter = CodeInterpreterTool()
-    toolset.add(code_interpreter)
+    # code_interpreter = CodeInterpreterTool()
+    # toolset.add(code_interpreter)
 
-    bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-    bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
-    toolset.add(bing_grounding)
+    # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+    # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+    # toolset.add(bing_grounding)
 
 
 async def initialize() -> tuple[Agent, AgentThread]:
-    """Initialize the assistant with the sales data schema and instructions."""
+    """Initialize the agent with the sales data schema and instructions."""
 
     await add_agent_tools()
 
@@ -80,7 +80,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
         print("Creating agent...")
         agent = await project_client.agents.create_agent(
             model=API_DEPLOYMENT_NAME,
-            name="Contoso Sales Assistant",
+            name="Contoso Sales AI Agent",
             instructions=instructions,
             toolset=toolset,
             temperature=0.2,
@@ -95,7 +95,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
         return agent, thread
 
     except Exception as e:
-        logger.error("An error occurred initializing the assistant: %s", str(e))
+        logger.error("An error occurred initializing the agent: %s", str(e))
 
 
 async def cleanup(agent: Agent, thread: AgentThread) -> None:
@@ -115,7 +115,7 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
 
     stream = await project_client.agents.create_stream(
         thread_id=thread.id,
-        assistant_id=agent.id,
+        agent_id=agent.id,
         event_handler=StreamEventHandler(functions=functions, project_client=project_client, utilities=utilities),
         max_completion_tokens=MAX_COMPLETION_TOKENS,
         max_prompt_tokens=MAX_PROMPT_TOKENS,
@@ -128,7 +128,7 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
 
 async def main() -> None:
     """
-    Main function to run the assistant.
+    Main function to run the agent.
     Example questions: Sales by region, top-selling products, total shipping costs by region, show as a pie chart.
     """
     agent, thread = await initialize()
