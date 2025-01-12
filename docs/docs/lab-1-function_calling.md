@@ -6,7 +6,7 @@
 
 Function calling enables Large Language Models (LLMs) to interact with external systems, execute tasks, and integrate with APIs. The LLM determines when to invoke a function based on user prompts and returns structured data for application use. Developers then implement the function logic within the application.
 
-In this workshop, the function logic is used to execute dynamic SQL queries against the SQLite database.
+In this workshop, the function logic is used to execute the LLM dynamically generated SQL queries against the SQLite database.
 
 ### Enabling Function Calling
 
