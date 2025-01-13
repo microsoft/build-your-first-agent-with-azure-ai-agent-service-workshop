@@ -17,7 +17,6 @@ class SalesData:
 
         try:
             self.conn = await aiosqlite.connect(db_uri, uri=True)
-            print("Database connection opened.")
         except aiosqlite.Error as e:
             print(f"An error occurred: {e}")
             self.conn = None
@@ -25,7 +24,6 @@ class SalesData:
     async def close(self: "SalesData") -> None:
         if self.conn:
             await self.conn.close()
-            print("Database connection closed.")
 
     async def __get_table_names(self: "SalesData") -> list:
         """Return a list of table names."""
