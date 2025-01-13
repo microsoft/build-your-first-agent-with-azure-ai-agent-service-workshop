@@ -63,7 +63,7 @@ Learn more about the Azure AI Agent Service in the [Azure AI Agent Service docum
 5. Activate the virtual environment by running the following command:
 
     ```shell
-    source .venv/bin/activate
+    .\.venv\Scripts\activate
     ```
 
 6. Install the required packages by running the following command:

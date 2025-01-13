@@ -46,7 +46,7 @@ If you’re participating in this workshop as part of the AI Tour, the environme
 5. Activate the virtual environment by running the following command:
 
     ```shell
-    source .venv/bin/activate
+    .\.venv\Scripts\activate
     ```
 
 6. Install the required packages by running the following command:
