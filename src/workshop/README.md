@@ -18,6 +18,12 @@ The Azure AI Agent Service simplifies the creation of intelligent agents by offe
 
 Learn more about the Azure AI Agent Service in the [Azure AI Agent Service documentation](https://learn.microsoft.com/azure/ai-services/agents/concepts/agents){:target="_blank"}. In particular, read about the [components of agents](https://learn.microsoft.com/azure/ai-services/agents/concepts/agents#agents-components){:target="_blank"}.
 
+## Workshop Dependencies
+
+1. Python 3.12 or later
+1. Visual Studio Code with the Python extension installed.
+1. azd CLI installed.
+
 ## Workshop Requirements
 
 1. **Azure Subscription**: If you don't have an Azure subscription, create a [free account](https://azure.microsoft.com/free/){:target="_blank"} before you begin.
