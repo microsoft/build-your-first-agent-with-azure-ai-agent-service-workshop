@@ -1,4 +1,6 @@
 import json
+import logging
+from typing import Optional, Coroutine
 
 import aiosqlite
 import pandas as pd
@@ -7,8 +9,13 @@ from terminal_colors import TerminalColors as tc
 
 DATA_BASE = "database/contoso-sales.db"
 
+logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger(__name__)
 
 class SalesData:
+    conn: Optional[aiosqlite.Connection]
+
     def __init__(self: "SalesData") -> None:
         self.conn = None
 
@@ -17,33 +24,28 @@ class SalesData:
 
         try:
             self.conn = await aiosqlite.connect(db_uri, uri=True)
-            print("Database connection opened.")
+            logger.debug("Database connection opened.")
         except aiosqlite.Error as e:
-            print(f"An error occurred: {e}")
+            logger.exception("An error occurred", exc_info=e)
             self.conn = None
 
     async def close(self: "SalesData") -> None:
         if self.conn:
             await self.conn.close()
-            print("Database connection closed.")
+            logger.debug("Database connection closed.")
 
     async def __get_table_names(self: "SalesData") -> list:
         """Return a list of table names."""
-        table_names = []
         async with self.conn.execute("SELECT name FROM sqlite_master WHERE type='table';") as tables:
-            async for table in tables:
-                if table[0] != "sqlite_sequence":
-                    table_names.append(table[0])
-        return table_names
+            table_names = [table[0] async for table in tables if table[0] != "sqlite_sequence"]
+            return table_names
 
     async def __get_column_info(self: "SalesData", table_name: str) -> list:
         """Return a list of tuples containing column names and their types."""
-        column_info = []
         async with self.conn.execute(f"PRAGMA table_info('{table_name}');") as columns:
-            async for col in columns:
-                # col[1] is the column name, col[2] is the column type
-                column_info.append(f"{col[1]}: {col[2]}")
-        return column_info
+            # col[1] is the column name, col[2] is the column type
+            column_info = [f"{col[1]}: {col[2]}" async for col in columns]
+            return column_info
 
     async def __get_regions(self: "SalesData") -> list:
         """Return a list of unique regions in the database."""
@@ -87,11 +89,13 @@ class SalesData:
         product_categories = await self.__get_product_categories()
         reporting_years = await self.__get_reporting_years()
 
-        database_info += f"\nRegions: {', '.join(regions)}"
-        database_info += f"\nProduct Types: {', '.join(product_types)}"
-        database_info += f"\nProduct Categories: {', '.join(product_categories)}"
-        database_info += f"\nReporting Years: {', '.join(reporting_years)}"
-        database_info += "\n\n"
+        database_info += f"""
+Regions: {', '.join(regions)}"
+Product Types: {', '.join(product_types)}"
+Product Categories: {', '.join(product_categories)}"
+Reporting Years: {', '.join(reporting_years)}"
+
+"""
 
         return database_info
 
