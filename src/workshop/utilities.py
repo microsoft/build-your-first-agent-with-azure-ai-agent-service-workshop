@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 from azure.ai.projects.aio import AIProjectClient
-from azure.ai.projects.models import MessageImageFileDetails, ThreadMessage, VectorStore
+from azure.ai.projects.models import ThreadMessage
 
 from terminal_colors import TerminalColors as tc
 
@@ -31,7 +31,7 @@ class Utilities:
         folder_path = Path("files")
         folder_path.mkdir(exist_ok=True)
 
-        file_path = folder_path / f"{file_name}"
+        file_path = folder_path / file_name
 
         # Save the file using a synchronous context manager
         with file_path.open("wb") as file:
