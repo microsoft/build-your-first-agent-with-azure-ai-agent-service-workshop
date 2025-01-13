@@ -47,7 +47,3 @@ class TerminalColors:
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
     REVERSED = "\033[7m"
-
-# Example usage:
-print(f"{TerminalColors.RED}This is red text{TerminalColors.RESET}")
-print(f"{TerminalColors.GREEN}{TerminalColors.BOLD}This is bold green text{TerminalColors.RESET}")

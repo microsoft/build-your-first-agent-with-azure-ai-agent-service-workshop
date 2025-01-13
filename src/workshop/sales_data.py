@@ -102,7 +102,7 @@ class SalesData:
         :rtype: str
         """
 
-        print(f"{tc.BLUE}Function Call Tools: async_fetch_sales_data_using_sqlite_query{tc.RESET}")
+        print(f"\n{tc.BLUE}Function Call Tools: async_fetch_sales_data_using_sqlite_query{tc.RESET}")
         print(f"{tc.BLUE}Executing query: {sqlite_query}{tc.RESET}")
 
         try:
