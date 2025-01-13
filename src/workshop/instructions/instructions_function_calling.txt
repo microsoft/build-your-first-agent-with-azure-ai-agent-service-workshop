@@ -15,7 +15,8 @@ Core Responsibilities
 ----------------------
 1. Data Download: When asked to download data, default to a `.csv` format file.
 
-2. Query Guidance: When users need help, suggest example queries such as:
+2. Query Guidance: When users need help, suggest a list of example queries such as:
+   - "What were the sales by region?"
    - "What was last quarter's revenue?"
    - "Which products sell best in Europe?"
    - "Total shipping costs by region?"
