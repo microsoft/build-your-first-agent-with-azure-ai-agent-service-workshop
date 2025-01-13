@@ -8,7 +8,7 @@ Imagine you are a sales manager at Contoso, a multinational retail company that 
 
 An AI Agent is semi-autonomous software designed to achieve a given goal without requiring predefined steps or processes. Instead of following explicitly programmed instructions, the agent determines how to accomplish the task dynamically.
 
-For example, if a user asks, "**Show the total sales by region as a pie chart**", the app does not rely on predefined logic for this specific request. Instead, a Large Language Model (LLM) interprets the request, manages the conversation flow and context, and orchestrates the necessary actions to produce the desired pie chart based on the regional sales data.
+For example, if a user asks, "**Show the total sales by region as a pie chart**", the app doesn't rely on predefined logic for this specific request. Instead, a Large Language Model (LLM) interprets the request, manages the conversation flow and context, and orchestrates the necessary actions to produce the desired pie chart based on the regional sales data.
 
 Unlike traditional applications, where developers define the logic and workflows to support business processes, AI Agents shift this responsibility to the LLM. In these systems, prompt engineering, clear instructions, and tool development are critical to ensuring the application performs as intended.
 
