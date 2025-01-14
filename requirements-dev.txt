@@ -1,4 +1,4 @@
--r src/requirements.txt
+-r src/workshop/requirements.txt
 black
 ruff
 pre-commit
