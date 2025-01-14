@@ -1,182 +1,128 @@
-targetScope = 'subscription'
+// Execute this main file to depoy Azure AI studio resources in the basic security configuraiton
 
-@minLength(1)
-@maxLength(64)
-@description('Name which is used to generate a short unique hash for each resource')
-param name string
+// Parameters
+@minLength(2)
+@maxLength(12)
+@description('Name for the AI resource and used to derive name of dependent resources.')
+param aiHubName string = 'standard-hub'
 
-@minLength(1)
-@description('Primary location for all resources')
-@allowed([
-  'eastus'
-  'eastus2'
-  'northcentralus'
-  'southcentralus'
-  'swedencentral'
-  'westus'
-  'westus3'
-])
-param location string
+@description('Friendly name for your Azure AI resource')
+param aiHubFriendlyName string = 'Agents standard hub resource'
 
-@description('Id of the user or app to assign application roles')
-param principalId string = ''
+@description('Description of your Azure AI resource dispayed in AI studio')
+param aiHubDescription string = 'A standard hub resource required for the agent setup.'
 
-@description('Flag to decide where to create OpenAI role for current user')
-param createRoleForUser bool = true
+@description('Name for the project')
+param aiProjectName string = 'standard-project'
 
-param acaExists bool = false
-param allowedOrigins string = ''
+@description('Friendly name for your Azure AI resource')
+param aiProjectFriendlyName string = 'Agents standard project resource'
 
-param openAiSkuName string = ''
-param openAiDeploymentCapacity int = 90
-@secure()
-param chainlitAuthSecret string
-@secure()
-param literalApiKey string
-param azureOpenAiApiVersion string = '2024-05-01-preview'
-@secure()
-param assistantPassword string = substring(uniqueString(subscription().id, name, newGuid()), 0, 12)
+@description('Description of your Azure AI resource dispayed in AI studio')
+param aiProjectDescription string = 'A standard project resource required for the agent setup.'
 
-@description('Whether the deployment is running on GitHub Actions')
-param runningOnGh string = ''
+@description('Azure region used for the deployment of all resources.')
+param location string = resourceGroup().location
 
-var resourceToken = 'a${toLower(uniqueString(subscription().id, name, location))}'
-var tags = { 'azd-env-name': name }
+@description('Set of tags to apply to all resources.')
+param tags object = {}
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'rg-${name}'
-  location: location
-  tags: tags
-}
+@description('Model name for deployment')
+param modelName string = 'gpt-4o'
 
-// var prefix = '${name}-${resourceToken}'
+@description('Model format for deployment')
+param modelFormat string = 'OpenAI'
 
-var openAiDeploymentName = 'gpt-4o'
-var openAiDeploymentVersion = '2024-08-06'
+@description('Model version for deployment')
+param modelVersion string = '2024-08-06'
 
-module openAi 'core/ai/cognitiveservices.bicep' = {
-  name: 'openai'
-  scope: resourceGroup
+@description('Model deployment SKU name')
+param modelSkuName string = 'GlobalStandard'
+
+@description('Model deployment capacity')
+param modelCapacity int = 140
+
+@description('Model deployment location. If you want to deploy an Azure AI resource/model in different location than the rest of the resources created.')
+param modelLocation string = 'eastus2'
+
+// Variables
+var name = toLower('${aiHubName}')
+var projectName = toLower('${aiProjectName}')
+
+@description('Name of the storage account')
+param storageName string = 'agentservicestorage'
+
+@description('Name of the Azure AI Services account')
+param aiServicesName string = 'agent-ai-services'
+
+// Create a short, unique suffix, that will be unique to each resource group
+// var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 4)
+param deploymentTimestamp string = utcNow('yyyyMMddHHmmss')
+var uniqueSuffix = substring(uniqueString('${resourceGroup().id}-${deploymentTimestamp}'), 0, 4)
+
+// Dependent resources for the Azure Machine Learning workspace
+module aiDependencies 'modules-basic-keys/basic-dependent-resources-keys.bicep' = {
+  name: 'dependencies-${name}-${uniqueSuffix}-deployment'
   params: {
-    name: '${resourceToken}-cog'
+    aiServicesName: '${aiServicesName}-${uniqueSuffix}'
+    storageName: '${storageName}${uniqueSuffix}'
     location: location
     tags: tags
-    sku: {
-      name: !empty(openAiSkuName) ? openAiSkuName : 'S0'
-    }
-    deployments: [
-      {
-        name: openAiDeploymentName
-        model: {
-          format: 'OpenAI'
-          name: openAiDeploymentName
-          version: openAiDeploymentVersion
-        }
-        sku: {
-          name: 'Standard'
-          capacity: openAiDeploymentCapacity
-        }
-      }
-    ]
+
+     // Model deployment parameters
+     modelName: modelName
+     modelFormat: modelFormat
+     modelVersion: modelVersion
+     modelSkuName: modelSkuName
+     modelCapacity: modelCapacity
+     modelLocation: modelLocation
   }
 }
 
-module deploymentScriptModule 'script.bicep' = {
-  name: 'deploymentAssistantScript'
-  scope: resourceGroup
+module aiHub 'modules-basic-keys/basic-ai-hub-keys.bicep' = {
+  name: 'ai-${name}-${uniqueSuffix}-deployment'
   params: {
-    openAiEndpoint: openAi.outputs.endpoint
-    location: location
-    openAiApiKey: openAi.outputs.key
-    openAiModel: openAiDeploymentName
-  }
-}
-
-module logAnalyticsWorkspace 'core/monitor/loganalytics.bicep' = {
-  name: 'loganalytics'
-  scope: resourceGroup
-  params: {
-    name: '${resourceToken}-loganalytics'
+    // workspace organization
+    aiHubName: 'ai-${name}-${uniqueSuffix}'
+    aiHubFriendlyName: aiHubFriendlyName
+    aiHubDescription: aiHubDescription
     location: location
     tags: tags
+
+    // dependent resources
+    modelLocation: modelLocation
+    storageAccountId: aiDependencies.outputs.storageId
+    aiServicesId: aiDependencies.outputs.aiservicesID
+    aiServicesTarget: aiDependencies.outputs.aiservicesTarget
   }
 }
 
-// Container apps host (including container registry)
-module containerApps 'core/host/container-apps.bicep' = {
-  name: 'container-apps'
-  scope: resourceGroup
+module aiProject 'modules-basic-keys/basic-ai-project-keys.bicep' = {
+  name: 'ai-${projectName}-${uniqueSuffix}-deployment'
   params: {
-    name: 'app'
+    // workspace organization
+    aiProjectName: 'ai-${projectName}-${uniqueSuffix}'
+    aiProjectFriendlyName: aiProjectFriendlyName
+    aiProjectDescription: aiProjectDescription
     location: location
     tags: tags
-    containerAppsEnvironmentName: '${resourceToken}-containerapps-env'
-    containerRegistryName: '${replace(resourceToken, '-', '')}registry'
-    logAnalyticsWorkspaceName: logAnalyticsWorkspace.outputs.name
+
+    // dependent resources
+    aiHubId: aiHub.outputs.aiHubID
   }
 }
 
-// Container app frontend
-module aca 'aca.bicep' = {
-  name: 'aca'
-  scope: resourceGroup
+module bingSearchGrounding 'bing-grounding.bicep' = {
+  name: 'bing-search-grounding'
   params: {
-    name: replace('${take(resourceToken,19)}-ca', '--', '-')
+    name: 'bing-grounding-${uniqueSuffix}'
     location: location
-    tags: tags
-    identityName: '${resourceToken}-id-aca'
-    containerAppsEnvironmentName: containerApps.outputs.environmentName
-    containerRegistryName: containerApps.outputs.registryName
-    assistantId: deploymentScriptModule.outputs.assistantId
-    allowedOrigins: allowedOrigins
-    exists: acaExists
-    chainlitAuthSecret: chainlitAuthSecret
-    literalApiKey: literalApiKey
-    openAiEndpoint: openAi.outputs.endpoint
-    openAiApiKey: openAi.outputs.key
-    azureOpenAiApiVersion: azureOpenAiApiVersion
-    openAiDeploymentName: openAiDeploymentName
-    userPassword: assistantPassword
+    bingAccountName: 'ai-${aiServicesName}-bing-grounding'
   }
 }
 
-module openAiRoleUser 'core/security/role.bicep' = if (createRoleForUser && empty(runningOnGh)) {
-  scope: resourceGroup
-  name: 'openai-role-user'
-  params: {
-    principalId: principalId
-    roleDefinitionId: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
-    principalType: 'User'
-  }
-}
 
-module openAiRoleBackend 'core/security/role.bicep' = {
-  scope: resourceGroup
-  name: 'openai-role-backend'
-  params: {
-    principalId: aca.outputs.SERVICE_ACA_IDENTITY_PRINCIPAL_ID
-    roleDefinitionId: '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd'
-    principalType: 'ServicePrincipal'
-  }
-}
-
-output AZURE_LOCATION string = location
-
-output AZURE_OPENAI_CHATGPT_DEPLOYMENT string = openAiDeploymentName
-output AZURE_OPENAI_ENDPOINT string = openAi.outputs.endpoint
-output AZURE_OPENAI_RESOURCE string = openAi.outputs.name
-output AZURE_OPENAI_RESOURCE_LOCATION string = openAi.outputs.location
-output AZURE_OPENAI_RESOURCE_GROUP string = resourceGroup.name
-output AZURE_OPENAI_SKU_NAME string = openAi.outputs.skuName
-
-output SERVICE_ACA_IDENTITY_PRINCIPAL_ID string = aca.outputs.SERVICE_ACA_IDENTITY_PRINCIPAL_ID
-output SERVICE_ACA_NAME string = aca.outputs.SERVICE_ACA_NAME
-output SERVICE_ACA_URI string = aca.outputs.SERVICE_ACA_URI
-output SERVICE_ACA_IMAGE_NAME string = aca.outputs.SERVICE_ACA_IMAGE_NAME
-
-output AZURE_CONTAINER_ENVIRONMENT_NAME string = containerApps.outputs.environmentName
-output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerApps.outputs.registryLoginServer
-output AZURE_CONTAINER_REGISTRY_NAME string = containerApps.outputs.registryName
-
-#disable-next-line outputs-should-not-contain-secrets // This password is required for the user to access the assistant
-output assistantPassword string = assistantPassword
+output subscriptionId string = subscription().subscriptionId
+output resourceGroupName string = resourceGroup().name
+output aiProjectName string = 'ai-${projectName}-${uniqueSuffix}'
+output bingGroundingName string = 'bing-grounding-${uniqueSuffix}'
