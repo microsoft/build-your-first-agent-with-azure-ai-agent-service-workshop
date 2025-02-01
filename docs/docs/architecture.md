@@ -18,6 +18,9 @@ The workshop solution is highly adaptable to various scenarios, such as customer
 - **Token Streaming**:
   Token streaming is implemented to improve user experience by reducing perceived response times for the LLM-powered agent app.
 
+<details>
+
+<summary>REMOVE: Fork the Workshop Repository</summary>
 ## Fork the Workshop Repository
 
 Take a moment to fork the workshop repository to your GitHub account. This will make it easy to experiment with the code after you've completed the workshop.
@@ -26,3 +29,5 @@ Take a moment to fork the workshop repository to your GitHub account. This will 
 2. Open a **new browser tab** on your **computer** (not in the Lab environment).
 3. **Paste** the link into the browser's address bar and press **Enter**.
 4. Click the **Fork** button in the upper right corner of the page.
+
+</details>
