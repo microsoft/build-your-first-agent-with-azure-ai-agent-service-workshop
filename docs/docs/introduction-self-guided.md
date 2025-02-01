@@ -15,7 +15,7 @@ The preferred way to run this workshop is using GitHub Codespaces. This option p
 
 Select **Open in GitHub Codespaces** to open the project in GitHub Codespaces.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop){:target="_blank"}
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/GlobalAICommunity/global-ai-bootcamp-2025-workshop-ai-agents){:target="_blank"}
 
 !!! Warning "It will take several minutes to build the Codespace so carry on reading the instructions while it builds."
 
