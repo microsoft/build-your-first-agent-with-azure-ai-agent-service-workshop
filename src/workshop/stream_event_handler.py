@@ -1,4 +1,5 @@
 from typing import Any
+import chainlit as cl
 
 from azure.ai.projects.aio import AIProjectClient
 from azure.ai.projects.models import (
@@ -23,11 +24,15 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         self.functions = functions
         self.project_client = project_client
         self.util = utilities
+        self.current_message: cl.Message = None
+        self.current_step: cl.Step = None
         super().__init__()
 
     async def on_message_delta(self, delta: MessageDeltaChunk) -> None:
         """Handle message delta events. This will be the streamed token"""
-        self.util.log_token_blue(delta.text)
+        if delta.text:
+            self.util.log_token_blue(delta.text)
+            await cl.Message(content=delta.text).send()
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
         """Handle thread message events."""
@@ -59,6 +64,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_done(self) -> None:
         """Handle stream completion."""
+        await self.current_message.update()
         pass
         # self.util.log_msg_purple(f"\nStream completed.")
 
