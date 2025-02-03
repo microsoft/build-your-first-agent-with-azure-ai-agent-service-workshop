@@ -102,7 +102,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
 
     try:
         env = os.getenv("ENVIRONMENT", "local")
-        INSTRUCTIONS_FILE_PATH = f"{'src/workshop/' if env == 'container' else ''}{INSTRUCTIONS_FILE}"
+        INSTRUCTIONS_FILE_PATH = f"{'src/' if env == 'container' else ''}{INSTRUCTIONS_FILE}"
         
         with open(INSTRUCTIONS_FILE_PATH, "r", encoding="utf-8", errors="ignore") as file:
             instructions = file.read()
