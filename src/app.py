@@ -211,7 +211,7 @@ async def main(message: cl.Message) -> None:
         logger.error("Thread not successfully created.")
         return
 
-    await post_message(agent=agent, thread_id=thread.id, content=cl.Message, thread=thread)
+    await post_message(agent=agent, thread_id=thread.id, content=message.content, thread=thread)
 
     await cleanup(agent, thread)
 

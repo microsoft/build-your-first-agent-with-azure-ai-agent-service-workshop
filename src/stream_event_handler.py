@@ -32,7 +32,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         """Handle message delta events. This will be the streamed token"""
         if delta.text:
             self.util.log_token_blue(delta.text)
-            await cl.Message(content=delta.text).send()
+            self.current_message += delta.text
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
         """Handle thread message events."""
@@ -64,8 +64,8 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_done(self) -> None:
         """Handle stream completion."""
-        await self.current_message.update()
-        pass
+        await cl.Message(content=self.current_message).send()
+        # pass
         # self.util.log_msg_purple(f"\nStream completed.")
 
     async def on_unhandled_event(self, event_type: str, event_data: Any) -> None:
