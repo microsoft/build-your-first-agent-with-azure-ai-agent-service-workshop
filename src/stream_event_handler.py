@@ -32,7 +32,12 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         """Handle message delta events. This will be the streamed token"""
         if delta.text:
             self.util.log_token_blue(delta.text)
-            self.current_message += delta.text
+            if self.current_message:
+                self.current_message += delta.text
+            else:
+                self.current_message = delta.text
+
+            self.current_message.update()
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
         """Handle thread message events."""
