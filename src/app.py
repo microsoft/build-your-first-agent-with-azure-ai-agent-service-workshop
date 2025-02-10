@@ -39,8 +39,10 @@ TOP_P = 0.1
 toolset = AsyncToolSet()
 sales_data = SalesData()
 utilities = Utilities()
-#cl.instrument_openai()
+
 AGENT_READY = False
+agent = Agent()
+thread = AgentThread()
 
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
@@ -96,8 +98,10 @@ async def auth_callback(username: str, password: str) -> cl.User | None:
 async def initialize() -> tuple[Agent, AgentThread]:
     """Initialize the agent with the sales data schema and instructions."""
     global AGENT_READY
+    global agent
+    global thread
     if AGENT_READY:
-        return agent, thread
+        return
     
     await add_agent_tools()
 
@@ -132,7 +136,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
         config.ui.name = agent.name
         AGENT_READY = True
 
-        return agent, thread
+        return 
 
     except Exception as e:
         logger.error("An error occurred initializing the agent: %s", str(e))
@@ -179,22 +183,22 @@ async def set_starters() -> list[cl.Starter]:
         cl.Starter(
             label="Help",
             message="help.",
-            icon="./public/idea.svg",
+            icon="./src/public/idea.svg",
         ),
         cl.Starter(
             label="Create a vivid pie chart of sales by region.",
             message="Create a vivid pie chart of sales by region.",
-            icon="./public/learn.svg",
+            icon="./src/public/learn.svg",
         ),
         cl.Starter(
             label="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
             message="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
-            icon="./public/terminal.svg",
+            icon="./src/public/terminal.svg",
         ),
         cl.Starter(
             label="Download excel file for sales by category",
             message="Download excel file for sales by category",
-            icon="./public/write.svg",
+            icon="./src/public/write.svg",
         ),
     ]
 
@@ -206,7 +210,7 @@ async def main(message: cl.Message) -> None:
     """
     completed = False
     
-    agent, thread = await initialize()
+    await initialize()
 
     if agent is None:
         await cl.Message(content="An error occurred initializing the agent.").send()
