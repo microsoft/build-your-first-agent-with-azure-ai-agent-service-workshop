@@ -40,6 +40,7 @@ toolset = AsyncToolSet()
 sales_data = SalesData()
 utilities = Utilities()
 #cl.instrument_openai()
+AGENT_READY = False
 
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
@@ -94,7 +95,10 @@ async def auth_callback(username: str, password: str) -> cl.User | None:
 
 async def initialize() -> tuple[Agent, AgentThread]:
     """Initialize the agent with the sales data schema and instructions."""
-
+    global AGENT_READY
+    if AGENT_READY:
+        return agent, thread
+    
     await add_agent_tools()
 
     await sales_data.connect()
@@ -126,6 +130,7 @@ async def initialize() -> tuple[Agent, AgentThread]:
         print(f"Created thread, ID: {thread.id}")
 
         config.ui.name = agent.name
+        AGENT_READY = True
 
         return agent, thread
 
@@ -174,22 +179,22 @@ async def set_starters() -> list[cl.Starter]:
         cl.Starter(
             label="Help",
             message="help.",
-            icon="/public/idea.svg",
+            icon="./public/idea.svg",
         ),
         cl.Starter(
             label="Create a vivid pie chart of sales by region.",
             message="Create a vivid pie chart of sales by region.",
-            icon="/public/learn.svg",
+            icon="./public/learn.svg",
         ),
         cl.Starter(
             label="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
             message="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
-            icon="/public/terminal.svg",
+            icon="./public/terminal.svg",
         ),
         cl.Starter(
             label="Download excel file for sales by category",
             message="Download excel file for sales by category",
-            icon="/public/write.svg",
+            icon="./public/write.svg",
         ),
     ]
 
@@ -199,6 +204,8 @@ async def main(message: cl.Message) -> None:
     Main function to run the agent.
     Example questions: Sales by region, top-selling products, total shipping costs by region, show as a pie chart.
     """
+    completed = False
+    
     agent, thread = await initialize()
 
     if agent is None:
@@ -210,13 +217,18 @@ async def main(message: cl.Message) -> None:
         await cl.Message(content="A thread wa not successfully created.").send()
         logger.error("Thread not successfully created.")
         return
+    try:
+        await post_message(agent=agent, thread_id=thread.id, content=message.content, thread=thread)
+        
+        completed = True
+    # triggered when the user stops a chat
+    except asyncio.exceptions.CancelledError:
+        pass
 
-    await post_message(agent=agent, thread_id=thread.id, content=message.content, thread=thread)
-
-    await cleanup(agent, thread)
-
-
-#if __name__ == "__main__":
-#    print("Starting async program...")
-#    asyncio.run(main())
-#    print("Program finished.")
+    except Exception as e:
+        await cl.Message(content=f"An error occurred: {e}").send()
+        await cl.Message(content="Please try again in a moment.").send()
+        logger.error("An error calling the LLM occurred: %s", str(e))
+    finally:
+        if not completed:
+            await cleanup(agent, thread)

@@ -37,7 +37,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
             else:
                 self.current_message = delta.text
 
-            self.current_message.update()
+            #self.current_message.update()
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
         """Handle thread message events."""
