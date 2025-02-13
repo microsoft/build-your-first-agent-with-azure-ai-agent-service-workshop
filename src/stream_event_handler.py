@@ -1,4 +1,5 @@
 from typing import Any
+from literalai.helper import utc_now
 import chainlit as cl
 
 from azure.ai.projects.aio import AIProjectClient
@@ -12,6 +13,9 @@ from azure.ai.projects.models import (
     RunStepStatus,
     ThreadMessage,
     ThreadRun,
+    SubmitToolOutputsAction,
+    RequiredFunctionToolCall,
+    ToolOutput,
 )
 
 from utilities import Utilities
@@ -37,7 +41,6 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
             else:
                 self.current_message = delta.text
 
-            #self.current_message.update()
 
     async def on_thread_message(self, message: ThreadMessage) -> None:
         """Handle thread message events."""
@@ -48,12 +51,48 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
         await self.util.get_files(message, self.project_client)
 
+    async def update_chainlit_function_ui(self, language: str, tool_call) -> None:
+        # Update the UI with the step function output
+        current_step = cl.Step(name="function", type="tool")
+        current_step.language = language
+        await current_step.stream_token(f"Function Name: {tool_call.function.name}\n")
+        await current_step.stream_token(f"Function Arguments: {tool_call.function.arguments}\n\n")
+        current_step.start = utc_now()
+        await current_step.send()
+        self.current_message = await cl.Message(content="").send()
+        self.current_message = None
+
     async def on_thread_run(self, run: ThreadRun) -> None:
         """Handle thread run events"""
         # print(f"ThreadRun status: {run.status}")
 
         if run.status == "failed":
             print(f"Run failed. Error: {run.last_error}")
+
+        if run.status == "requires_action" and isinstance(run.required_action, SubmitToolOutputsAction):
+            tool_calls = run.required_action.submit_tool_outputs.tool_calls
+
+            tool_outputs = []
+            for tool_call in tool_calls:
+                if isinstance(tool_call, RequiredFunctionToolCall):
+                    try:
+                        output = self.functions.execute(tool_call)
+                        tool_outputs.append(
+                            ToolOutput(
+                                tool_call_id=tool_call.id,
+                                output=output,
+                            )
+                        )
+                        await self.update_chainlit_function_ui("sql", tool_call)
+                    except Exception as e:
+                        print(f"Error executing tool_call {tool_call.id}: {e}")
+
+            if tool_outputs:
+                # Once we receive 'requires_action' status, the next event will be DONE.
+                # Here we associate our existing event handler to the next stream.
+                self.project_client.agents.submit_tool_outputs_to_stream(
+                    thread_id=run.thread_id, run_id=run.id, tool_outputs=tool_outputs, event_handler=self
+                )
 
     async def on_run_step(self, step: RunStep) -> None:
         pass
@@ -69,7 +108,8 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_done(self) -> None:
         """Handle stream completion."""
-        await cl.Message(content=self.current_message).send()
+        if self.current_message:
+            await cl.Message(content=self.current_message).send()
         # pass
         # self.util.log_msg_purple(f"\nStream completed.")
 
