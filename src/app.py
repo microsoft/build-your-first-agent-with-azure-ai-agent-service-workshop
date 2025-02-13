@@ -56,8 +56,8 @@ functions = AsyncFunctionTool(
 )
 
 INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_file_search.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_file_search.txt"
 # INSTRUCTIONS_FILE = "instructions/instructions_bing_grounding.txt"
 
 
@@ -68,8 +68,8 @@ async def add_agent_tools():
     toolset.add(functions)
 
     # Add the code interpreter tool
-    # code_interpreter = CodeInterpreterTool()
-    # toolset.add(code_interpreter)
+    code_interpreter = CodeInterpreterTool()
+    toolset.add(code_interpreter)
 
     # Add the tents data sheet to a new vector data store
     # vector_store = await utilities.create_vector_store(

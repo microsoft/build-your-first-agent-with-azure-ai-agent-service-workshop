@@ -43,23 +43,51 @@ class Utilities:
         self.log_msg_green(f"File saved to {file_path}")
         # Cleanup the remote file
         await project_client.agents.delete_file(file_id)
+    
+    async def get_file_path(self, project_client: AIProjectClient, file_id: str, attachment_name: str) -> None:
+        """Retrieve the file and save it to the local disk."""
+        self.log_msg_green(f"Getting file with ID: {file_id}")
+
+        file_name, file_extension = os.path.splitext(
+            os.path.basename(attachment_name.split(":")[-1]))
+        file_name = f"{file_name}.{file_id}{file_extension}"
+
+        env = os.getenv("ENVIRONMENT", "local")
+        folder_path = Path(f"{'src/' if env == 'container' else ''}files")
+
+        folder_path.mkdir(parents=True, exist_ok=True)
+
+        file_path = folder_path / file_name
+
+        # Save the file using a synchronous context manager
+        with file_path.open("wb") as file:
+            async for chunk in await project_client.agents.get_file_content(file_id):
+                file.write(chunk)
+
+        self.log_msg_green(f"File saved to {file_path}")
+        # Cleanup the remote file
+        await project_client.agents.delete_file(file_id)
+        return str(file_path)
 
     async def get_files(self, message: ThreadMessage, project_client: AIProjectClient) -> None:
-        """Get the image files from the message and kickoff download."""
-        if message.image_contents:
-            for index, image in enumerate(message.image_contents, start=0):
-                attachment_name = (
-                    "unknown" if not message.file_path_annotations else message.file_path_annotations[
-                        index].text
-                )
-                await self.get_file(project_client, image.image_file.file_id, attachment_name)
-        elif message.attachments:
-            for index, attachment in enumerate(message.attachments, start=0):
+       for index, attachment in enumerate(message.attachments, start=0):
                 attachment_name = (
                     "unknown" if not message.file_path_annotations else message.file_path_annotations[
                         index].text
                 )
                 await self.get_file(project_client, attachment.file_id, attachment_name)
+
+    async def get_image_files(self, message: ThreadMessage, project_client: AIProjectClient) -> None:
+        """Get the image files from the message and kickoff download."""
+        attachments = []
+        for index, image in enumerate(message.image_contents, start=0):
+                attachment_name = (
+                    "unknown" if not message.file_path_annotations else message.file_path_annotations[
+                        index].text
+                )
+                attachments.append(await self.get_file_path(project_client, image.image_file.file_id, attachment_name))
+
+        return attachments
 
     async def create_vector_store(self, project_client: AIProjectClient, files: list[str], vector_name_name: str) -> None:
         """Upload a file to the project."""

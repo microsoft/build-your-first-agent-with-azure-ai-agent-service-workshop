@@ -48,8 +48,16 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         # if message.status == MessageStatus.COMPLETED:
         #     print()
         # self.util.log_msg_purple(f"ThreadMessage created. ID: {message.id}, " f"Status: {message.status}")
-
-        await self.util.get_files(message, self.project_client)
+        if message.image_contents:
+            image_files = await self.util.get_image_files(message, self.project_client)
+            elements = []
+            for img in image_files:
+                elements.append(cl.Image(name=img, path=img, display="inline", size="large"))
+            
+            await cl.Message(content="",elements=elements).send()
+                
+        elif message.attachments:
+            await self.util.get_files(message, self.project_client)
 
     async def update_chainlit_function_ui(self, language: str, tool_call) -> None:
         # Update the UI with the step function output
@@ -68,7 +76,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
         if run.status == "failed":
             print(f"Run failed. Error: {run.last_error}")
-
+        
         if run.status == "requires_action" and isinstance(run.required_action, SubmitToolOutputsAction):
             tool_calls = run.required_action.submit_tool_outputs.tool_calls
 
@@ -86,13 +94,12 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
                         await self.update_chainlit_function_ui("sql", tool_call)
                     except Exception as e:
                         print(f"Error executing tool_call {tool_call.id}: {e}")
-
-            if tool_outputs:
-                # Once we receive 'requires_action' status, the next event will be DONE.
-                # Here we associate our existing event handler to the next stream.
-                self.project_client.agents.submit_tool_outputs_to_stream(
-                    thread_id=run.thread_id, run_id=run.id, tool_outputs=tool_outputs, event_handler=self
-                )
+                    if tool_outputs:
+                        # Once we receive 'requires_action' status, the next event will be DONE.
+                        # Here we associate our existing event handler to the next stream.
+                        self.project_client.agents.submit_tool_outputs_to_stream(
+                            thread_id=run.thread_id, run_id=run.id, tool_outputs=tool_outputs, event_handler=self
+                        )
 
     async def on_run_step(self, step: RunStep) -> None:
         pass
