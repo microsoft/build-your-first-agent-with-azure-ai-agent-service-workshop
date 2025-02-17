@@ -70,6 +70,16 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         self.current_message = await cl.Message(content="").send()
         self.current_message = None
 
+    async def update_chainlit_code_interpreter_ui(self, language: str, tool_call) -> None:
+        # Update the UI with the step code_interpreter output
+        current_step = cl.Step(name="code_interpreter", type="tool")
+        current_step.language = language
+        await current_step.stream_token(f"Sandbox Code: {tool_call.code_interpreter.input}\n")                                
+        current_step.start = utc_now()
+        await current_step.send()
+        self.current_message = await cl.Message(content="").send()
+        self.current_message = None
+
     async def on_thread_run(self, run: ThreadRun) -> None:
         """Handle thread run events"""
         # print(f"ThreadRun status: {run.status}")
@@ -102,10 +112,12 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
                         )
 
     async def on_run_step(self, step: RunStep) -> None:
-        pass
-        # if step.status == RunStepStatus.COMPLETED:
-        #     print()
-        # self.util.log_msg_purple(f"RunStep type: {step.type}, Status: {step.status}")
+        if step.get("type") == "tool_calls":
+            tool_calls = step["step_details"].get("tool_calls", [])
+            for tcall in tool_calls:
+                t_type = tcall.get("type", "")
+                if t_type == "code_interpreter":
+                    await self.update_chainlit_code_interpreter_ui("python", tcall)
 
     async def on_run_step_delta(self, delta: RunStepDeltaChunk) -> None:
         pass
