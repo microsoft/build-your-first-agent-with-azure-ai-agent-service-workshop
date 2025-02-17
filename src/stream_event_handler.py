@@ -35,7 +35,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
     async def on_message_delta(self, delta: MessageDeltaChunk) -> None:
         """Handle message delta events. This will be the streamed token"""
         if delta.text:
-            self.util.log_token_blue(delta.text)
+            #self.util.log_token_blue(delta.text)
             if self.current_message:
                 self.current_message += delta.text
             else:
