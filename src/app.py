@@ -20,6 +20,7 @@ from terminal_colors import TerminalColors as tc
 from utilities import Utilities
 import chainlit as cl
 from chainlit.config import config
+from pathlib import Path
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
@@ -71,15 +72,6 @@ async def add_agent_tools():
     code_interpreter = CodeInterpreterTool()
     toolset.add(code_interpreter)
 
-    # Add the tents data sheet to a new vector data store
-    vector_store = await utilities.create_vector_store(
-        project_client,
-        files=[TENTS_DATA_SHEET_FILE],
-        vector_name_name="Contoso Product Information Vector Store",
-    )
-    file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-    toolset.add(file_search_tool)
-
     # Add the Bing grounding tool
     # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
     # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
@@ -95,11 +87,50 @@ async def auth_callback(username: str, password: str) -> cl.User | None:
         return cl.User(identifier="sales@contoso.com", metadata={"role": "sales", "provider": "credentials"})
     return None
 
-async def initialize() -> tuple[Agent, AgentThread]:
+async def ground_on_files(file_paths: list[str]) -> None:
+    """Upload attachments to the assistant"""
+    await cl.Message(content="Uploading files.").send()
+    await asyncio.sleep(2)
+    
+    vector_store = await utilities.create_vector_store(
+        project_client,
+        files=file_paths,
+        vector_name_name="Contoso Product Information Vector Store",
+    )
+    file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
+    existing_tools = toolset.definitions()
+    if any(isinstance(existing_tool, type(file_search_tool)) for existing_tool in existing_tools):
+        toolset.remove(existing_tools.get(type(file_search_tool)))    
+    
+    toolset.add(file_search_tool)
+
+    agent_all_list = await project_client.agents.list_agents()
+    if agent_all_list:
+        agent = agent_all_list.data[0]
+
+        agent = project_client.agents.update_agent(
+            assistant_id=agent.id,
+            model=API_DEPLOYMENT_NAME,
+            toolset=toolset,
+        )
+
+    # Wait a moment for the uploaded files to become available
+    await asyncio.sleep(2)
+    await cl.Message(content="Uploading completed.").send()
+    return 
+
+async def initialize(message: cl.Message) -> tuple[Agent, AgentThread]:
     """Initialize the agent with the sales data schema and instructions."""
     global AGENT_READY
     global agent
     global thread
+    
+    file_paths = [file.path for file in message.elements]
+
+    if file_paths:
+            await ground_on_files(file_paths)
+            return
+    
     if AGENT_READY:
         return
     
@@ -210,7 +241,7 @@ async def main(message: cl.Message) -> None:
     """
     completed = False
     
-    await initialize()
+    await initialize(message)
 
     if agent is None:
         await cl.Message(content="An error occurred initializing the agent.").send()

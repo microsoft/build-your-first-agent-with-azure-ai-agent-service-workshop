@@ -93,12 +93,10 @@ class Utilities:
         """Upload a file to the project."""
 
         file_ids = []
-        env = os.getenv("ENVIRONMENT", "local")
-        prefix = "src/" if env == "container" else ""
 
         # Upload the files
         for file in files:
-            file_path = Path(f"{prefix}{file}")
+            file_path = Path(f"{file}")
             self.log_msg_purple(f"Uploading file: {file_path}")
             
             file_info = await project_client.agents.upload_file(file_path=file_path, purpose="assistants")
