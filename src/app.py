@@ -98,21 +98,22 @@ async def ground_on_files(file_paths: list[str]) -> None:
         vector_name_name="Contoso Product Information Vector Store",
     )
     file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-    existing_tools = toolset.definitions()
+    existing_tools = toolset.definitions
     if any(isinstance(existing_tool, type(file_search_tool)) for existing_tool in existing_tools):
         toolset.remove(existing_tools.get(type(file_search_tool)))    
     
     toolset.add(file_search_tool)
 
-    agent_all_list = await project_client.agents.list_agents()
-    if agent_all_list:
-        agent = agent_all_list.data[0]
+    if(AGENT_READY):
+        agent_all_list = await project_client.agents.list_agents()
+        if agent_all_list:
+            agent = agent_all_list.data[0]
 
-        agent = project_client.agents.update_agent(
-            assistant_id=agent.id,
-            model=API_DEPLOYMENT_NAME,
-            toolset=toolset,
-        )
+            agent = project_client.agents.update_agent(
+                assistant_id=agent.id,
+                model=API_DEPLOYMENT_NAME,
+                toolset=toolset,
+            )
 
     # Wait a moment for the uploaded files to become available
     await asyncio.sleep(2)
