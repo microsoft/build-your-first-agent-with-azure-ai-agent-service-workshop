@@ -1,6 +1,6 @@
 [project]
 # Whether to enable telemetry (default: true). No personal data is collected.
-enable_telemetry = true
+enable_telemetry = false
 
 
 # List of environment variables to be provided by each user to use the app.
@@ -34,9 +34,30 @@ edit_message = true
 # Authorize users to spontaneously upload files with messages
 [features.spontaneous_file_upload]
     enabled = true
-    accept = ["*/*"]
-    max_files = 20
-    max_size_mb = 500
+    accept = [
+        ".c",
+        ".cs",
+        ".cpp",
+        ".doc",
+        ".docx",
+        ".html",
+        ".java",
+        ".json",
+        ".md",
+        ".pdf",
+        ".php",
+        ".pptx",
+        ".py",
+        ".rb",
+        ".tex",
+        ".txt",
+        ".css",
+        ".js",
+        ".sh",
+        ".ts"
+    ]
+    max_files = 5
+    max_size_mb = 50
 
 [features.audio]
     # Threshold for audio recording
@@ -54,10 +75,10 @@ edit_message = true
 
 [UI]
 # Name of the assistant.
-name = "Assistant"
+name = "Contoso Sales"
 
 # Description of the assistant. This is used for HTML tags.
-# description = ""
+# description = "The Contoso Sales Assistant demonstrates the use of the Azure Assistants API."
 
 # Large size content are by default collapsed for a cleaner ui
 default_collapse_content = true
@@ -66,11 +87,11 @@ default_collapse_content = true
 cot = "full"
 
 # Link to your github repo. This will add a github button in the UI's header.
-# github = ""
+github = "https://github.com/gloveboxes/contoso-sales-azure-openai-assistant"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
-# custom_css = "/public/test.css"
+custom_css = "/public/custom.css"
 
 # Specify a Javascript file that can be used to customize the user interface.
 # The Javascript file can be served from the public directory.
@@ -118,4 +139,4 @@ cot = "full"
         #secondary = "#BDBDBD"
 
 [meta]
-generated_by = "1.3.2"
+generated_by = "1.1.404"

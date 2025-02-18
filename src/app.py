@@ -90,7 +90,6 @@ async def auth_callback(username: str, password: str) -> cl.User | None:
 async def ground_on_files(file_paths: list[str]) -> None:
     """Upload attachments to the assistant"""
     await cl.Message(content="Uploading files.").send()
-    await asyncio.sleep(2)
     
     vector_store = await utilities.create_vector_store(
         project_client,
@@ -98,9 +97,8 @@ async def ground_on_files(file_paths: list[str]) -> None:
         vector_name_name="Contoso Product Information Vector Store",
     )
     file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-    existing_tools = toolset.definitions
-    if any(isinstance(existing_tool, type(file_search_tool)) for existing_tool in existing_tools):
-        toolset.remove(existing_tools.get(type(file_search_tool)))    
+    if any(isinstance(existing_tool, type(file_search_tool)) for existing_tool in toolset._tools):
+        toolset.remove(type(file_search_tool))    
     
     toolset.add(file_search_tool)
 
@@ -130,7 +128,6 @@ async def initialize(message: cl.Message) -> tuple[Agent, AgentThread]:
 
     if file_paths:
             await ground_on_files(file_paths)
-            return
     
     if AGENT_READY:
         return
@@ -215,22 +212,22 @@ async def set_starters() -> list[cl.Starter]:
         cl.Starter(
             label="Help",
             message="help.",
-            icon="./src/public/idea.svg",
+            icon="./public/idea.svg",
         ),
         cl.Starter(
             label="Create a vivid pie chart of sales by region.",
             message="Create a vivid pie chart of sales by region.",
-            icon="./src/public/learn.svg",
+            icon="./public/learn.svg",
         ),
         cl.Starter(
             label="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
             message="Staafdiagram van maandelijkse inkomsten voor wintersportproducten in 2023 met levendige kleuren.",
-            icon="./src/public/terminal.svg",
+            icon="./public/terminal.svg",
         ),
         cl.Starter(
             label="Download excel file for sales by category",
             message="Download excel file for sales by category",
-            icon="./src/public/write.svg",
+            icon="./public/write.svg",
         ),
     ]
 
