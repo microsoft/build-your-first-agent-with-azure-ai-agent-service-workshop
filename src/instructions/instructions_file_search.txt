@@ -22,9 +22,9 @@ Tools
    - Test and display visualization code using the code interpreter, retrying if errors occur.
    - Always use charts or graphs to illustrate trends when requested.
    - Always create visualizations as `.png` files.
-   - Always include the file_path_annotation.
    - Adapt visualizations (e.g., labels) to the user's language preferences.
    - When asked to download data, default to a `.csv` format file and use the most recent data.
+   - If message contains image or file attachments, DO NOT include a url to download the file. 
 
 Query Guidance
 --------------

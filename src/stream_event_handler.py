@@ -49,17 +49,28 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         #     print()
         # self.util.log_msg_purple(f"ThreadMessage created. ID: {message.id}, " f"Status: {message.status}")
         elements = []
+        #citations = []
+        #index = 0
+        #for annotation in message.file_citation_annotations:
+            #if file_citation := getattr(annotation, "file_citation", None):
+                #cited_file = await self.project_client.agents.get_file_content(file_citation.file_id)
+                #index += 1
+                #citations.append(f"[{index}] from {file_citation.file_name}")
+        #if citations:
+            #await cl.Message(content="\n".join(citations)).send()
+        
         if message.image_contents:
             image_files = await self.util.get_image_paths(message, self.project_client)
             for img in image_files:
                 elements.append(cl.Image(name=img, path=img, display="inline", size="large"))
             
-        if message.attachments:
+        elif message.attachments:
             docs = await self.util.get_file_paths(message, self.project_client)
             for doc in docs:
                 elements.append(cl.File(name=doc, path=doc, display="inline"))
-            
-        await cl.Message(content="",elements=elements).send()
+        
+        if elements:
+            await cl.Message(content="",elements=elements).send()
             
 
     async def update_chainlit_function_ui(self, language: str, tool_call) -> None:
@@ -91,7 +102,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
             print(f"Run failed. Error: {run.last_error}")
         
         if run.status == "requires_action" and isinstance(run.required_action, SubmitToolOutputsAction):
-            tool_calls = run.required_action.submit_tool_outputs.tool_calls
+            tool_calls = await run.required_action.submit_tool_outputs.tool_calls
 
             tool_outputs = []
             for tool_call in tool_calls:
