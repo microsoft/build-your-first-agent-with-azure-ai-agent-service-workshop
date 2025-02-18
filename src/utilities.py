@@ -44,7 +44,7 @@ class Utilities:
         # Cleanup the remote file
         await project_client.agents.delete_file(file_id)
     
-    async def get_file_path(self, project_client: AIProjectClient, file_id: str, attachment_name: str) -> None:
+    async def get_file_path(self, project_client: AIProjectClient, file_id: str, attachment_name: str) -> str:
         """Retrieve the file and save it to the local disk."""
         self.log_msg_green(f"Getting file with ID: {file_id}")
 
@@ -77,8 +77,8 @@ class Utilities:
                 )
                 await self.get_file(project_client, attachment.file_id, attachment_name)
 
-    async def get_image_files(self, message: ThreadMessage, project_client: AIProjectClient) -> None:
-        """Get the image files from the message and kickoff download."""
+    async def get_image_paths(self, message: ThreadMessage, project_client: AIProjectClient) -> list[str]:
+        """Get file paths from the message attachments"""
         attachments = []
         for index, image in enumerate(message.image_contents, start=0):
                 attachment_name = (
@@ -86,6 +86,18 @@ class Utilities:
                         index].text
                 )
                 attachments.append(await self.get_file_path(project_client, image.image_file.file_id, attachment_name))
+
+        return attachments
+    
+    async def get_file_paths(self, message: ThreadMessage, project_client: AIProjectClient) -> list[str]:
+        """Get file paths from the message attachments"""
+        attachments = []
+        for index, attachment in enumerate(message.attachments, start=0):
+                attachment_name = (
+                    "unknown" if not message.file_path_annotations else message.file_path_annotations[
+                        index].text
+                )
+                attachments.append(await self.get_file_path(project_client, attachment.file_id, attachment_name))
 
         return attachments
 

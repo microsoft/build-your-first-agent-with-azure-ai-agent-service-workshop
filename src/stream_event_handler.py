@@ -48,16 +48,19 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         # if message.status == MessageStatus.COMPLETED:
         #     print()
         # self.util.log_msg_purple(f"ThreadMessage created. ID: {message.id}, " f"Status: {message.status}")
+        elements = []
         if message.image_contents:
-            image_files = await self.util.get_image_files(message, self.project_client)
-            elements = []
+            image_files = await self.util.get_image_paths(message, self.project_client)
             for img in image_files:
                 elements.append(cl.Image(name=img, path=img, display="inline", size="large"))
             
-            await cl.Message(content="",elements=elements).send()
-                
-        elif message.attachments:
-            await self.util.get_files(message, self.project_client)
+        if message.attachments:
+            docs = await self.util.get_file_paths(message, self.project_client)
+            for doc in docs:
+                elements.append(cl.File(name=doc, path=doc, display="inline"))
+            
+        await cl.Message(content="",elements=elements).send()
+            
 
     async def update_chainlit_function_ui(self, language: str, tool_call) -> None:
         # Update the UI with the step function output
@@ -127,6 +130,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_done(self) -> None:
         """Handle stream completion."""
+        
         if self.current_message:
             await cl.Message(content=self.current_message).send()
         # pass
