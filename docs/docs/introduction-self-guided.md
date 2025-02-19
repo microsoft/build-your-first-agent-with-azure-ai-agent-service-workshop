@@ -66,7 +66,7 @@ You need to authenticate with Azure so the agent app can access the Azure AI Age
 
 ## Deploy the Azure Resources
 
-The following resources will be created the `rg-contoso-agent-workshop` resource group in your Azure subscription:  
+The following resources will be created in the `rg-contoso-agent-workshop` resource group in your Azure subscription:  
 
 - An **Azure AI Foundry hub** named **agent-wksp**
 - An **Azure AI Foundry project** named **Agent Service Workshop** 
@@ -147,5 +147,5 @@ Create the workshop configuration file with the following command:
 cp src/workshop/.env.sample src/workshop/.env
 ```
 
-Then edit the file `src/workshop/.env` to provide the Project Connection String. You can find this string in the AI Foundry portal in the Overview page for your Project `agent-project` (look in in the Project details section). 
+Then edit the file `src/workshop/.env` to provide the Project Connection String. You can find this string in the AI Foundry portal in the Overview page for your Project `agent-project` (look in the Project details section).
 

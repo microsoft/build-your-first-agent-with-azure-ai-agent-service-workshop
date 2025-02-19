@@ -14,7 +14,7 @@ To get started with this workshop, open the current Workshop Guide at [Contoso S
 
 ### Modifying this workshop
 
-This workshop is open-source under the terms if its [LICENSE](LICENSE). If you are working from a modified version of this workshop you can launch the modified workshop guide from the command line with:
+This workshop is open-source under the terms of its [LICENSE](LICENSE). If you are working from a modified version of this workshop you can launch the modified workshop guide from the command line with:
 ```
 cd docs
 mkdocs serve

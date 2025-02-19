@@ -34,7 +34,7 @@ Follow these steps to create a Grounding with Bing Search Resource:
 
     - Resource Group: Select the the resource group associated with your project from the drop-down list.(This can be found by clicking on your project name in the top right corner of AI Foundry.)
     - Name: Enter `grounding-with-bing-search`
-    - Pricing Tier: Select the option "Groudning with Bing Search".
+    - Pricing Tier: Select the option "Grounding with Bing Search".
     - I confirm I have read and understood the notice above: Click the checkbox to accept Terms.
 
 5. Click "Review + create", and then click Create.
