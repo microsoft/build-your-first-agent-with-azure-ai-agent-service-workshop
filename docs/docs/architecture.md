@@ -19,11 +19,11 @@ The app is informed by the Contoso Sales Database, a [SQLite database](https://w
 
 ### Vector Store
 
-We will provide the agent with product information as a PDF file to support its queries. The agent will use the "basic agent setup" of the [Azure AI Agent Service file search tool](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/file-search?tabs=python&pivots=overview) to find relevant portions of the document with vector search and provide them to the agent as contecxt.
+We will provide the agent with product information as a PDF file to support its queries. The agent will use the "basic agent setup" of the [Azure AI Agent Service file search tool](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/file-search?tabs=python&pivots=overview) to find relevant portions of the document with vector search and provide them to the agent as context.
 
 ### Control Plane
 
-The app is and its architectural components are managed and monitored using the [Azure AI Foundry](https://ai.azure.com) portal, accessible via the browser.
+The app and its architectural components are managed and monitored using the [Azure AI Foundry](https://ai.azure.com) portal, accessible via the browser.
 
 ## Extending the Workshop Solution
 
