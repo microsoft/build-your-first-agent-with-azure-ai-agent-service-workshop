@@ -102,13 +102,13 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
             print(f"Run failed. Error: {run.last_error}")
         
         if run.status == "requires_action" and isinstance(run.required_action, SubmitToolOutputsAction):
-            tool_calls = await run.required_action.submit_tool_outputs.tool_calls
+            tool_calls = run.required_action.submit_tool_outputs.tool_calls
 
             tool_outputs = []
             for tool_call in tool_calls:
                 if isinstance(tool_call, RequiredFunctionToolCall):
                     try:
-                        output = self.functions.execute(tool_call)
+                        output = await self.functions.execute(tool_call)
                         tool_outputs.append(
                             ToolOutput(
                                 tool_call_id=tool_call.id,
@@ -121,7 +121,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
                     if tool_outputs:
                         # Once we receive 'requires_action' status, the next event will be DONE.
                         # Here we associate our existing event handler to the next stream.
-                        self.project_client.agents.submit_tool_outputs_to_stream(
+                        await self.project_client.agents.submit_tool_outputs_to_stream(
                             thread_id=run.thread_id, run_id=run.id, tool_outputs=tool_outputs, event_handler=self
                         )
 

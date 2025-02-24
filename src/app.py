@@ -11,6 +11,8 @@ from azure.ai.projects.models import (
     BingGroundingTool,
     CodeInterpreterTool,
     FileSearchTool,
+    FilePurpose,
+    MessageAttachment
 )
 from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
@@ -44,6 +46,7 @@ utilities = Utilities()
 AGENT_READY = False
 agent = Agent()
 thread = AgentThread()
+uploaded_files = []
 
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
@@ -87,36 +90,24 @@ async def auth_callback(username: str, password: str) -> cl.User | None:
         return cl.User(identifier="sales@contoso.com", metadata={"role": "sales", "provider": "credentials"})
     return None
 
-async def ground_on_files(file_paths: list[str]) -> None:
+async def ground_on_files(message: cl.Message) -> None:
     """Upload attachments to the assistant"""
-    await cl.Message(content="Uploading files.").send()
-    
-    vector_store = await utilities.create_vector_store(
-        project_client,
-        files=file_paths,
-        vector_name_name="Contoso Product Information Vector Store",
-    )
-    file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-    if any(isinstance(existing_tool, type(file_search_tool)) for existing_tool in toolset._tools):
-        toolset.remove(type(file_search_tool))    
-    
-    toolset.add(file_search_tool)
+    try:
+        await cl.Message(content="Uploading files.").send()
+        
+        for curr_file in message.elements:
+            uploaded_file = await project_client.agents.upload_file_and_poll(
+                                file_path=curr_file.path, purpose=FilePurpose.AGENTS
+                            )
+            uploaded_files.append(MessageAttachment(file_id=uploaded_file.id, tools=FileSearchTool().definitions))
+        await cl.Message(content="Uploading completed.").send()
+        print(f"Uploaded file, file ID: {uploaded_file.id}")
+        return
 
-    if(AGENT_READY):
-        agent_all_list = await project_client.agents.list_agents()
-        if agent_all_list:
-            agent = agent_all_list.data[0]
-
-            agent = project_client.agents.update_agent(
-                assistant_id=agent.id,
-                model=API_DEPLOYMENT_NAME,
-                toolset=toolset,
-            )
-
-    # Wait a moment for the uploaded files to become available
-    await asyncio.sleep(2)
-    await cl.Message(content="Uploading completed.").send()
-    return 
+    except Exception as e:
+        logger.error(f"An error occurred while processing the attached file: {e}")
+        cl.Message(content="An error occurred while processing the attached file.").send()
+        raise
 
 async def initialize(message: cl.Message) -> tuple[Agent, AgentThread]:
     """Initialize the agent with the sales data schema and instructions."""
@@ -124,10 +115,8 @@ async def initialize(message: cl.Message) -> tuple[Agent, AgentThread]:
     global agent
     global thread
     
-    file_paths = [file.path for file in message.elements]
-
-    if file_paths:
-            await ground_on_files(file_paths)
+    if message.elements:
+            await ground_on_files(message)
     
     if AGENT_READY:
         return
@@ -186,6 +175,7 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
             thread_id=thread_id,
             role="user",
             content=content,
+            attachments=uploaded_files,
         )
 
         stream = await project_client.agents.create_stream(
