@@ -100,8 +100,9 @@ async def ground_on_files(message: cl.Message) -> None:
                                 file_path=curr_file.path, purpose=FilePurpose.AGENTS
                             )
             uploaded_files.append(MessageAttachment(file_id=uploaded_file.id, tools=FileSearchTool().definitions))
+            print(f"Uploaded file, file ID: {uploaded_file.id}")
         await cl.Message(content="Uploading completed.").send()
-        print(f"Uploaded file, file ID: {uploaded_file.id}")
+        
         return
 
     except Exception as e:
