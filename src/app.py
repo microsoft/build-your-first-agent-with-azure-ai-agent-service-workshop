@@ -61,8 +61,8 @@ functions = AsyncFunctionTool(
 
 #INSTRUCTIONS_FILE = "instructions/instructions_function_calling.txt"
 #INSTRUCTIONS_FILE = "instructions/instructions_code_interpreter.txt"
-INSTRUCTIONS_FILE = "instructions/instructions_file_search.txt"
-# INSTRUCTIONS_FILE = "instructions/instructions_bing_grounding.txt"
+#INSTRUCTIONS_FILE = "instructions/instructions_file_search.txt"
+INSTRUCTIONS_FILE = "instructions/instructions_bing_grounding.txt"
 
 
 async def add_agent_tools():
@@ -79,9 +79,9 @@ async def add_agent_tools():
     toolset.add(file_search)
 
     # Add the Bing grounding tool
-    # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-    # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
-    # toolset.add(bing_grounding)
+    bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+    bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+    toolset.add(bing_grounding)
 
 @cl.password_auth_callback
 async def auth_callback(username: str, password: str) -> cl.User | None:
@@ -167,6 +167,8 @@ async def initialize(message: cl.Message) -> tuple[Agent, AgentThread]:
 
 async def cleanup(agent: Agent, thread: AgentThread) -> None:
     """Cleanup the resources."""
+    for file_id in uploaded_files:
+        project_client.agents.delete_file(file_id)
     await project_client.agents.delete_thread(thread.id)
     await project_client.agents.delete_agent(agent.id)
     await sales_data.close()

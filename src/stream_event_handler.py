@@ -141,8 +141,10 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
             if file_citation := getattr(annotation, "file_citation", None):
                 cited_file = next((f for f in cloud_files.data if f.id == file_citation.file_id), None)
                 index += 1
-                self.current_message = self.current_message.replace(annotation.text, f"[{index}]")
-                citations.append(f"[{index}] from {cited_file.filename}")
+                if annotation.text in self.current_message:
+                    self.current_message = self.current_message.replace(annotation.text, f"[{index}]")
+                    citations.append(f"[{index}] from {cited_file.filename}")
+
         if self.current_message:
             await cl.Message(content=self.current_message).send()
 
