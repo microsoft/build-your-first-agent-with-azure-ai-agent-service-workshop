@@ -75,6 +75,9 @@ async def add_agent_tools():
     code_interpreter = CodeInterpreterTool()
     toolset.add(code_interpreter)
 
+    file_search = FileSearchTool()
+    toolset.add(file_search)
+
     # Add the Bing grounding tool
     # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
     # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)

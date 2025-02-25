@@ -20,7 +20,6 @@ from azure.ai.projects.models import (
 
 from utilities import Utilities
 
-
 class StreamEventHandler(AsyncAgentEventHandler[str]):
     """Handle LLM streaming events and tokens."""
 
@@ -30,6 +29,7 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         self.util = utilities
         self.current_message: cl.Message = None
         self.current_step: cl.Step = None
+        self.annotations: list = []
         super().__init__()
 
     async def on_message_delta(self, delta: MessageDeltaChunk) -> None:
@@ -49,16 +49,9 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
         #     print()
         # self.util.log_msg_purple(f"ThreadMessage created. ID: {message.id}, " f"Status: {message.status}")
         elements = []
-        #citations = []
-        #index = 0
-        #for annotation in message.file_citation_annotations:
-            #if file_citation := getattr(annotation, "file_citation", None):
-                #cited_file = await self.project_client.agents.get_file_content(file_citation.file_id)
-                #index += 1
-                #citations.append(f"[{index}] from {file_citation.file_name}")
-        #if citations:
-            #await cl.Message(content="\n".join(citations)).send()
         
+        self.annotations = message.file_citation_annotations
+                
         if message.image_contents:
             image_files = await self.util.get_image_paths(message, self.project_client)
             for img in image_files:
@@ -141,9 +134,20 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_done(self) -> None:
         """Handle stream completion."""
-        
+        citations = []
+        index = 0
+        cloud_files = await self.project_client.agents.list_files()
+        for annotation in self.annotations:
+            if file_citation := getattr(annotation, "file_citation", None):
+                cited_file = next((f for f in cloud_files.data if f.id == file_citation.file_id), None)
+                index += 1
+                self.current_message = self.current_message.replace(annotation.text, f"[{index}]")
+                citations.append(f"[{index}] from {cited_file.filename}")
         if self.current_message:
             await cl.Message(content=self.current_message).send()
+
+        if citations:
+            await cl.Message(content="\n".join(citations)).send()
         # pass
         # self.util.log_msg_purple(f"\nStream completed.")
 
