@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: chatgpt-backend-fastapi
+metadata:
+  template: chatgpt-backend-fastapi@0.0.1-beta
+services:
+  api:
+    project: ./src
+    language: py
+    host: containerapp
+    docker:
+      remoteBuild: true
+hooks:
+    postprovision:
+      windows:
+        shell: pwsh
+        run: $output = azd env get-values; Add-Content -Path .env -Value $output;
+        interactive: true
+        continueOnError: false
+      posix:
+        shell: sh
+        run: azd env get-values > .env
+        interactive: true
+        continueOnError: false
+pipeline:
+  variables:
+    - AZURE_OPENAI_RESOURCE
+    - AZURE_OPENAI_RESOURCE_LOCATION
+    - AZURE_OPENAI_RESOURCE_GROUP
+    - AZURE_OPENAI_SKU_NAME
+    - ALLOWED_ORIGINS

@@ -31,7 +31,8 @@ load_dotenv()
 
 TENTS_DATA_SHEET_FILE = "datasheet/contoso-tents-datasheet.pdf"
 API_DEPLOYMENT_NAME = os.getenv("MODEL_DEPLOYMENT_NAME")
-PROJECT_CONNECTION_STRING = os.environ["PROJECT_CONNECTION_STRING"]
+ai_project_conn_str = os.getenv("AZURE_LOCATION")+".api.azureml.ms;"+os.getenv("AZURE_SUBSCRIPTION_ID")+";"+os.getenv("AZURE_RESOURCE_GROUP")+";"+os.getenv("AZURE_AI_PROJECT_NAME")
+PROJECT_CONNECTION_STRING = ai_project_conn_str
 BING_CONNECTION_NAME = os.getenv("BING_CONNECTION_NAME")
 AGENT_PASSWORD = os.getenv("AGENT_PASSWORD")
 MAX_COMPLETION_TOKENS = 4096
