@@ -7,14 +7,17 @@ __pycache__
 .coverage
 *.orig
 # .NET stuff
-# bin
+bin
 obj
 appsettings.*.json
 *.csproj.user
 .mono
 *.user
+.vs
 
 # AZD
 .azure/
 .files/
 src/workshop/[.][v]env/
+
+src/*/workshop/*/files/

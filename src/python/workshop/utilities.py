@@ -29,7 +29,8 @@ class Utilities:
         file_name = f"{file_name}.{file_id}{file_extension}"
 
         env = os.getenv("ENVIRONMENT", "local")
-        folder_path = Path(f"{'src/workshop/' if env == 'container' else ''}files")
+        folder_path = Path(
+            f"{'src/workshop/python/' if env == 'container' else ''}files")
 
         folder_path.mkdir(parents=True, exist_ok=True)
 
@@ -66,13 +67,13 @@ class Utilities:
 
         file_ids = []
         env = os.getenv("ENVIRONMENT", "local")
-        prefix = "src/workshop/" if env == "container" else ""
+        prefix = "src/shared/" if env == "container" else ""
 
         # Upload the files
         for file in files:
             file_path = Path(f"{prefix}{file}")
             self.log_msg_purple(f"Uploading file: {file_path}")
-            
+
             file_info = await project_client.agents.upload_file(file_path=file_path, purpose="assistants")
             file_ids.append(file_info.id)
 

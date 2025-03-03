@@ -10,6 +10,8 @@ In this workshop, the function logic is used to execute the LLM dynamically gene
 
 If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling){:target="_blank"}, it requires defining a function schema for the LLM. Azure AI Agent Service supports this approach and also offers a more flexible option.
 
+#### Function Calling in Python
+
 With the Azure AI Agent Service and its Python SDK, you can define the function schema directly within the Python function’s docstring. This approach keeps the definition and implementation together, simplifying maintenance and enhancing readability.
 
 For example, in the **sales_data.py** file, the **async_fetch_sales_data_using_sqlite_query** function uses a docstring to specify its signature, inputs, and outputs. The SDK parses this docstring to generate the callable function for the LLM:
@@ -26,11 +28,35 @@ async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_qu
     """
 ```
 
+#### Function Calling in .NET
+
+With the Azure AI Agent Service and its .NET SDK, you define the function schema as part of the C# code when adding the function to the agent. This approach is more verbose but allows for greater flexibility in defining the function schema.
+
+For example, in the **Lab.cs** file, the `InitialiseTools` method defines the function schema for the `FetchSalesDataAsync` function:
+
+```csharp
+new FunctionToolDefinition(
+    name: nameof(SalesData.FetchSalesDataAsync),
+    description: "This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.",
+    parameters: BinaryData.FromObjectAsJson(new {
+        Type = "object",
+        Properties = new {
+            Query = new {
+                Type = "string",
+                Description = "The input should be a well-formed SQLite query to extract information based on the user's question. The query result will be returned as a JSON object."
+            }
+        },
+        Required = new [] { "query" }
+    },
+    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })
+)
+```
+
 ### Dynamic SQL Generation
 
 When the app starts, it incorporates the database schema and key data into the instructions for the Azure AI Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.
 
-## Lab Exercise
+## Lab Exercise - Python
 
 In this lab, you'll enable the function logic to execute dynamic SQL queries against the SQLite database. The function will be called by the LLM to answer user questions about Contoso sales data.
 
@@ -129,10 +155,36 @@ async def async_fetch_sales_data_using_sqlite_query(self: "SalesData", sqlite_qu
         """
 ``` -->
 
-### Run the Agent App
+## Lab Exercise - .NET
 
-1. Press <kbd>F5</kbd> to run the app.
-2. In the terminal, you'll see the app start, and the agent app will prompt you to enter your query.
+In this lab, you'll enable the function logic to execute dynamic SQL queries against the SQLite database. The function will be called by the LLM to answer user questions about Contoso sales data.
+
+1. Open the `Program.cs` file.
+
+1. **Uncomment** and update the following code:
+
+    ```csharp
+    await using Lab lab = new Lab1(projectClient, apiDeploymentName);
+    await lab.RunAsync();
+    ```
+
+### Review the Instructions
+
+Open the **instructions/instructions_function_calling.txt** file and review the **Tools** section for details on the function-calling instructions.
+
+!!! tip "In VS Code, press Alt + Z (Windows/Linux) or Option + Z (Mac) to enable word wrap mode, making the instructions easier to read."
+
+!!! info
+    The {database_schema_string} placeholder in the instructions is replaced with the actual database schema when the app initializes as part of the `InitialiseToolResources` method.
+
+    ```csharp
+    instructions = instructions.Replace("{database_schema_string}", databaseSchema);
+    ```
+
+## Run the Agent App
+
+1. Press <kbd>F5</kbd> and select whether you want to run the C# or Python app.
+2. In the terminal, you'll see the app start, and the agent app will prompt you to enter your query (the following shows the Python application but a comparable experience will appear for .NET).
 
     ![Agent App](./media/run-the-agent.png){:width="600"}
 
@@ -229,7 +281,7 @@ Try these questions:
 
 Remember to disable the breakpoint before running the app again.
 
-## Stop the Agent App
+### Stop the Agent App
 
 When you're done, type **exit**, or press <kbd>Shift</kbd>+<kbd>F5</kbd> to stop the agent app.
 

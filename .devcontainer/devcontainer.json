@@ -9,6 +9,9 @@
     "features": {
         "ghcr.io/devcontainers/features/azure-cli:1": {
             "extensions": "ml"
+        },
+        "ghcr.io/devcontainers/features/dotnet:latest": {
+            "version": "9.0"
         }
     },
     "customizations": {
@@ -18,7 +21,8 @@
                 "ms-python.python",
                 "ms-toolsai.jupyter",
                 "ms-python.black-formatter",
-                "mathematic.vscode-pdf"
+                "mathematic.vscode-pdf",
+                "ms-dotnettools.csdevkit"
             ]
         }
     }

@@ -8,7 +8,7 @@ When the app starts, a vector store is created, the Contoso tents datasheet is a
 
 A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"} is a database optimized for storing and searching vectors (numeric representations of text data). The File Search tool uses the vector store for [semantic search](https://en.wikipedia.org/wiki/Semantic_search){:target="_blank"} to search for relevant information in the uploaded document.
 
-## Lab Exercise
+## Lab Exercise - Python
 
 1. Open the **src/workshop/datasheet/contoso-tents-datasheet.pdf** file from VS Code.
 
@@ -72,17 +72,29 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
         # toolset.add(bing_grounding)
     ```
 
-### Review the Instructions
+## Lab Exercise - .NET
+
+1. Open the **datasheet/contoso-tents-datasheet.pdf** file from VS Code.
+1. **Review** the file’s contents to understand the information it contains, as this will be used to ground the agent’s responses.
+1. Open the `Program.cs` file.
+1. **Update** the creation of the lab to use the `Lab3` class.
+
+    ```csharp
+    await using Lab lab = new Lab3(projectClient, apiDeploymentName);
+    ```
+
+1. Review the `Lab3.cs` class to see how `InitialiseLabAsync` is used to add the PDF to a vector store and add the File Search tool to the agent, and `InitialiseToolResources` is used to add the File Search tool to the agent. These methods would be good places to add breakpoints to observe the process.
+
+## Review the Instructions
 
 The **instructions/instructions_file_search.txt** file provides guidance on how the LLM should use File Search for grounding purposes.
 
 We have added a new tool to the instructions for the agent. This tool directs the agent to search the "Contoso Product Information Vector Store" for additional Contoso product information. This vector store is specified in a call to the `FileSearchTool` SDK function in `main.py`.
 
-### Run the Agent App
+## Run the Agent App
 
-1. Review the **create_vector_store** function in the **utilities.py** file. The create_vector_store function uploads the Tents Data Sheet and saves it in a vector store. To observe the vector store creation process, set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the function.
-2. Press <kbd>F5</kbd> to run the app.
-3. In the terminal, the app starts, and the agent app will prompt you to **Enter your query**.
+1. Press <kbd>F5</kbd> and select whether you want to run the C# or Python app.
+1. In the terminal, the app starts, and the agent app will prompt you to **Enter your query**.
 
 ### Start a Conversation with the Agent
 

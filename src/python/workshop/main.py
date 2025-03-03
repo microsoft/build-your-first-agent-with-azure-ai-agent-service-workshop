@@ -90,13 +90,14 @@ async def initialize() -> tuple[Agent, AgentThread]:
 
     try:
         env = os.getenv("ENVIRONMENT", "local")
-        INSTRUCTIONS_FILE_PATH = f"{'src/workshop/' if env == 'container' else ''}{INSTRUCTIONS_FILE}"
-        
+        INSTRUCTIONS_FILE_PATH = f"{'src/shared/' if env == 'container' else ''}{INSTRUCTIONS_FILE}"
+
         with open(INSTRUCTIONS_FILE_PATH, "r", encoding="utf-8", errors="ignore") as file:
             instructions = file.read()
 
         # Replace the placeholder with the database schema string
-        instructions = instructions.replace("{database_schema_string}", database_schema_string)
+        instructions = instructions.replace(
+            "{database_schema_string}", database_schema_string)
 
         print("Creating agent...")
         agent = await project_client.agents.create_agent(
@@ -139,7 +140,8 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
         stream = await project_client.agents.create_stream(
             thread_id=thread.id,
             assistant_id=agent.id,
-            event_handler=StreamEventHandler(functions=functions, project_client=project_client, utilities=utilities),
+            event_handler=StreamEventHandler(
+                functions=functions, project_client=project_client, utilities=utilities),
             max_completion_tokens=MAX_COMPLETION_TOKENS,
             max_prompt_tokens=MAX_PROMPT_TOKENS,
             temperature=TEMPERATURE,
@@ -150,7 +152,8 @@ async def post_message(thread_id: str, content: str, agent: Agent, thread: Agent
         async with stream as s:
             await s.until_done()
     except Exception as e:
-        utilities.log_msg_purple(f"An error occurred posting the message: {str(e)}")
+        utilities.log_msg_purple(
+            f"An error occurred posting the message: {str(e)}")
 
 
 async def main() -> None:
@@ -163,7 +166,8 @@ async def main() -> None:
     while True:
         # Get user input prompt in the terminal using a pretty shade of green
         print("\n")
-        prompt = input(f"{tc.GREEN}Enter your query (type exit to finish): {tc.RESET}")
+        prompt = input(
+            f"{tc.GREEN}Enter your query (type exit to finish): {tc.RESET}")
         if prompt.lower() == "exit":
             break
         if not prompt:

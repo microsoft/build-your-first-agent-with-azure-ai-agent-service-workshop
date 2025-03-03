@@ -5,10 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C# Debugger: AgentWorkshop Client",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
+        },
+        {
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "src/workshop/main.py",
+            "program": "src/python/workshop/main.py",
             "console": "integratedTerminal"
         }
     ]

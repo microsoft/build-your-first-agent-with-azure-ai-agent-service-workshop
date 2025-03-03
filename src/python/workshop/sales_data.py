@@ -22,7 +22,7 @@ class SalesData:
 
     async def connect(self: "SalesData") -> None:
         env = os.getenv("ENVIRONMENT", "local")
-        db_uri = f"file:{'src/workshop/' if env == 'container' else ''}{DATA_BASE}?mode=ro"
+        db_uri = f"file:{'src/shared/' if env == 'container' else ''}{DATA_BASE}?mode=ro"
 
         try:
             self.conn = await aiosqlite.connect(db_uri, uri=True)
@@ -80,7 +80,8 @@ class SalesData:
         table_dicts = []
         for table_name in await self.__get_table_names():
             columns_names = await self.__get_column_info(table_name)
-            table_dicts.append({"table_name": table_name, "column_names": columns_names})
+            table_dicts.append(
+                {"table_name": table_name, "column_names": columns_names})
 
         database_info = "\n".join(
             [
@@ -110,14 +111,16 @@ class SalesData:
         :rtype: str
         """
 
-        print(f"\n{tc.BLUE}Function Call Tools: async_fetch_sales_data_using_sqlite_query{tc.RESET}\n")
+        print(
+            f"\n{tc.BLUE}Function Call Tools: async_fetch_sales_data_using_sqlite_query{tc.RESET}\n")
         print(f"{tc.BLUE}Executing query: {sqlite_query}{tc.RESET}\n")
 
         try:
             # Perform the query asynchronously
             async with self.conn.execute(sqlite_query) as cursor:
                 rows = await cursor.fetchall()
-                columns = [description[0] for description in cursor.description]
+                columns = [description[0]
+                           for description in cursor.description]
 
             if not rows:  # No need to create DataFrame if there are no rows
                 return json.dumps("The query returned no results. Try a different question.")
