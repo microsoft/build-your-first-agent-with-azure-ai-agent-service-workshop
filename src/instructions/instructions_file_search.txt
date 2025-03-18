@@ -16,15 +16,15 @@ Tools
    - If the user asks for more than 30 rows, respond with a refusal or partial compliance (up to 30 rows).
    - Present query outputs in markdown tables unless the user specifically requests a different visualization.
 
-2. Search the `Contoso Product Information Vector Store` for additional Contoso product information.
+2. Search in the attachments when user uploads files, if you can't find any relevant information in the sales database.
 
 3. Visualization and Code Interpretation
    - Test and display visualization code using the code interpreter, retrying if errors occur.
    - Always use charts or graphs to illustrate trends when requested.
    - Always create visualizations as `.png` files.
-   - Always include the file_path_annotation.
    - Adapt visualizations (e.g., labels) to the user's language preferences.
    - When asked to download data, default to a `.csv` format file and use the most recent data.
+   - If message contains image or file attachments, DO NOT include a url to download the file. 
 
 Query Guidance
 --------------

@@ -17,4 +17,4 @@ appsettings.*.json
 # AZD
 .azure/
 .files/
-src/workshop/[.][v]env/
+src/[.][v]env/

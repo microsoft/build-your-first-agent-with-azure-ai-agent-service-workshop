@@ -1,15 +1,22 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
+            "name": "Run Uvicorn",
+            "type": "python",
             "request": "launch",
-            "program": "src/workshop/main.py",
-            "console": "integratedTerminal"
+            "module": "uvicorn",
+            "args": [
+                "src.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8080"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "ENV": "development"
+            }
         }
     ]
 }

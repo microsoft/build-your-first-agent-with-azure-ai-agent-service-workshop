@@ -49,7 +49,7 @@ if [ -f output.json ]; then
     # Generate the PROJECT_CONNECTION_STRING
     PROJECT_CONNECTION_STRING="\"$HOST_NAME;$SUBSCRIPTION_ID;$RESOURCE_GROUP_NAME;$AI_PROJECT_NAME\""
 
-    ENV_FILE_PATH="../src/workshop/.env"
+    ENV_FILE_PATH="../src/.env"
 
     # Delete the file if it exists
     [ -f "$ENV_FILE_PATH" ] && rm "$ENV_FILE_PATH"
