@@ -1,0 +1,731 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../media/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Start chatting with the Contoso Sales Assistant - Build your first Agent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#start-chatting-with-the-contoso-sales-assistant" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Build your first Agent" class="md-header__button md-logo" aria-label="Build your first Agent" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Build your first Agent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Start chatting with the Contoso Sales Assistant
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Build your first Agent" class="md-nav__button md-logo" aria-label="Build your first Agent" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    Build your first Agent
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solution Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Workshop Setup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Workshop Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction-ai-tour/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AI Tour Attendees
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction-self-guided/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Self-Guided Learners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-1-function_calling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 Function Calling Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-2-code_interpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 2 Intro to the Code Interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-3-file_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 3 Grounding with Documents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-4-bing_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 4 Grounding with Bing Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-5-instrumentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 5 Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wrapup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Wrapping Up
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-demo-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Demo Script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-questions-you-can-ask" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other questions you can ask
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="start-chatting-with-the-contoso-sales-assistant">Start chatting with the Contoso Sales Assistant<a class="headerlink" href="#start-chatting-with-the-contoso-sales-assistant" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Below is the script used in the video, but since the app is powered by a large language model (LLM), conversations will vary. <strong>Be prepared to adapt based on the responses you receive.</strong></p>
+<p>The script is a guide rather than a strict rule. <strong>However, be aware that some prompts may produce large amounts of data, which can be tedious for the audience as it streams to the assistant.</strong> To maintain engagement it's best to use prompts that generate concise responses. The assistant instructions favour data aggregates to reduce data returned from the database.</p>
+</li>
+<li>
+<p>The chat window shows the LLM <a href="https://en.wikipedia.org/wiki/Prompt_engineering#Chain-of-thought" target="_blank">Chain of Thought</a>, this is enabled to help understand the context of the conversation. <strong>You can show the SQL queries and results from the "Function" tool, and the Python code generated by the "Code Interpreter" tool by clicking their respective dropdowns.</strong> Note, there is an overhead for "Chain of Thought" as the context needs to be streamed to the chat window. In production, you'd disable "Chain of Thought".</p>
+</li>
+<li>The Code Interpreter performance execution times can vary, this is dependent on the code complexity, location, and time of day, so be patient when waiting for the Python code to execute and have talking points ready to fill the time.</li>
+</ol>
+<h2 id="the-demo-script">The Demo Script<a class="headerlink" href="#the-demo-script" title="Permanent link">&para;</a></h2>
+<ol>
+<li>From your browser, navigate to the <a href="https://aka.ms/contoso-sales-assistant" target="_blank">Contoso Sales Assistant</a> event page.</li>
+<li>Login with your GitHub account.</li>
+<li>Follow the instructions for the event and launch the Contoso Sales Assistant.</li>
+</ol>
+<h3 id="set-the-assistant-ux-to-light-mode">Set the Assistant UX to Light Mode<a class="headerlink" href="#set-the-assistant-ux-to-light-mode" title="Permanent link">&para;</a></h3>
+<p>Suggest setting light mode as generally better for an audience.</p>
+<ol>
+<li>From the top right, select the user icon.</li>
+<li>Select Light Mode.</li>
+<li>Start with conversation history closed.</li>
+</ol>
+<p><a class="glightbox" href="../media/ux-intro.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="ux-intro" src="../media/ux-intro.png" /></a></p>
+<h3 id="start-the-conversation">Start the conversation<a class="headerlink" href="#start-the-conversation" title="Permanent link">&para;</a></h3>
+<h4 id="help">Help<a class="headerlink" href="#help" title="Permanent link">&para;</a></h4>
+<p>There are prompt starters in the centre of the chat window. You can select one of these starters to begin the conversation.</p>
+<ol>
+<li>
+<p>Select <strong>Help</strong> from the Chat Window Starters.</p>
+<p>This will provide a list of sample questions that the assistant can answer. Remember, on startup, the assistant loaded the database schema, product categories, product types, and reporting years, so it has this context to work with when providing help.</p>
+</li>
+<li>
+<p>Type <strong>Help (in your preferred language)</strong>. For example, <strong><code>Help in Dutch, Help in French, etc</code></strong>. This will provide a list of sample questions that the assistant can answer in the your preferred language.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can chat to the Contoso Sales Assistant in the language of your choice, but be sure to test it first. Keep in mind that the Code Interpreter may not support all language fonts for visualizations.</p>
+</div>
+<h4 id="sales-by-region">Sales by Region<a class="headerlink" href="#sales-by-region" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Select <strong>Start new chart</strong>.</li>
+<li>
+<p>Select the 2nd from left starter: <strong><code>Create a vivid pie chart of sales by region.</code></strong></p>
+<p>The LLM will first generate a SQL query. It will then call the ask_database function to execute the query and return the results. After that, the LLM will generate Python code to create a pie chart based on the query results. You can view the “Chain of Thought” to see the SQL query, the results, and the Python code executed by the Code Interpreter to create the pie chart.</p>
+<p><a class="glightbox" href="../media/cot.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="cot" src="../media/cot.png" /></a></p>
+</li>
+</ol>
+<h4 id="tents-for-beginners">Tents for Beginners<a class="headerlink" href="#tents-for-beginners" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p>Next, we'll ask about beginner-friendly tents. The sales database has limited knowledge of the products as the focus of the database is sales data, so the LLM will generate a <strong>limited</strong> response based on the data available.</p>
+<p>Submit the prompt: <strong><code>What beginner-friendly tents does Contoso sell?</code></strong></p>
+</li>
+</ol>
+<h4 id="extend-the-assistants-knowledge">Extend the Assistant's Knowledge<a class="headerlink" href="#extend-the-assistants-knowledge" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p>Next, we'll going to upload a Contoso Tents Datasheet to the Assistants API. This will allow the assistant to provide more detailed information about the tents. The Assistants API will vectorize the PDF and store the data in a vector store and the LLM will be able to access the data using hybrid (semantic and keyword) queries.</p>
+</li>
+<li>
+<p>Drag and drop the <strong>contoso-tents-datasheet.pdf</strong> onto the Contoso Sales Assistant. The assistant will now have access to the tent data. The PDF file can be found in the <strong>resources</strong> folder of this repository.</p>
+</li>
+<li>Add the prompt <strong><code>What beginner-friendly tents does Contoso sell?</code></strong></li>
+<li>
+<p>Resubmit the question.</p>
+<p><a class="glightbox" href="../media/extending-context.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Add the pdf to the prompt" src="../media/extending-context.png" /></a></p>
+</li>
+</ol>
+<p>Now the assistant has access to the tent data and can provide more detailed information.</p>
+<ol>
+<li>Now, we're going to combine the data from the sales database and the tent datasheet to provide a more detailed analysis.</li>
+</ol>
+<p>Submit the prompt: <strong><code>Show sales of BACKPACKING TENTS by region and include a brief description in the table about each tent.</code></strong></p>
+<h4 id="create-an-excel-file">Create an Excel File<a class="headerlink" href="#create-an-excel-file" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Finally, let's use the Assistants API, the LLM, and the code interpreter to generate a report on the sales of beginner-friendly tents in Excel format.</li>
+</ol>
+<p>Submit the prompt: <strong><code>Create an excel file</code></strong></p>
+<p>The LLM will generate the Python code to create the Excel file. You can download the file by selecting the download link and open in Excel.</p>
+<p><a class="glightbox" href="../media/download-as-excel.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../media/download-as-excel.png" /></a></p>
+<!-- ![chat-window](media/chat-window.png) -->
+
+<h2 id="other-questions-you-can-ask">Other questions you can ask<a class="headerlink" href="#other-questions-you-can-ask" title="Permanent link">&para;</a></h2>
+<p>The assistant can answer a wide range of questions about the sales data. Here are some additional questions you can ask:</p>
+<ol>
+<li><strong>What are the top 5 products by sales?</strong></li>
+<li><strong>Sales by region?</strong></li>
+<li><strong>Sales by category?</strong></li>
+<li><strong>What are the top 5 products by sales for travel?</strong></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.footer", "content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../js/custom-nav.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
