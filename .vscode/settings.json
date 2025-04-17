@@ -1,3 +1,9 @@
 {
-    "peacock.remoteColor": "#215732"
+    "peacock.remoteColor": "#215732",
+    "vscode-nmake-tools.workspaceBuildDirectories": [
+        "."
+    ],
+    "vscode-nmake-tools.installRazzleSourcesFormatterExtension": false,
+    "vscode-nmake-tools.installOsRepoRustHelperExtension": false,
+    "sarif-viewer.connectToGithubCodeScanning": "off"
 }

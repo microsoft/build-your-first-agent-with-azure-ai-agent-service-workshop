@@ -15,6 +15,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/src/python/workshop/main.py",
+            "cwd": "${fileDirname}",
             "console": "integratedTerminal"
         }
     ]

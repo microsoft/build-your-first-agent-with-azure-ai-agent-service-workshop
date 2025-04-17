@@ -56,7 +56,7 @@ functions = AsyncFunctionTool(
     }
 )
 
-# INSTRUCTIONS_FILE = "instructions/function_calling.txt"
+INSTRUCTIONS_FILE = "instructions/function_calling.txt"
 # INSTRUCTIONS_FILE = "instructions/file_search.txt"
 # INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
 # INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
@@ -68,7 +68,7 @@ async def add_agent_tools() -> None:
     font_file_info = None
 
     # Add the functions tool
-    # toolset.add(functions)
+    toolset.add(functions)
 
     # Add the tents data sheet to a new vector data store
     # vector_store = await utilities.create_vector_store(
