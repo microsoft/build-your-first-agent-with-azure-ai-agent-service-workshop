@@ -20,7 +20,7 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
 
       1. Open the file `main.py`.
 
-      2. **Uncomment** the following lines by removing the **"# "** characters
+      2. **Uncomment** the following lines by removing the **"# "** characters. 
 
         ```python
         # INSTRUCTIONS_FILE = "instructions/file_search.txt"
@@ -98,6 +98,11 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
 
     If you are comfortable using the VS Code debugger, then set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the **create_vector_store** function to observe how the vector store is created.
 
+2. Open the **shared/instructions/file_search.txt** file.
+    
+    Review the updates in the **Tools** section of the instructions file compared with the one we have used in the previous step.
+
+
 ## Run the Agent App
 
 1. Press <kbd>F5</kbd> to run the app.
@@ -128,7 +133,8 @@ The following conversation uses data from both the Contoso sales database and th
 1. **What were the sales of tents in 2024 by product type? Include the brands associated with each.**
 
     !!! info
-        It's possible the agent might get this wrong, and suggest incorrectly that AlpineGear has a Family Camping tent. To address this, you could provide further context in the instructions or the datasheet, or provide context to the agent directly as in next prompt.
+        It's possible the agent might get this wrong, and suggest incorrectly that AlpineGear has a Family Camping tent. To address this, you could provide further context in the instructions or the datasheet, or provide context to the agent directly as in next prompt. For example, try the following:
+        "**Contoso does not sell Family Camping tents from AlpineGear. Try again.**"
 
 1. **What were the sales of AlpineGear in 2024 by region?**
 
@@ -137,10 +143,6 @@ The following conversation uses data from both the Contoso sales database and th
     !!! info
         The agent interprets this as a request to find all sales of tents in the "CAMPING & HIKING' category, since it
         now has access to information that Alpine Gear is a brand of backpacking tent.
-
-1. **Contoso does not sell Family Camping tents from AlpineGear. Try again.**
-
-    That's better!
 
 ## Stop the Agent App
 

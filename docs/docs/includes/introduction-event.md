@@ -123,7 +123,7 @@ Next, we log in to Azure AI Foundry to retrieve the project connection string, w
 
         ```python
         MODEL_DEPLOYMENT_NAME="gpt-4o"
-        BING_CONNECTION_NAME="Grounding-with-Bing-Search"
+        BING_CONNECTION_NAME="groundingwithbingsearch"
         PROJECT_CONNECTION_STRING="<your_project_connection_string>"
         ```
 

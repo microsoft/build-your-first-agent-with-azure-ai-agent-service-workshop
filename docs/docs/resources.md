@@ -10,7 +10,7 @@ The workshop repository on GitHub contains everything needed for the workshop. T
 
 * Documentation: [Azure AI Agent Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"}
 * Module: [Fundamentals of AI agents on Azure](https://learn.microsoft.com/training/modules/ai-agent-fundamentals/){:target="_blank"}
-* Documentation: [Tracing using Application Insights](https://learn.microsoft.com/azure/ai-services/agents/concepts/tracing){:target="_blank"}.
+* Documentation: [Tracing using Application Insights](https://learn.microsoft.com/azure/ai-services/agents/concepts/tracing){:target="_blank"}, [Evaluating your AI agents with Azure AI Evaluation SDK](https://learn.microsoft.com/azure/ai-foundry/how-to/develop/agent-evaluate-sdk){:target="_blank"}
 
 ## Contoso Sales Assistant sample
 
