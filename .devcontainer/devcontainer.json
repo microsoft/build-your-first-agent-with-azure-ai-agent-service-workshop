@@ -22,7 +22,9 @@
                 "ms-toolsai.jupyter",
                 "ms-python.black-formatter",
                 "mathematic.vscode-pdf",
-                "ms-dotnettools.csdevkit"
+                "ms-dotnettools.csdevkit",
+                "GitHub.copilot-chat",
+                "GitHub.copilot"
             ]
         }
     }

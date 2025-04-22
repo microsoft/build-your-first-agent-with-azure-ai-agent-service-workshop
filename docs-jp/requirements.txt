@@ -1,0 +1,4 @@
+mkdocs
+mkdocs-glightbox
+mkdocs-material
+mkdocs-include-markdown-plugin
