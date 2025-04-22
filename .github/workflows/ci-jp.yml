@@ -4,8 +4,13 @@ on:
     branches:
       - dev-jp
       - main
+  workflow_dispatch:
+
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     env:
@@ -28,5 +33,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mkdocs-glightbox mkdocs-include-markdown-plugin
+      - run: pip install -r ${{ env.REQUIREMENTS }}
       - run: mkdocs gh-deploy --force --config-file ${{ env.CONFIG_FILE }}
