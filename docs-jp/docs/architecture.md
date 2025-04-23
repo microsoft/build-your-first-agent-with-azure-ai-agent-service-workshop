@@ -1,37 +1,37 @@
-# Solution Architecture
+# ソリューションアーキテクチャー
 
-In this workshop, you will create the Contoso Sales Agent: a conversational agent designed to answer questions about sales data, generate charts, and download data files for further analysis.
+このワークショップでは、Contoso Sales Agent を作成します。これは、売上データに関する質問に回答し、グラフを生成し、さらに分析するためにデータファイルをダウンロードするように設計された対話型エージェントです。
 
-## Components of the Agent App
+## Agent App のコンポーネント
 
-1. **Microsoft Azure services**
+1.  **Microsoft Azure のサービス**
 
-    This agent is built on Microsoft Azure services.
+    この Agent は Microsoft Azure のサービス上に構築されています。
 
-      - **Generative AI model**: The underlying LLM powering this app is the [Azure OpenAI gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions#gpt-4o-and-gpt-4-turbo){:target="_blank"} LLM.
+    * **生成 AI モデル**: このアプリを支える基盤となる LLM は、[Azure OpenAI gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models?tabs=global-standard%2Cstandard-chat-completions#gpt-4o-and-gpt-4-turbo){:target="_blank"} LLM です。
 
-      - **Vector Store**: We will provide the agent with product information as a PDF file to support its queries. The agent will use the "basic agent setup" of the [Azure AI Agent Service file search tool](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/file-search?tabs=python&pivots=overview){:target="_blank"} to find relevant portions of the document with vector search and provide them to the agent as context.
+    * **Vector Store*: Agent のクエリをサポートするために、製品情報を PDF ファイルとして提供します。エージェントは、[Azure AI Agent Service ファイル検索ツール](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/file-search?tabs=python&pivots=overview){:target="_blank"} の「基本エージェント設定」を使用して、ベクトル検索でドキュメントの関連部分を見つけ、それらをコンテキストとしてエージェントに提供します。
 
-      - **Control Plane**: The app and its architectural components are managed and monitored using the [Azure AI Foundry](https://ai.azure.com){:target="_blank"} portal, accessible via the browser.
+    * **コントロールプレーン**: アプリとそのアーキテクチャーコンポーネントは、ブラウザ経由でアクセス可能な [Azure AI Foundry](https://ai.azure.com){:target="_blank"} ポータルを使用して管理および監視されます。
 
-2. **Azure AI Foundry (SDK)**
+2.  **Azure AI Foundry (SDK)**
 
-    The workshop is offered in both [Python](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?view=azure-python-preview&context=%2Fazure%2Fai-services%2Fagents%2Fcontext%2Fcontext){:target="_blank"} and [C#](https://learn.microsoft.com/en-us/dotnet/api/overview/azure/ai.projects-readme?view=azure-dotnet-preview&viewFallbackFrom=azure-python-preview){:target="_blank"} using the Azure AI Foundry SDK. The SDK supports key features of the Azure AI Agents service, including [Code Interpreter](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/code-interpreter?view=azure-python-preview&tabs=python&pivots=overview){:target="_blank"} and [Function Calling](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/function-calling?view=azure-python-preview&tabs=python&pivots=overview){:target="_blank"}.
+    このワークショップは、Azure AI Foundry SDK を使用して [Python](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?view=azure-python-preview&context=%2Fazure%2Fai-services%2Fagents%2Fcontext%2Fcontext){:target="_blank"} と [C#](https://learn.microsoft.com/en-us/dotnet/api/overview/azure/ai.projects-readme?view=azure-dotnet-preview&viewFallbackFrom=azure-python-preview){:target="_blank"} の両方で提供されます。SDK は、[コードインタープリター](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/code-interpreter?view=azure-python-preview&tabs=python&pivots=overview){:target="_blank"} や [関数呼び出し](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/function-calling?view=azure-python-preview&tabs=python&pivots=overview){:target="_blank"} など、Azure AI Agents サービスの主要な機能をサポートします。
 
-3. **Database**
+3.  **データベース**
 
-    The app is informed by the Contoso Sales Database, a [SQLite database](https://www.sqlite.org/){:target="_blank"} containing 40,000 rows of synthetic data. At startup, the agent app reads the sales database schema, product categories, product types, and reporting years, then incorporates this metadata into the Azure AI Agent Service’s instruction context.
+    アプリは、40,000 行の合成データを含む [SQLite データベース](https://www.sqlite.org/){:target="_blank"} である Contoso Sales Database から情報を得ます。起動時に、エージェントアプリは売上データベースのスキーマ、製品カテゴリ、製品タイプ、レポート年を読み取り、このメタデータを Azure AI Agent Service の指示コンテキストに組み込みます。
 
-## Extending the Workshop Solution
+## ワークショップソリューションの拡張
 
-The workshop solution is highly adaptable to various scenarios, such as customer support, by modifying the database and tailoring the Azure AI Agent Service instructions to suit specific use cases. It is intentionally designed to be interface-agnostic, allowing you to focus on the core functionality of the AI Agent Service and apply the foundational concepts to build your own conversational agent.
+ワークショップソリューションは、データベースを変更し、特定のユースケースに合わせて Azure AI Agent Service の指示を調整することで、カスタマーサポートなどのさまざまなシナリオに高度に適応できます。意図的にインターフェースに依存しないように設計されており、AI Agent Service のコア機能に集中し、基本的な概念を適用して独自の対話型エージェントを構築できます。
 
-## Best Practices Demonstrated in the App
+## アプリで示されるベストプラクティス
 
-The app also demonstrates some best practices for efficiency and user experience.
+このアプリは、効率性とユーザーエクスペリエンスに関するいくつかのベストプラクティスも示しています。
 
-- **Asynchronous APIs**:
-  In the workshop sample, both the Azure AI Agent Service and SQLite use asynchronous APIs, optimizing resource efficiency and scalability. This design choice becomes especially advantageous when deploying the application with asynchronous web frameworks like FastAPI, ASP.NET, Chainlit, or Streamlit.
+* **非同期 API**:
+    ワークショップのサンプルでは、Azure AI Agent Service と SQLite の両方で非同期 API を使用しており、リソース効率とスケーラビリティを最適化しています。この設計上の選択は、FastAPI、ASP.NET、Chainlit、Streamlit などの非同期 Web フレームワークを使用してアプリケーションをデプロイする場合に特に有利になります。
 
-- **Token Streaming**:
-  Token streaming is implemented to improve user experience by reducing perceived response times for the LLM-powered agent app.
+* **トークンストリーミング**:
+    トークンストリーミングは、LLM を搭載したエージェントアプリの体感的な応答時間を短縮することにより、ユーザーエクスペリエンスを向上させるために実装されています。
