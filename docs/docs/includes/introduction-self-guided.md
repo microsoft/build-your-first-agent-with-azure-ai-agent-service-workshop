@@ -93,11 +93,19 @@ We have provided a bash script to automate the deployment of the resources requi
 
 === "Automated deployment"
 
-    The script `deploy.sh` deploys to the `eastus2` region by default; edit the file to change the region or resource names. To run the script, open the VS Code terminal and run the following command:
+    By default, the deployment script uses the `eastus2` region. You can edit `deploy.sh` or `deploy.ps1` to change the region or resource names.
 
-    ```bash
-    cd infra && ./deploy.sh
-    ```
+    - To deploy using **Bash** (Linux/macOS or GitHub Codespaces), run the following command in the VS Code terminal:
+
+        ```bash
+        cd infra && ./deploy.sh
+        ```
+
+    - To deploy using **PowerShell** (Windows), run:
+
+        ```powershell
+        Set-Location infra; ./deploy.ps1
+        ```
 
     ### Workshop Configuration
 
