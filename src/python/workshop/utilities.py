@@ -38,8 +38,6 @@ class Utilities:
         attachment_part = attachment_name.split(":")[-1]
         file_name = Path(attachment_part).stem
         file_extension = Path(attachment_part).suffix
-        if not file_extension:
-            file_extension = ".png"
         file_name = f"{file_name}.{file_id}{file_extension}"
 
         folder_path = Path(self.shared_files_path) / "files"
@@ -52,15 +50,13 @@ class Utilities:
                 file.write(chunk)
 
         self.log_msg_green(f"File saved to {file_path}")
-        # Cleanup the remote file
-        await project_client.agents.delete_file(file_id)
 
     async def get_files(self, message: ThreadMessage, project_client: AIProjectClient) -> None:
         """Get the image files from the message and kickoff download."""
         if message.image_contents:
             for index, image in enumerate(message.image_contents, start=0):
                 attachment_name = (
-                    "unknown" if not message.file_path_annotations else message.file_path_annotations[index].text + ".png"
+                    "unknown" if not message.file_path_annotations else message.file_path_annotations[index].text
                 )
                 await self.get_file(project_client, image.image_file.file_id, attachment_name)
         elif message.attachments:

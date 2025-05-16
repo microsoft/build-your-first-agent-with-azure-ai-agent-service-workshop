@@ -144,6 +144,9 @@ async def initialize() -> tuple[Agent, AgentThread]:
 
 async def cleanup(agent: Agent, thread: AgentThread) -> None:
     """Cleanup the resources."""
+    existing_files = await project_client.agents.list_files()
+    for f in existing_files.data:
+        await project_client.agents.delete_file(f.id)
     await project_client.agents.delete_thread(thread.id)
     await project_client.agents.delete_agent(agent.id)
     await sales_data.close()
