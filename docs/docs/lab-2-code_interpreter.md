@@ -68,37 +68,36 @@ Review the **instructions/instructions_code_interpreter.txt** file. This file pr
 
 Try these questions:
 
-1. **Show sales by region as a pie chart**
+1. **Download the sales by region data**
 
-    Once the task is complete, the pie chart image will be saved in the **files** folder. Open the folder in VS Code and click on the image file to view it.
-
-    !!! info
-        This might feel like magic, so what’s happening behind the scenes to make it all work?
-
-        The LLM orchestrates the following steps:
-
-        1. The LLM generates a SQL query to answer the user's question. In this example, the query is:
-
-            ```
-            SELECT region, SUM(revenue) AS total_revenue FROM sales_data GROUP BY region;
-            ```
-
-        2. The LLM asks the agent app to call the **async_fetch_sales_data_using_sqlite_query** function. The SQL command is executed, and the resulting data is returned to the LLM.
-        3. Using the returned data, the LLM writes Python code to create a Pie Chart.
-        4. Finally, the Code Interpreter executes the Python code to generate the chart.
-
-2. **Download the sales by region data**
-
-    Once the task is complete, check the **files** folder to see the downloaded file.
+    Once the task is completed, check the **files** folder to see the downloaded file.
 
     !!! info
         By default, the instructions specify that data downloads in CSV format. You can request other formats, such as JSON or Excel, by including the desired format in your query (e.g., ‘Download as JSON’).
+
+    This might feel like magic, so what’s happening behind the scenes to make it all work?
+
+    The LLM orchestrates the following steps:
+
+    1. The LLM generates a SQL query to answer the user's question. In this example, the query is:
+
+        ```
+        SELECT region, SUM(revenue) AS total_revenue FROM sales_data GROUP BY region;
+        ```
+
+    2. The LLM asks the agent app to call the **async_fetch_sales_data_using_sqlite_query** function. The SQL command is executed, and the resulting data is returned to the LLM.
+    3. Using the returned data, the LLM writes Python code to print the data into a csv file.
+    4. Finally, the Code Interpreter executes the Python code to create the file.
 
 3. **Download as JSON**
 
     Once the task is complete, check the **files** folder to see the downloaded file.
 
-4. Continue asking questions about Contoso sales data to see the Code Interpreter in action.
+4. **Which regions have sales above or below the average? Show as a table.Which regions have sales above or below the average? Show as a table.**
+
+5. Continue asking questions about Contoso sales data to see the Code Interpreter in action. Here's a few examples:
+    - Simulate future sales by region using a Monte Carlo simulation to estimate confidence intervals? Show as a table.
+    - What would be the impact of a shock event (e.g., 20% sales drop in one region) on global sales distribution? Show as a table.
 
 ## Stop the Agent App
 
