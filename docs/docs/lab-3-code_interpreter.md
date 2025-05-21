@@ -70,7 +70,7 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
 
     1. Open the `Program.cs` file.
 
-    2. **Update** the creation of the lab to use the `Lab2` class.
+    2. **Update** the creation of the lab to use the `Lab3` class.
 
         ``` csharp
         await using Lab lab = new Lab3(projectClient, apiDeploymentName);
