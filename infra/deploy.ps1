@@ -18,14 +18,14 @@ az group create --name $RG_NAME --location $RG_LOCATION
 
 # Deploy the Azure resources and save output to JSON
 az deployment group create --resource-group $RG_NAME `
-  --template-file main.bicep `
-  --parameters aiHubName=$AI_HUB_NAME `
-      aiProjectName=$AI_PROJECT_NAME `
-      storageName=$STORAGE_NAME `
-      aiServicesName=$AI_SERVICES_NAME `
-      modelName=$MODEL_NAME `
-      modelCapacity=$MODEL_CAPACITY `
-      modelLocation=$RG_LOCATION | Out-File -FilePath output.json -Encoding utf8
+    --template-file main.bicep `
+    --parameters aiHubName=$AI_HUB_NAME `
+    aiProjectName=$AI_PROJECT_NAME `
+    storageName=$STORAGE_NAME `
+    aiServicesName=$AI_SERVICES_NAME `
+    modelName=$MODEL_NAME `
+    modelCapacity=$MODEL_CAPACITY `
+    modelLocation=$RG_LOCATION | Out-File -FilePath output.json -Encoding utf8
 
 # Parse the JSON file using native PowerShell cmdlets
 $jsonData = Get-Content output.json -Raw | ConvertFrom-Json
@@ -45,7 +45,7 @@ if ($discoveryUrl) {
     $hostName = $discoveryUrl -replace '^https://', '' -replace '/discovery$', ''
     
     # Generate the PROJECT_CONNECTION_STRING with quotes
-    $projectConnectionString = "`"$hostName;$subscriptionId;$resourceGroupName;$aiProjectName`""
+    $projectConnectionString = "$hostName;$subscriptionId;$resourceGroupName;$aiProjectName"
 
     $envFilePath = ".env"
 
@@ -64,7 +64,7 @@ if ($discoveryUrl) {
     # Write the updated content back to the .env file
     $newLines | Set-Content $envFilePath
 
-    CSHARP_PROJECT_PATH="../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
+    $CSHARP_PROJECT_PATH = "../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
 
     # Set the user secrets for the C# project
     dotnet user-secrets set "ConnectionStrings:AiAgentService" "$projectConnectionString" --project "$CSHARP_PROJECT_PATH"
@@ -72,13 +72,13 @@ if ($discoveryUrl) {
     dotnet user-secrets set "Azure:ModelName" "$MODEL_NAME" --project "$CSHARP_PROJECT_PATH"
 
     # Delete the output.json file
-    # Remove-Item -Path output.json -Force
+    Remove-Item -Path output.json -Force
 }
 else {
     Write-Host "Error: discovery_url not found."
 }
 
-Set Variables
+# Set Variables
 $subId = $(az account show --query id --output tsv)
 $objectId = $(az ad signed-in-user show --query id -o tsv)
 

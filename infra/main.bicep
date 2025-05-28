@@ -9,7 +9,7 @@ param aiHubName string = 'standard-hub'
 @description('Friendly name for your Azure AI resource')
 param aiHubFriendlyName string = 'Agents standard hub resource'
 
-@description('Description of your Azure AI resource dispayed in Azure AI Foundry')
+@description('Description of your Azure AI resource displayed in Azure AI Foundry')
 param aiHubDescription string = 'A standard hub resource required for the agent setup.'
 
 @description('Name for the project')
@@ -18,7 +18,7 @@ param aiProjectName string = 'standard-project'
 @description('Friendly name for your Azure AI resource')
 param aiProjectFriendlyName string = 'Agents standard project resource'
 
-@description('Description of your Azure AI resource dispayed in Azure AI Foundry')
+@description('Description of your Azure AI resource displayed in Azure AI Foundry')
 param aiProjectDescription string = 'A standard project resource required for the agent setup.'
 
 @description('Azure region used for the deployment of all resources.')
@@ -69,13 +69,13 @@ module aiDependencies 'modules-basic-keys/basic-dependent-resources-keys.bicep' 
     location: location
     tags: tags
 
-     // Model deployment parameters
-     modelName: modelName
-     modelFormat: modelFormat
-     modelVersion: modelVersion
-     modelSkuName: modelSkuName
-     modelCapacity: modelCapacity
-     modelLocation: modelLocation
+    // Model deployment parameters
+    modelName: modelName
+    modelFormat: modelFormat
+    modelVersion: modelVersion
+    modelSkuName: modelSkuName
+    modelCapacity: modelCapacity
+    modelLocation: modelLocation
   }
 }
 
@@ -120,7 +120,6 @@ module aiProject 'modules-basic-keys/basic-ai-project-keys.bicep' = {
 //     bingAccountName: 'ai-${aiServicesName}-bing-grounding'
 //   }
 // }
-
 
 output subscriptionId string = subscription().subscriptionId
 output resourceGroupName string = resourceGroup().name
