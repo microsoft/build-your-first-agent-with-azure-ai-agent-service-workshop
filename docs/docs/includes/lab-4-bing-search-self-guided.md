@@ -31,7 +31,7 @@ Follow these steps to create a Grounding with Bing Search Resource:
 1. Select **Review + create**.
 1. Select **Create**.
 1. Wait for deployment to complete, then click **Go to resource**.
-1. Select **Overview** from the side-bar menu.
+1. Select **Overview** from the sidebar menu.
 1. Select the **Go to Azure AI Foundry Portal** button.
 <!-- 1. Select **Sign in** and enter your Azure account credentials. -->
 
@@ -43,7 +43,7 @@ To create a Bing Search connection in the Azure AI Foundry portal, follow these 
 
 1. Verify that your project **Agent-Service-Workshop** is selected.
 1. From the sidebar menu, click the **Management Center** button. The button is pinned at the **bottom** of the sidebar.
-1. From the side-bar menu, select **Connected resources**.
+1. From the sidebar menu, select **Connected resources**.
 1. Click **+ New connection**.
 1. Scroll to the Knowledge section and select **Grounding with Bing Search**.
 1. Click the **Add connection** button to the right of your `groundingwithbingsearch` resource.
