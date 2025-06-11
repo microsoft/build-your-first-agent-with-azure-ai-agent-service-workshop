@@ -1,6 +1,6 @@
 ## Grounding with Bing Search
 
-This lab requires the Grounding with Bing Search service. Follow the lab instructions to create the resource and connect it to the given Azure AI project. , 
+This lab requires the *Grounding with Bing Search* service. Follow the lab instructions to create the resource and connect it to the given Azure AI project. , 
 
 ## Lab Exercise
 
@@ -28,6 +28,7 @@ Follow these steps to create a Grounding with Bing Search Resource:
 1. Select **Review + create**.
 1. Select **Create**.
 1. Wait for deployment to complete, then click **Go to resource**.
+1. Click on the resource you just created.
 1. Select **Overview** from the side-bar menu.
 1. Select the **Go to Azure AI Foundry Portal** button.
 <!-- 1. Select **Sign in** and enter your Azure account credentials. -->
@@ -38,13 +39,14 @@ Next, we will create a Bing Search connection in the Azure AI Foundry portal. Th
 
 To create a Bing Search connection in the Azure AI Foundry portal, follow these steps:
 
-1. Verify that your project **Agent-Service-Workshop** is selected.
+1. Verify that your hub - whose name starts with **aip-ai** - is selected.
 1. From the sidebar menu, click the **Management Center** button. The button is pinned at the **bottom** of the sidebar.
 1. From the side-bar menu, select **Connected resources**.
 1. Click **+ New connection**.
 1. Scroll to the Knowledge section and select **Grounding with Bing Search**.
 1. Click the **Add connection** button to the right of your `groundingwithbingsearch` resource.
 1. Click **Close**
+1. Verify that the new API Key connection is listed among the connected resources (you might need to *Refresh* to view changes).
 
 For more information, visit the [Grounding with Bing Search](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding){:target="_blank"} documentation.
 
@@ -172,7 +174,8 @@ The Azure AI Foundry includes a playground that lets you interact with the agent
 1. From your browser, navigate to the [Azure AI Foundry portal](https://ai.azure.com/){:target="_blank"}.
 2. Select **Playgrounds** from the left-hand navigation.
 3. Select **Try the Agents playground**.
-4. Paste the **Agent ID** you copied earlier into the **Agent id** field.
+4. Select the recommended **Azure OpenAI Service resource** from the dropdown menu - which is the one connected to your project. Click on **Let's go**.
+4. Verify that the **Agent ID** you copied earlier is the same you see into the **Agent id** field.
 
 ### Review the Agent's Instructions
 
@@ -182,4 +185,4 @@ You'll recognize the instructions from the `instructions_bing_grounding.txt` fil
 
 Use the playground to test different queries and observe how the agent responds. You can reuse the same queries from the terminal or try new ones. Keep in mind that the agent pulls information from the Tents Data Sheet and Bing Search, but unlike the local app version, it does not have access to the Contoso sales database.
 
-![Azure AI Foundry Playground](media/agents-playground.png)
+![Azure AI Foundry Playground](../media/agents-playground.png)

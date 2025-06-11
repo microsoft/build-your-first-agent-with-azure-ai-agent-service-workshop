@@ -12,7 +12,7 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
 
 === "Python"
 
-    With the Azure AI Agent Service and its Python SDK, you can define the function schema directly within the Python function’s docstring. This approach keeps the definition and implementation together, simplifying maintenance and enhancing readability.
+    With the Foundry Agent Service and its Python SDK, you can define the function schema directly within the Python function’s docstring. This approach keeps the definition and implementation together, simplifying maintenance and enhancing readability.
 
     For example, in the **sales_data.py** file, the **async_fetch_sales_data_using_sqlite_query** function uses a docstring to specify its signature, inputs, and outputs. The SDK parses this docstring to generate the callable function for the LLM:
 
@@ -30,7 +30,7 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
 
 === "C#"
 
-    With the Azure AI Agent Service and its .NET SDK, you define the function schema as part of the C# code when adding the function to the agent.
+    With the Foundry Agent Service and its .NET SDK, you define the function schema as part of the C# code when adding the function to the agent.
 
     For example, in the **Lab.cs** file, the `InitialiseTools` method defines the function schema for the `FetchSalesDataAsync` function:
 
@@ -54,7 +54,7 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
 
 ### Dynamic SQL Generation
 
-When the app starts, it incorporates the database schema and key data into the instructions for the Azure AI Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.
+When the app starts, it incorporates the database schema and key data into the instructions for the Foundry Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.
 
 ## Lab Exercise
 
@@ -73,7 +73,7 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         ```
 
         !!! warning
-            The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.
+            The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it. You might want to use the shortcut **CTRL-K + CTRL-U** to uncomment a selected code section quicker.  
 
     3. Review the Code in main.py.
 
@@ -239,9 +239,12 @@ Start asking questions about Contoso sales data. For example:
 
     Notice how the agent figures out which products fit under the "footwear" category and understands the intent behind the term "**breakout**".
 
-6. **Show sales by region as a pie chart**
+6. **What brands of tents do we sell?**
 
-    Our agent can't create charts ... yet. We'll fix that in the next lab.
+    !!! info
+        We haven't provided the agent with any data containing information about product brands. That's why the agent isn't able to properly answer this question.
+
+        In the previous responses you may have noticed that the transaction history from the underlying database did not include any product brands or descriptions, either. We'll fix this in the next lab!
 
 ## (Optional) Debug the App
 

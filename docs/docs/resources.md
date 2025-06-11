@@ -8,13 +8,13 @@ The workshop repository on GitHub contains everything needed for the workshop. T
 
 ## Microsoft Learn resources
 
-* Documentation: [Azure AI Agent Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"}
+* Documentation: [Foundry Agent Service](https://learn.microsoft.com/azure/ai-services/agents/){:target="_blank"}
 * Module: [Fundamentals of AI agents on Azure](https://learn.microsoft.com/training/modules/ai-agent-fundamentals/){:target="_blank"}
 * Documentation: [Tracing using Application Insights](https://learn.microsoft.com/azure/ai-services/agents/concepts/tracing){:target="_blank"}, [Evaluating your AI agents with Azure AI Evaluation SDK](https://learn.microsoft.com/azure/ai-foundry/how-to/develop/agent-evaluate-sdk){:target="_blank"}
 
 ## Contoso Sales Assistant sample
 
-This end-to-end demo web agent showcases the capabilities of the Azure AI Agent Service. It uses the Chainlit conversational UI framework to provide a web-based chat interface. The assistant is built to help users analyze sales data and answer questions related to it.
+This end-to-end demo web agent showcases the capabilities of the Foundry Agent Service. It uses the Chainlit conversational UI framework to provide a web-based chat interface. The assistant is built to help users analyze sales data and answer questions related to it.
 
 * [Contoso Sales Assistant App docs (Chainlit)](https://azure-samples.github.io/contoso-sales-azure-openai-assistants-api/){:target="_blank"}
 * [Contoso Sales Assistant App repo](https://github.com/Azure-Samples/contoso-sales-azure-openai-assistants-api){:target="_blank"}

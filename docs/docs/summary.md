@@ -1,14 +1,14 @@
 # Summary
 
-This workshop demonstrated how to leverage the Azure AI Agent Service to create a robust conversational agent capable of answering sales-related questions, performing data analysis, generating visualizations, and integrating external data sources for enhanced insights. Here are the key takeaways:
+This workshop demonstrated how to leverage the Foundry Agent Service to create a robust conversational agent capable of answering sales-related questions, performing data analysis, generating visualizations, and integrating external data sources for enhanced insights. Here are the key takeaways:
 
 ## 1. Function Calling and Dynamic SQL Queries
 
-- The agent uses the Azure AI Agent Service to dynamically generate and execute SQL queries against a read-only SQLite database, enabling it to respond to user questions with accurate data retrieval.
+- The agent uses the Foundry Agent Service to dynamically generate and execute SQL queries against a read-only SQLite database, enabling it to respond to user questions with accurate data retrieval.
 
 ## 2. Context Management
 
-- The agent efficiently manages conversation context using the Azure AI Agent Service, ensuring interactions remain relevant and coherent.
+- The agent efficiently manages conversation context using the Foundry Agent Service, ensuring interactions remain relevant and coherent.
 
 ## 3. Data Visualization
 
@@ -32,6 +32,6 @@ This workshop demonstrated how to leverage the Azure AI Agent Service to create 
 
 ## 8. Adaptability and Customization
 
-- The workshop emphasizes the flexibility of the Azure AI Agent Service, allowing you to adapt the agent for various use cases, such as customer support or competitive analysis, by modifying instructions and integrating additional tools.
+- The workshop emphasizes the flexibility of the Foundry Agent Service, allowing you to adapt the agent for various use cases, such as customer support or competitive analysis, by modifying instructions and integrating additional tools.
 
-This workshop equips you with the knowledge and tools to build and extend conversational agents tailored to your business needs, leveraging the full capabilities of the Azure AI Agent Service.
+This workshop equips you with the knowledge and tools to build and extend conversational agents tailored to your business needs, leveraging the full capabilities of the Foundry Agent Service.

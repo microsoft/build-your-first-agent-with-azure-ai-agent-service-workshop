@@ -28,5 +28,8 @@
 			"titleBar.inactiveBackground": "#83256199",
 			"titleBar.inactiveForeground": "#e7e7e799"
 		}
+	},
+	"extensions": {
+		"recommendations": ["ms-dotnettools.csharp"]
 	}
 }

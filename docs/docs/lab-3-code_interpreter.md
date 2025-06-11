@@ -1,6 +1,6 @@
 ## Introduction
 
-The Azure AI Agent Service Code Interpreter enables the LLM to safely execute Python code for tasks such as creating charts or performing complex data analyses based on user queries. It makes use of natural language processing (NLP), sales data from an SQLite database, and user prompts to automate code generation. The LLM-generated Python code executes within a secure sandbox environment, running on a restricted subset of Python to ensure safe and controlled execution.
+The Foundry Agent Service Code Interpreter enables the LLM to safely execute Python code for tasks such as creating charts or performing complex data analyses based on user queries. It makes use of natural language processing (NLP), sales data from an SQLite database, and user prompts to automate code generation. The LLM-generated Python code executes within a secure sandbox environment, running on a restricted subset of Python to ensure safe and controlled execution.
 
 ## Lab Exercise - Python
 
@@ -98,14 +98,14 @@ Try these questions:
 
 1. **Show sales by region as a pie chart**
 
-    Once the task is complete, the pie chart image will be saved in the **shared/files** subfolder. Note that this subfolder is created the first time this task is run, and is never checked into source control.
+    Once the task is complete, the file will be saved in the **shared/files** subfolder. Note that this subfolder is created the first time this task is run, and is never checked into source control.
 
-    Open the folder in VS Code and click on the image file to view it. (Tip: in Codespaces, you can Control-Click the link that the agent outputs in its response to view the file.)
+    Open the folder in VS Code and click on the file to view it. (Tip: in Codespaces, you can Control-Click the link that the agent outputs in its response to view the file.)
 
     !!! info
         This might feel like magic, so what’s happening behind the scenes to make it all work?
 
-        Azure AI Agent Service orchestrates the following steps:
+        Foundry Agent Service orchestrates the following steps:
 
         1. The LLM generates a SQL query to answer the user's question. In this example, the query is:
 
@@ -115,14 +115,7 @@ Try these questions:
         3. Using the returned data, the LLM writes Python code to create a Pie Chart.
         4. Finally, the Code Interpreter executes the Python code to generate the chart.
 
-2. **Download the sales by region data**
-
-    Once the task is complete, check the **shared/files** folder to see the downloaded file.
-
-    !!! info
-        By default, the instructions specify that data downloads in CSV format. You can request other formats, such as JSON or Excel, by including the desired format in your query (e.g., ‘Download as JSON’).
-
-3. **Download as JSON**
+2. **Download as JSON**
 
     Once the task is complete, check the **shared/files** folder to see the downloaded file.
 
@@ -130,7 +123,12 @@ Try these questions:
         The agent inferred from the conversation which file you wanted to create, even though you
         didn't explicitly specify it.
 
-4. Continue asking questions about Contoso sales data to see the Code Interpreter in action.
+3. Continue asking questions about Contoso sales data to see the Code Interpreter in action. Few examples:
+    - **What would be the impact of a shock event (e.g., 20% sales drop in one region) on global sales distribution? Show as a Grouped Bar Chart.**
+        - Follow up with **What if the shock event was 50%?**
+    - **Which regions have sales above or below the average? Show as a Bar Chart with Deviation from Average.**
+    - **Which regions have discounts above or below the average? Show as a Bar Chart with Deviation from Average.**
+    - **Simulate future sales by region using a Monte Carlo simulation to estimate confidence intervals. Show as a Line with Confidence Bands using vivid colors.**
 
 ## Debugging the Code Interpreter
 

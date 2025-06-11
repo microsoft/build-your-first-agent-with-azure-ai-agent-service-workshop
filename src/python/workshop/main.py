@@ -59,8 +59,8 @@ functions = AsyncFunctionTool(
 # INSTRUCTIONS_FILE = "instructions/function_calling.txt"
 # INSTRUCTIONS_FILE = "instructions/file_search.txt"
 # INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
-# INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
 # INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
+# INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
 
 
 async def add_agent_tools() -> None:
@@ -83,14 +83,14 @@ async def add_agent_tools() -> None:
     # code_interpreter = CodeInterpreterTool()
     # toolset.add(code_interpreter)
 
-    # Add multilingual support to the code interpreter
-    # font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
-    # code_interpreter.add_file(file_id=font_file_info.id)
-
     # Add the Bing grounding tool
     # bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
     # bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
     # toolset.add(bing_grounding)
+
+    # Add multilingual support to the code interpreter
+    # font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
+    # code_interpreter.add_file(file_id=font_file_info.id)
 
     return font_file_info
 
@@ -124,9 +124,12 @@ async def initialize() -> tuple[Agent, AgentThread]:
             instructions=instructions,
             toolset=toolset,
             temperature=TEMPERATURE,
-            headers={"x-ms-enable-preview": "true"},
+            # headers={"x-ms-enable-preview": "true"},
         )
         print(f"Created agent, ID: {agent.id}")
+
+        project_client.agents.enable_auto_function_calls(toolset=toolset)
+        print("Enabled auto function calls.")
 
         print("Creating thread...")
         thread = await project_client.agents.create_thread()
@@ -141,13 +144,16 @@ async def initialize() -> tuple[Agent, AgentThread]:
 
 async def cleanup(agent: Agent, thread: AgentThread) -> None:
     """Cleanup the resources."""
+    existing_files = await project_client.agents.list_files()
+    for f in existing_files.data:
+        await project_client.agents.delete_file(f.id)
     await project_client.agents.delete_thread(thread.id)
     await project_client.agents.delete_agent(agent.id)
     await sales_data.close()
 
 
 async def post_message(thread_id: str, content: str, agent: Agent, thread: AgentThread) -> None:
-    """Post a message to the Azure AI Agent Service."""
+    """Post a message to the Foundry Agent Service."""
     try:
         await project_client.agents.create_message(
             thread_id=thread_id,

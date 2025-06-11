@@ -4,7 +4,7 @@ The instructions on this page assume you are attending [Microsoft Build 2025](ht
 
 ## Introduction
 
-This workshop is designed to teach you about the Azure AI Agents Service and the associated [Python SDK](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?context=%2Fazure%2Fai-services%2Fagents%2Fcontext%2Fcontext&view=azure-python-preview){:target="_blank"}. It consists of multiple labs, each highlighting a specific feature of the Azure AI Agents Service. The labs are meant to be completed in order, as each one builds on the knowledge and work from the previous lab.
+This workshop is designed to teach you about the Azure AI Agents Service and the associated [SDK](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme?context=%2Fazure%2Fai-services%2Fagents%2Fcontext%2Fcontext){:target="_blank"}. It consists of multiple labs, each highlighting a specific feature of the Azure AI Agents Service. The labs are meant to be completed in order, as each one builds on the knowledge and work from the previous lab.
 
 ## Select Workshop Programming Language
 
@@ -40,7 +40,7 @@ You need to authenticate with Azure so the agent app can access the Azure AI Age
 
         2. Select **OK**, then **Done**.
 
-3. Then select the **Default** subscription from the command line.
+3. Then select the **Default** subscription from the command line, by clicking on **Enter**.
 
 4. Once you've logged in, run the following command to assign the **user** role to the resource group:
 
@@ -79,7 +79,31 @@ Follow these steps to open the workshop in Visual Studio Code:
 
 === "C#"
 
-    tbc.
+    1. From a terminal window, execute the following commands to clone the workshop repository:
+    
+        ```powershell
+        git clone https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop.git
+        ```
+
+    === "VS Code"
+
+        1. Open the workshop in Visual Studio Code. From the terminal window, run the following command:
+
+            ```powershell
+            code build-your-first-agent-with-azure-ai-agent-service-workshop\.vscode\csharp-workspace.code-workspace
+            ```
+
+        !!! note "When the project opens in VS Code, a notification will appear in the bottom right corner to install the C# extension. Click **Install** to install the C# extension, as this will provide the necessary features for C# development."
+
+    === "Visual Studio 2022"
+
+        1. Open the workshop in Visual Studio 2022. From the terminal window, run the following command:
+
+            ```powershell
+            start build-your-first-agent-with-azure-ai-agent-service-workshop\src\csharp\workshop\AgentWorkshop.sln
+            ```
+
+            !!! note "You may be asked what program to open the solution with. Select **Visual Studio 2022**."
 
 ## Project Connection String
 
@@ -89,11 +113,8 @@ Next, we log in to Azure AI Foundry to retrieve the project connection string, w
 2. Select **Sign in** and use the **Username** and **Password** found in the **top section** of the **Resources** tab in the lab environment. Click on the **Username** and **Password** fields to automatically fill in the login details.
     ![Azure credentials](../media/azure-credentials.png){:width="500"}
 3. Read the introduction to the Azure AI Foundry and click **Got it**.
-4. Ensure you are on the AI Foundry home page. Click the **AI Foundry** tab in the top left corner.
-
-    ![AI Foundry home page](../media/ai-foundry-home.png){:width="200"}
-
-5. Select the project name that starts with **aip-**.
+4. Navigate to [All Resources](https://ai.azure.com/AllResources){:target="_blank"} to view the list of AI resources that have been pre-provisioned for you.
+5. Select the resource name that starts with **aip-** of type **Project**.
 
     ![Select project](../media/ai-foundry-project.png){:width="500"}
 
@@ -142,6 +163,26 @@ Next, we log in to Azure AI Foundry to retrieve the project connection string, w
     ![Lab folder structure](../media/project-structure-self-guided-python.png)
 
 === "C#"
+
+    ## Configure the Workshop
+
+    1. Open a terminal and navigate to the **src/csharp/workshop/AgentWorkshop.Client** folder.
+
+        ```powershell
+        cd build-your-first-agent-with-azure-ai-agent-service-workshop\src\csharp\workshop\AgentWorkshop.Client
+        ```
+
+    2. Add the **Project connection string** you copied from Azure AI Foundry to the user secrets.
+
+        ```powershell
+        dotnet user-secrets set "ConnectionStrings:AiAgentService" "<your_project_connection_string>"
+        ```
+    
+    3. Add the **Model deployment name** to the user secrets.
+
+        ```powershell
+        dotnet user-secrets set "Azure:ModelName" "gpt-4o"
+        ```
 
     ## Project Structure
 

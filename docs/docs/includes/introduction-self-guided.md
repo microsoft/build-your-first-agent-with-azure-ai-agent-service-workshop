@@ -204,7 +204,7 @@ We have provided a bash script to automate the deployment of the resources requi
             !!! warning "Replace `<your_project_connection_string>` with the actual connection string"
 
             ```bash
-            dotnet user-secrets set "ProjectConnectionString" "<your_project_connection_string>" --project "$CSHARP_PROJECT_PATH"
+            dotnet user-secrets set "ConnectionStrings:AiAgentService" "<your_project_connection_string>" --project "$CSHARP_PROJECT_PATH"
             ```
 
         4. Run the following command to set the [ASP.NET Core safe secret](https://learn.microsoft.com/aspnet/core/security/app-secrets){:target="_blank"} for the model deployment name:

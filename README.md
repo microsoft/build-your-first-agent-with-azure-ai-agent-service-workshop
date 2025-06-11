@@ -8,7 +8,7 @@ Imagine you are a sales manager at Contoso, a multinational retail company that 
 
 ### What you will learn
 
-By the end of this workshop, you will learn to build an agent app using Azure AI Agent Service, explore its tools, and effectively use instructions to guide the LLM.
+By the end of this workshop, you will learn to build an agent app using Azure AI Foundry Agent Service, explore its tools, and effectively use instructions to guide the LLM.
 
 ## Workshop Guide
 

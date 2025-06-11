@@ -6,6 +6,7 @@ from azure.ai.projects.models import (
     AsyncFunctionTool,
     MessageDeltaChunk,
     MessageStatus,
+    RunStatus,
     RunStep,
     RunStepDeltaChunk,
     RunStepStatus,
@@ -40,10 +41,11 @@ class StreamEventHandler(AsyncAgentEventHandler[str]):
 
     async def on_thread_run(self, run: ThreadRun) -> None:
         """Handle thread run events"""
-        # print(f"ThreadRun status: {run.status}")
 
-        if run.status == "failed":
+        if run.status == RunStatus.FAILED:
             print(f"Run failed. Error: {run.last_error}")
+            print(f"Thread ID: {run.thread_id}")
+            print(f"Run ID: {run.id}")
 
     async def on_run_step(self, step: RunStep) -> None:
         pass

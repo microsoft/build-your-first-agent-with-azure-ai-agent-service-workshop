@@ -1,6 +1,6 @@
 ## Introduction
 
-Grounding a conversation with documents is highly effective, especially for retrieving product details that may not be available in an operational database. The Azure AI Agent Service includes a [File Search tool](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/file-search){:target="_blank"}, which enables agents to retrieve information directly from uploaded files, such as user-supplied documents or product data, enabling a [RAG-style](https://learn.microsoft.com/azure/ai-studio/concepts/retrieval-augmented-generation){:target="_blank"} search experience.
+Grounding a conversation with documents is highly effective, especially for retrieving product details that may not be available in an operational database. The Foundry Agent Service includes a [File Search tool](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/file-search){:target="_blank"}, which enables agents to retrieve information directly from uploaded files, such as user-supplied documents or product data, enabling a [RAG-style](https://learn.microsoft.com/azure/ai-studio/concepts/retrieval-augmented-generation){:target="_blank"} search experience.
 
 In this lab, you'll learn how to enable the document search and upload the Tents Data Sheet to a vector store for the agent. Once activated, the tool allows the agent to search the file and deliver relevant responses. Documents can be uploaded to the agent for all users or linked to a specific user thread, or linked to the Code Interpreter.
 
@@ -112,19 +112,17 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
 
 The following conversation uses data from both the Contoso sales database and the uploaded Tents Data Sheet, so the results will vary depending on the query.
 
-1. **What brands of hiking shoes do we sell?**
-
-    !!! info
-        We haven't provided the agent with any files containing information about hiking shoes.
-
-        In the first lab you may have noticed that the transaction history from the underlying database did not include any product brands or descriptions, either.
-
 1. **What brands of tents do we sell?**
 
     The agent responds with a list of distinct tent brands mentioned in the Tents Data Sheet.
 
     !!! info
-        The agent can now reference the provided data sheet to access details such as brand, description, product type, and category, and relate this data back to the Contoso sales database.
+        Observe how the agent's behavior changed with respect to the previous lab. The agent can now reference the provided data sheet to access details such as brand, description, product type, and category, and relate this data back to the Contoso sales database.
+
+1. **What brands of hiking shoes do we sell?**
+
+    !!! info
+        We haven't provided the agent with any files containing information about hiking shoes. Observe how the agent handles a question about information that it cannot retrieve from its vector store.
 
 1. **What product type and categories are these brands associated with?**
 
@@ -143,6 +141,10 @@ The following conversation uses data from both the Contoso sales database and th
     !!! info
         The agent interprets this as a request to find all sales of tents in the "CAMPING & HIKING' category, since it
         now has access to information that Alpine Gear is a brand of backpacking tent.
+
+1. **Show sales by region as a pie chart**
+
+    Our agent can't create charts ... yet. We'll fix that in the next lab.
 
 ## Stop the Agent App
 
