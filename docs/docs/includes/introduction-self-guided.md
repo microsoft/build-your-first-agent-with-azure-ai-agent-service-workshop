@@ -244,7 +244,7 @@ There are two workspaces in the workshop, one for Python and one for C#. The wor
     - The **fonts** folder: Contains the multilingual fonts used by Code Interpreter.
     - The **instructions** folder: Contains the instructions passed to the LLM.
 
-    ![Lab folder structure](../media/project-structure-self-guided-python.png)
+    ![Lab folder structure](media/project-structure-self-guided-python.png)
 
 === "C#"
 
@@ -273,4 +273,4 @@ There are two workspaces in the workshop, one for Python and one for C#. The wor
     - The **fonts** folder: Contains the multilingual fonts used by Code Interpreter.
     - The **instructions** folder: Contains the instructions passed to the LLM.
 
-    ![Lab folder structure](../media/project-structure-self-guided-csharp.png)
+    ![Lab folder structure](media/project-structure-self-guided-csharp.png)
