@@ -3,78 +3,66 @@
 echo "Deploying the Azure resources..."
 
 # Define resource group parameters
-RG_NAME="rg-agent-workshop"
 RG_LOCATION="eastus"
 MODEL_NAME="gpt-4o"
-AI_HUB_NAME="agent-wksp"
-AI_PROJECT_NAME="agent-workshop"
-AI_PROJECT_FRIENDLY_NAME="Agent-Service-Workshop"
-STORAGE_NAME="agentservicestorage"
-AI_SERVICES_NAME="agent-workshop"
+MODEL_VERSION="2024-11-20"
+AI_PROJECT_FRIENDLY_NAME="Agent Service Workshop"
 MODEL_CAPACITY=140
 
-# Create the resource group
-az group create --name "$RG_NAME" --location "$RG_LOCATION"
-
 # Deploy the Azure resources and save output to JSON
-az deployment group create \
-  --resource-group "$RG_NAME" \
+az deployment sub create \
+  --name "azure-ai-agent-service-lab" \
+  --location "$RG_LOCATION" \
   --template-file main.bicep \
-  --parameters aiHubName="$AI_HUB_NAME" \
-      aiProjectName="$AI_PROJECT_NAME" \
+  --parameters \
       aiProjectFriendlyName="$AI_PROJECT_FRIENDLY_NAME" \
-      storageName="$STORAGE_NAME" \
-      aiServicesName="$AI_SERVICES_NAME" \
       modelName="$MODEL_NAME" \
       modelCapacity="$MODEL_CAPACITY" \
-      modelLocation="$RG_LOCATION" > output.json
+      modelVersion="$MODEL_VERSION" \
+      location="$RG_LOCATION" > output.json
 
 # Parse the JSON file manually using grep and sed
-if [ -f output.json ]; then
-  AI_PROJECT_NAME=$(jq -r '.properties.outputs.aiProjectName.value' output.json)
-  RESOURCE_GROUP_NAME=$(jq -r '.properties.outputs.resourceGroupName.value' output.json)
-  SUBSCRIPTION_ID=$(jq -r '.properties.outputs.subscriptionId.value' output.json)
-
-  # Run the Azure CLI command to get discovery_url
-  DISCOVERY_URL=$(az ml workspace show -n "$AI_PROJECT_NAME" --resource-group "$RESOURCE_GROUP_NAME" --query discovery_url -o tsv)
-
-  if [ -n "$DISCOVERY_URL" ]; then
-    # Process the discovery_url to extract the HostName
-    HOST_NAME=$(echo "$DISCOVERY_URL" | sed -e 's|^https://||' -e 's|/discovery$||')
-
-    # Generate the PROJECT_CONNECTION_STRING
-    PROJECT_CONNECTION_STRING="\"$HOST_NAME;$SUBSCRIPTION_ID;$RESOURCE_GROUP_NAME;$AI_PROJECT_NAME\""
-
-    ENV_FILE_PATH="../src/python/workshop/.env"
-
-    # Delete the file if it exists
-    [ -f "$ENV_FILE_PATH" ] && rm "$ENV_FILE_PATH"
-
-    # Write to the .env file
-    {
-      echo "PROJECT_CONNECTION_STRING=$PROJECT_CONNECTION_STRING"
-      echo "BING_CONNECTION_NAME=\"groundingwithbingsearch\""
-      echo "MODEL_DEPLOYMENT_NAME=\"$MODEL_NAME\""
-    } > "$ENV_FILE_PATH"
-
-    CSHARP_PROJECT_PATH="../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
-
-    # Set the user secrets for the C# project
-    dotnet user-secrets set "ConnectionStrings:AiAgentService" "$PROJECT_CONNECTION_STRING" --project "$CSHARP_PROJECT_PATH"
-    dotnet user-secrets set "Azure:ModelName" "$MODEL_NAME" --project "$CSHARP_PROJECT_PATH"
-
-    # Delete the output.json file
-    rm -f output.json
-  else
-    echo "Error: discovery_url not found."
-  fi
-else
+if [ ! -f output.json ]; then
   echo "Error: output.json not found."
+  exit -1
 fi
 
-# Set Variables
-subId=$(az account show --query id --output tsv)
-objectId=$(az ad signed-in-user show --query id -o tsv)
+PROJECTS_ENDPOINT=$(jq -r '.properties.outputs.projectsEndpoint.value' output.json)
+RESOURCE_GROUP_NAME=$(jq -r '.properties.outputs.resourceGroupName.value' output.json)
+SUBSCRIPTION_ID=$(jq -r '.properties.outputs.subscriptionId.value' output.json)
+AI_SERVICE_NAME=$(jq -r '.properties.outputs.aiAccountName.value' output.json)
+AI_PROJECT_NAME=$(jq -r '.properties.outputs.aiProjectName.value' output.json)
+BING_RESOURCE_NAME="groundingwithbingsearch"
+
+BING_CONNECTION_ID="/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP_NAME/providers/Microsoft.CognitiveServices/accounts/$AI_SERVICE_NAME/projects/$AI_PROJECT_NAME/connections/$BING_RESOURCE_NAME"
+
+if [ -z "$PROJECTS_ENDPOINT" ]; then
+  echo "Error: projectsEndpoint not found. Possible deployment failure."
+  exit -1
+fi
+
+ENV_FILE_PATH="../src/python/workshop/.env"
+
+# Delete the file if it exists
+[ -f "$ENV_FILE_PATH" ] && rm "$ENV_FILE_PATH"
+
+
+# Write to the .env file
+{
+  echo "PROJECT_CONNECTION_STRING=$PROJECTS_ENDPOINT"
+  echo "BING_CONNECTION_NAME=$BING_CONNECTION_ID"
+  echo "MODEL_DEPLOYMENT_NAME=\"$MODEL_NAME\""
+} > "$ENV_FILE_PATH"
+
+CSHARP_PROJECT_PATH="../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
+
+# Set the user secrets for the C# project
+dotnet user-secrets set "ConnectionStrings:AiAgentService" "$PROJECTS_ENDPOINT" --project "$CSHARP_PROJECT_PATH"
+dotnet user-secrets set "Azure:ModelName" "$MODEL_NAME" --project "$CSHARP_PROJECT_PATH"
+dotnet user-secrets set "Azure:BingConnectionId" "$BING_CONNECTION_ID" --project "$CSHARP_PROJECT_PATH"
+
+# Delete the output.json file
+rm -f output.json
 
 # Register the Bing Search resource provider
 echo "Attempting to register the Bing Search provider"
@@ -100,12 +88,15 @@ fi
 
 echo "Bing Search registration succeeded."
 
-#Adding data scientist role
-echo "Adding data scientist user role"
+echo "Adding Azure AI Developer user role"
+
+# Set Variables
+subId=$(az account show --query id --output tsv)
+objectId=$(az ad signed-in-user show --query id -o tsv)
 
 az role assignment create --role "f6c7c914-8db3-469d-8ca1-694a8f32e121" \
                           --assignee-object-id "$objectId" \
-                          --scope "subscriptions/$subId/resourceGroups/$RG_NAME" \
+                          --scope "subscriptions/$subId/resourceGroups/$RESOURCE_GROUP_NAME" \
                           --assignee-principal-type 'User'
 
 # Check if the command failed

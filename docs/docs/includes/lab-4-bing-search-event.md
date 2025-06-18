@@ -29,7 +29,7 @@ Follow these steps to create a Grounding with Bing Search Resource:
 1. Select **Create**.
 1. Wait for deployment to complete, then click **Go to resource**.
 1. Click on the resource you just created.
-1. Select **Overview** from the side-bar menu.
+1. Select **Overview** from the sidebar menu.
 1. Select the **Go to Azure AI Foundry Portal** button.
 <!-- 1. Select **Sign in** and enter your Azure account credentials. -->
 
@@ -41,7 +41,7 @@ To create a Bing Search connection in the Azure AI Foundry portal, follow these 
 
 1. Verify that your hub - whose name starts with **aip-ai** - is selected.
 1. From the sidebar menu, click the **Management Center** button. The button is pinned at the **bottom** of the sidebar.
-1. From the side-bar menu, select **Connected resources**.
+1. From the sidebar menu, select **Connected resources**.
 1. Click **+ New connection**.
 1. Scroll to the Knowledge section and select **Grounding with Bing Search**.
 1. Click the **Add connection** button to the right of your `groundingwithbingsearch` resource.
@@ -52,64 +52,77 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
 
 ### Enable Grounding with Bing Search in the Agent App
 
-1. Open the file `main.py`.
+=== "Python"
 
-1. **Uncomment** the following lines by removing the **"# "** characters
+    1. Open the file `main.py`.
 
-    ```python
-    # INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
+    1. **Uncomment** the following lines by removing the **"# "** characters
 
-    # bing_connection = project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-    # bing_grounding = BingGroundingTool(bing_connection)
-    # toolset.add(bing_grounding)
-    ```
+        ```python
+        # INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
 
-    !!! warning
-        The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.
+        # bing_connection = project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+        # bing_grounding = BingGroundingTool(bing_connection)
+        # toolset.add(bing_grounding)
+        ```
 
-1. Review the code in the `main.py` file.
+        !!! warning
+            The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.
 
-    After uncommenting, your code should look like this:
+    1. Review the code in the `main.py` file.
 
-    ```python
-    INSTRUCTIONS_FILE = "instructions/function_calling.txt"
-    INSTRUCTIONS_FILE = "instructions/file_search.txt"
-    INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
-    INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
-    # INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
+        After uncommenting, your code should look like this:
+
+        ```python
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt"
+        INSTRUCTIONS_FILE = "instructions/file_search.txt"
+        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
+        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
+        # INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
 
 
-    async def add_agent_tools() -> None:
-        """Add tools for the agent."""
-        font_file_info = None
+        async def add_agent_tools() -> None:
+            """Add tools for the agent."""
+            font_file_info = None
 
-        # Add the functions tool
-        toolset.add(functions)
+            # Add the functions tool
+            toolset.add(functions)
 
-        # Add the code interpreter tool
-        code_interpreter = CodeInterpreterTool()
-        toolset.add(code_interpreter)
+            # Add the code interpreter tool
+            code_interpreter = CodeInterpreterTool()
+            toolset.add(code_interpreter)
 
-        # Add the tents data sheet to a new vector data store
-        vector_store = await utilities.create_vector_store(
-            project_client,
-            files=[TENTS_DATA_SHEET_FILE],
-            vector_store_name="Contoso Product Information Vector Store",
-        )
-        file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-        toolset.add(file_search_tool)
+            # Add the tents data sheet to a new vector data store
+            vector_store = await utilities.create_vector_store(
+                project_client,
+                files=[TENTS_DATA_SHEET_FILE],
+                vector_store_name="Contoso Product Information Vector Store",
+            )
+            file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
+            toolset.add(file_search_tool)
 
-        # Add multilingual support to the code interpreter
-        # font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
-        # code_interpreter.add_file(file_id=font_file_info.id)
+            # Add multilingual support to the code interpreter
+            # font_file_info = await utilities.upload_file(project_client, utilities.shared_files_path / FONTS_ZIP)
+            # code_interpreter.add_file(file_id=font_file_info.id)
 
-        # Add the Bing grounding tool
-        bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
-        bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
-        toolset.add(bing_grounding)
+            # Add the Bing grounding tool
+            bing_connection = await project_client.connections.get(connection_name=BING_CONNECTION_NAME)
+            bing_grounding = BingGroundingTool(connection_id=bing_connection.id)
+            toolset.add(bing_grounding)
 
-        return font_file_info
-    ```
+            return font_file_info
+        ```
+
+=== "C#"
+
+    1. Open the `Program.cs` file.
+    2. **Update** the creation of the lab to use the `Lab4` class.
+
+        ```csharp
+        await using Lab lab = new Lab4(projectClient, apiDeploymentName, builder.Configuration);
+        ```
+
+    3. Review the `Lab4.cs` class to see how `InitialiseLabTools` is used to add the Bing Grounding tool to the agent.
 
 ### Review the Instructions
 

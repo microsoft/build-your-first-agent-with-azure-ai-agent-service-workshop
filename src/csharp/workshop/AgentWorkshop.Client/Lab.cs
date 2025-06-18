@@ -1,19 +1,17 @@
-using Azure;
-using Azure.AI.Projects;
+using Azure.AI.Agents.Persistent;
 using System.ClientModel;
 using System.Text.Json;
 
 namespace AgentWorkshop.Client;
 
-public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisposable
+public abstract class Lab(PersistentAgentsClient client, string modelName) : IAsyncDisposable
 {
     protected static readonly string SharedPath = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "..", "..", "..", "shared");
     protected readonly SalesData SalesData = new(SharedPath);
-    protected AIProjectClient Client { get; } = client;
+    protected PersistentAgentsClient Client { get; } = client;
     protected string ModelName { get; } = modelName;
-    protected AgentsClient? agentClient;
-    protected Agent? agent;
-    protected AgentThread? thread;
+    protected PersistentAgent? agent;
+    protected PersistentAgentThread? thread;
 
     protected abstract string InstructionsFileName { get; }
 
@@ -26,7 +24,7 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
 
     private bool disposeAgent = true;
 
-    public virtual IEnumerable<ToolDefinition> IntialiseLabTools() => [];
+    public virtual IEnumerable<ToolDefinition> InitialiseLabTools() => [];
 
     private IEnumerable<ToolDefinition> InitialiseTools() => [
         new FunctionToolDefinition(
@@ -44,22 +42,21 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
             },
             new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })
         ),
-        ..IntialiseLabTools()
+        ..InitialiseLabTools()
     ];
 
     public async Task RunAsync()
     {
         await Console.Out.WriteLineAsync("Creating agent...");
-        agentClient = Client.GetAgentsClient();
 
-        await InitialiseLabAsync(agentClient);
+        await InitialiseLabAsync();
 
         IEnumerable<ToolDefinition> tools = InitialiseTools();
         ToolResources? toolResources = InitialiseToolResources();
 
         string instructions = await CreateInstructionsAsync();
 
-        agent = await agentClient.CreateAgentAsync(
+        agent = await Client.Administration.CreateAgentAsync(
             model: ModelName,
             name: "Constoso Sales AI Agent",
             instructions: instructions,
@@ -71,7 +68,7 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
         await Console.Out.WriteLineAsync($"Agent created with ID: {agent.Id}");
 
         await Console.Out.WriteLineAsync("Creating thread...");
-        thread = await agentClient.CreateThreadAsync();
+        thread = await Client.Threads.CreateThreadAsync();
         await Console.Out.WriteLineAsync($"Thread created with ID: {thread.Id}");
 
         while (true)
@@ -94,18 +91,18 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
             {
                 Utils.LogGreen($"Saving thread with ID: {thread.Id} for agent ID: {agent.Id}. You can view this in AI Foundry at https://ai.azure.com.");
                 disposeAgent = false;
-                continue;
+                break;
             }
 
-            _ = await agentClient.CreateMessageAsync(
+            _ = await Client.Messages.CreateMessageAsync(
                 threadId: thread.Id,
                 role: MessageRole.User,
                 content: prompt
             );
 
-            AsyncCollectionResult<StreamingUpdate> streamingUpdate = agentClient.CreateRunStreamingAsync(
+            AsyncCollectionResult<StreamingUpdate> streamingUpdate = Client.Runs.CreateRunStreamingAsync(
                 threadId: thread.Id,
-                assistantId: agent.Id,
+                agentId: agent.Id,
                 maxCompletionTokens: maxCompletionTokens,
                 maxPromptTokens: maxPromptTokens,
                 temperature: temperature,
@@ -138,7 +135,7 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
         return instructions;
     }
 
-    protected virtual Task InitialiseLabAsync(AgentsClient agentClient) => Task.CompletedTask;
+    protected virtual Task InitialiseLabAsync() => Task.CompletedTask;
 
     private async Task HandleStreamingUpdateAsync(StreamingUpdate update)
     {
@@ -160,7 +157,7 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
 
             case StreamingUpdateReason.MessageCompleted:
                 MessageStatusUpdate messageStatusUpdate = (MessageStatusUpdate)update;
-                ThreadMessage tm = messageStatusUpdate.Value;
+                PersistentThreadMessage tm = messageStatusUpdate.Value;
 
                 var contentItems = tm.ContentItems;
 
@@ -195,14 +192,9 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
 
     private async Task DownloadImageFileContentAsync(MessageImageFileContent imageContent)
     {
-        if (agentClient is null)
-        {
-            return;
-        }
-
         Utils.LogGreen($"Getting file with ID: {imageContent.FileId}");
 
-        BinaryData fileContent = await agentClient.GetFileContentAsync(imageContent.FileId);
+        BinaryData fileContent = await Client.Files.GetFileContentAsync(imageContent.FileId);
         string directory = Path.Combine(SharedPath, "files");
         if (!Directory.Exists(directory))
         {
@@ -220,11 +212,6 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
 
     private async Task HandleActionAsync(RequiredActionUpdate requiredActionUpdate)
     {
-        if (agentClient is null)
-        {
-            return;
-        }
-
         AsyncCollectionResult<StreamingUpdate> toolOutputUpdate;
         if (requiredActionUpdate.FunctionName != nameof(SalesData.FetchSalesDataAsync))
         {
@@ -234,7 +221,7 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
         {
             FetchSalesDataArgs salesDataArgs = JsonSerializer.Deserialize<FetchSalesDataArgs>(requiredActionUpdate.FunctionArguments, options) ?? throw new InvalidOperationException("Failed to parse JSON object.");
             string result = await SalesData.FetchSalesDataAsync(salesDataArgs.Query);
-            toolOutputUpdate = agentClient.SubmitToolOutputsToStreamAsync(
+            toolOutputUpdate = Client.Runs.SubmitToolOutputsToStreamAsync(
                 requiredActionUpdate.Value,
                 new List<ToolOutput>([new ToolOutput(requiredActionUpdate.ToolCallId, result)])
             );
@@ -255,17 +242,14 @@ public abstract class Lab(AIProjectClient client, string modelName) : IAsyncDisp
             return;
         }
 
-        if (agentClient is not null)
+        if (thread is not null)
         {
-            if (thread is not null)
-            {
-                await agentClient.DeleteThreadAsync(thread.Id);
-            }
+            await Client.Threads.DeleteThreadAsync(thread.Id);
+        }
 
-            if (agent is not null)
-            {
-                await agentClient.DeleteAgentAsync(agent.Id);
-            }
+        if (agent is not null)
+        {
+            await Client.Administration.DeleteAgentAsync(agent.Id);
         }
     }
 

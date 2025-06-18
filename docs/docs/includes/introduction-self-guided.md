@@ -84,7 +84,7 @@ The following resources will be created in the `rg-contoso-agent-workshop` resou
 
 - An **Azure AI Foundry hub** named **agent-wksp**
 - An **Azure AI Foundry project** named **Agent Service Workshop**
-- A **Serverless (pay-as-you-go) GPT-4o model deployment** named **gpt-4o (Global 2024-08-06)**. See pricing details [here](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/){:target="_blank"}.
+- A **Serverless (pay-as-you-go) GPT-4o model deployment** named **gpt-4o (Global 2024-11-20)**. See pricing details [here](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/){:target="_blank"}.
 - A **Grounding with Bing Search** resource. See the [documentation](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/bing-grounding) and [pricing](https://www.microsoft.com/en-us/bing/apis/grounding-pricing){:target="_blank"} for details.
 
 !!! warning "You will need 140K TPM quota availability for the gpt-4o Global Standard SKU, not because the agent uses lots of tokens, but due to the frequency of calls made by the agent to the model. Review your quota availability in the [AI Foundry Management Center](https://ai.azure.com/managementCenter/quota){:target="_blank"}."
@@ -99,18 +99,20 @@ We have provided a bash script to automate the deployment of the resources requi
     cd infra && ./deploy.sh
     ```
 
+    !!! note "On Windows, run `deploy.ps1` instead of `deploy.sh`"
+
     ### Workshop Configuration
 
     === "Python"
 
-        The deploy script generates the **.env** file, which contains the project connection string, model deployment name, and Bing connection name.
+        The deploy script generates the **.env** file, which contains the project endpoint, model deployment name, and Bing connection name.
 
-        Your **.env** file should look similar to this but with your project connection string.
+        Your **.env** file should look similar to this but with your project endpoint.
 
         ```python
         MODEL_DEPLOYMENT_NAME="gpt-4o"
         BING_CONNECTION_NAME="groundingwithbingsearch"
-        PROJECT_CONNECTION_STRING="<your_project_connection_string>"
+        PROJECT_ENDPOINT="<your_project_endpoint>"
         ```
     === "C#"
 
@@ -164,7 +166,7 @@ We have provided a bash script to automate the deployment of the resources requi
 
     ### Workshop Configuration
 
-    You'll need the project connection string to connect the agent app to the Azure AI Foundry project. You can find this string in the Azure AI Foundry portal in the Overview page for your Project `agent-workshop` (look in the Project details section).
+    You'll need the project endpoint to connect the agent app to the Azure AI Foundry project. You can find this string in the Azure AI Foundry portal in the Overview page for your Project `agent-workshop` (look in the Project details section).
 
     === "Python"
 
@@ -174,7 +176,7 @@ We have provided a bash script to automate the deployment of the resources requi
         cp src/python/workshop/.env.sample src/python/workshop/.env
         ```
 
-        Then edit the file `src/python/workshop/.env` to provide the Project Connection String.
+        Then edit the file `src/python/workshop/.env` to provide the Project endpoint.
 
     === "C#"
 
@@ -184,18 +186,30 @@ We have provided a bash script to automate the deployment of the resources requi
             ```bash
             CSHARP_PROJECT_PATH="src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
             ```
-        3. Run the following command to set the [ASP.NET Core safe secret](https://learn.microsoft.com/aspnet/core/security/app-secrets){:target="_blank"} for the project connection string:
 
-            !!! warning "Replace `<your_project_connection_string>` with the actual connection string"
+        3. Run the following command to set the [ASP.NET Core safe secret](https://learn.microsoft.com/aspnet/core/security/app-secrets){:target="_blank"} for the project endpoint:
+
+            !!! warning "Replace `<your_project_endpoint>` with the actual connection string"
 
             ```bash
-            dotnet user-secrets set "ConnectionStrings:AiAgentService" "<your_project_connection_string>" --project "$CSHARP_PROJECT_PATH"
+            dotnet user-secrets set "ConnectionStrings:AiAgentService" "<your_project_endpoint>" --project "$CSHARP_PROJECT_PATH"
             ```
 
         4. Run the following command to set the [ASP.NET Core safe secret](https://learn.microsoft.com/aspnet/core/security/app-secrets){:target="_blank"} for the model deployment name:
 
             ```bash
             dotnet user-secrets set "Azure:ModelName" "gpt-4o" --project "$CSHARP_PROJECT_PATH"
+            ```
+
+        5. Add the **Bing connection ID** to the user secrets for grounding with Bing search.
+
+            ```powershell
+            $subId = $(az account show --query id --output tsv)
+            $rgName = "rg-agent-workshop"
+            $aiAccount = "<ai_account_name>" # Replace with the actual AI account name
+            $aiProject = "<ai_project_name>" # Replace with the actual AI project name
+            $bingConnectionId = "/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.CognitiveServices/accounts/$aiAccount/projects/$aiProject/connections/groundingwithbingsearch"
+            dotnet user-secrets set "Azure:BingConnectionId" "$bingConnectionId" --project "$CSHARP_PROJECT_PATH"
             ```
 
 ## Selecting the Language Workspace
@@ -206,12 +220,12 @@ There are two workspaces in the workshop, one for Python and one for C#. The wor
 
     1. In Visual Studio Code, go to **File** > **Open Workspace from File**.
     2. Replace the default path with the following:
-    
+
         ```text
         /workspaces/build-your-first-agent-with-azure-ai-agent-service-workshop/.vscode/
         ```
 
-	3. Choose the file named **python-workspace.code-workspace** to open the workspace.
+    3. Choose the file named **python-workspace.code-workspace** to open the workspace.
 
     ## Project Structure
 
@@ -235,12 +249,12 @@ There are two workspaces in the workshop, one for Python and one for C#. The wor
 
     1. In Visual Studio Code, go to **File** > **Open Workspace from File**.
     2. Replace the default path with the following:
-    
+
         ```text
         /workspaces/build-your-first-agent-with-azure-ai-agent-service-workshop/.vscode/
         ```
 
-	3. Choose the file named **csharp-workspace.code-workspace** to open the workspace.
+    3. Choose the file named **csharp-workspace.code-workspace** to open the workspace.
 
     ## Project Structure
 
