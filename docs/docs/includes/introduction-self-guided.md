@@ -204,11 +204,11 @@ We have provided a bash script to automate the deployment of the resources requi
         5. Add the **Bing connection ID** to the user secrets for grounding with Bing search.
 
             ```powershell
-            $subId = $(az account show --query id --output tsv)
-            $rgName = "rg-agent-workshop"
-            $aiAccount = "<ai_account_name>" # Replace with the actual AI account name
-            $aiProject = "<ai_project_name>" # Replace with the actual AI project name
-            $bingConnectionId = "/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.CognitiveServices/accounts/$aiAccount/projects/$aiProject/connections/groundingwithbingsearch"
+            subId=$(az account show --query id --output tsv)
+            rgName="rg-agent-workshop"
+            aiAccount="<ai_account_name>" # Replace with the actual AI account name
+            aiProject="<ai_project_name>" # Replace with the actual AI project name
+            bingConnectionId="/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.CognitiveServices/accounts/$aiAccount/projects/$aiProject/connections/groundingwithbingsearch"
             dotnet user-secrets set "Azure:BingConnectionId" "$bingConnectionId" --project "$CSHARP_PROJECT_PATH"
             ```
 
