@@ -117,7 +117,7 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
     2. **Update** the creation of the lab to use the `Lab4` class.
 
         ```csharp
-        await using Lab lab = new Lab4(projectClient, apiDeploymentName, builder.Configuration);
+        await using Lab lab = new Lab4(projectClient, apiDeploymentName, configuration);
         ```
 
     3. Review the `Lab4.cs` class to see how `InitialiseLabTools` is used to add the Bing Grounding tool to the agent.
