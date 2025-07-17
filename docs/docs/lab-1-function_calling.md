@@ -52,6 +52,34 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
     )
     ```
 
+=== "TypeScript"
+
+    With the Foundry Agent Service and its TypeScript SDK, you define the function schema as part of the code when adding the function to the agent.
+
+    For example, in the **main.ts** file, the function is defined and registered using `ToolUtility.createFunctionTool`:
+
+    ```typescript
+    this.functionTools = [
+            {
+                func: this.fetchSalesDataUsingQuery,
+                ...ToolUtility.createFunctionTool({
+                    name: "fetchSalesDataUsingQuery",
+                    description: "This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.",
+                    parameters: {
+                        type: "object",
+                        properties: {
+                            query: {
+                                type: "string",
+                                description: "The input should be a well-formed SQLite query to extract information based on the user's question. The query result will be returned as a JSON object."
+                            }
+                        },
+                        required: ["query"]
+                    }
+                })
+            }
+        ]
+    ```
+
 ### Dynamic SQL Generation
 
 When the app starts, it incorporates the database schema and key data into the instructions for the Foundry Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.
@@ -129,6 +157,60 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         await lab.RunAsync();
         ```
 
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters:
+
+        ```typescript
+        // INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        ```
+
+        and in the `addAgentTools` function:
+
+        ```typescript
+        // functionToolExecutor = new FunctionToolExecutor();
+        // tools.push(...functionToolExecutor.getFunctionDefinitions());
+        ```
+
+    3. Review the code in main.ts.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // Lab configuration - uncomment lines as you progress through labs
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        // INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+
+        And in the `addAgentTools` function:
+
+        ```typescript
+        async function addAgentTools(): Promise<void> {
+            // Add the functions tool
+            functionToolExecutor = new FunctionToolExecutor();
+            tools.push(...functionToolExecutor.getFunctionDefinitions());
+
+            // Add the tents data sheet to a new vector data store
+            // const vectorStore = await utilities.createVectorStore(
+            //     client,
+            //     [TENTS_DATA_SHEET_FILE],
+            //     "Contoso Product Information Vector Store"
+            // );
+            // const fileSearchTool: FileSearchToolDefinition = {
+            //     type: "file_search"
+            // };
+            // tools.push(fileSearchTool);
+
+            // ... rest of the commented code
+        }
+        ```
+
+
 ### Review the Instructions
 
  1. Open the **shared/instructions/function_calling.txt** file.
@@ -165,6 +247,13 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
             ```csharp
             // Replace the placeholder with the database schema string
             instructions = instructions.Replace("{database_schema_string}", databaseSchemaString);
+            ```
+
+        === "TypeScript"
+
+            ```typescript
+            // Replace the placeholder with the database schema string
+            instructions = instructions.replace("{database_schema_string}", databaseSchemaString);
             ```
 
 ## Run the Agent App
