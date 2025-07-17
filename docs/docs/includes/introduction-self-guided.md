@@ -13,7 +13,7 @@ This workshop is designed to teach you about the Azure AI Agents Service and the
 
 ## Select Workshop Programming Language
 
-The workshop is available in both Python and C#. Use the language selector tabs to choose your preferred language. Note, don't switch languages mid-workshop.
+The workshop is available in Python, C# and TypeScript. Use the language selector tabs to choose your preferred language. Note, don't switch languages mid-workshop.
 
 **Select the tab for your preferred language:**
 
@@ -21,6 +21,8 @@ The workshop is available in both Python and C#. Use the language selector tabs 
     The default language for the workshop is set to **Python**.
 === "C#"
     The default language for the workshop is set to **C#**.
+=== "TypeScript"
+    The default language for the workshop is set to **TypeScript**.
 
 ## Open the Workshop
 
@@ -123,6 +125,17 @@ We have provided a bash script to automate the deployment of the resources requi
         ```bash
         dotnet user-secrets list
         ```
+    === "TypeScript"
+
+        The deploy script generates the **.env** file, which contains the project endpoint, model deployment name, and Bing connection name. 
+        
+        You'll see this file when you open the TypeScript workspace in VS Code. Your **.env** file will look similar to this but with your project endpoint.
+
+        ```python
+        MODEL_DEPLOYMENT_NAME="gpt-4o"
+        AZURE_BING_CONNECTION_ID=""
+        PROJECT_ENDPOINT="<your_project_endpoint>"
+        ```
 
 === "Manual deployment"
 
@@ -187,6 +200,16 @@ We have provided a bash script to automate the deployment of the resources requi
             CSHARP_PROJECT_PATH="src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
             ```
 
+    === "TypeScript"
+
+        Create the workshop configuration file with the following command:
+
+        ```bash
+        cp src/typescript/workshop/.env.sample src/typescript/workshop/.env
+        ```
+
+        Then edit the file `src/typescript/workshop/.env` to provide the Project endpoint.
+
         3. Run the following command to set the [ASP.NET Core safe secret](https://learn.microsoft.com/aspnet/core/security/app-secrets){:target="_blank"} for the project endpoint:
 
             !!! warning "Replace `<your_project_endpoint>` with the actual connection string"
@@ -214,7 +237,7 @@ We have provided a bash script to automate the deployment of the resources requi
 
 ## Selecting the Language Workspace
 
-There are two workspaces in the workshop, one for Python and one for C#. The workspace contains the source code and all the files needed to complete the labs for each language. Choose the workspace that matches the language you want to work with.
+There are three workspaces in the workshop, one for Python, one for C# and one for TypeScript. The workspace contains the source code and all the files needed to complete the labs for each language. Choose the workspace that matches the language you want to work with.
 
 === "Python"
 
@@ -273,3 +296,32 @@ There are two workspaces in the workshop, one for Python and one for C#. The wor
     - The **instructions** folder: Contains the instructions passed to the LLM.
 
     ![Lab folder structure](../media/project-structure-self-guided-csharp.png)
+
+=== "TypeScript"
+
+    1. In Visual Studio Code, go to **File** > **Open Workspace from File**.
+    2. Replace the default path with the following:
+
+        ```text
+        /workspaces/build-your-first-agent-with-azure-ai-agent-service-workshop/.vscode/
+        ```
+
+    3. Choose the file named **typescript-workspace.code-workspace** to open the workspace.
+
+    ## Project Structure
+
+    Be sure to familiarize yourself with the key **folders** and **files** you’ll be working with throughout the workshop.
+
+    ### The workshop folder
+
+    - The **main.ts** file: The entry point for the app, containing its main logic for agent creation, configuration and thread management.
+    - The **salesData.ts** file: Handles the database connection and function logic to execute dynamic SQL queries against the SQLite database.
+    - The **streamEventHandler.ts** file: Manages real-time interactions with the agent, including message content handling, file attachments, and run status monitoring.
+
+    ### The shared folder
+
+    - The **files** folder: Contains the files created by the agent app.
+    - The **fonts** folder: Contains the multilingual fonts used by Code Interpreter.
+    - The **instructions** folder: Contains the instructions passed to the LLM.
+
+    ![Lab folder structure](../media/project-structure-self-guided-typescript.png)

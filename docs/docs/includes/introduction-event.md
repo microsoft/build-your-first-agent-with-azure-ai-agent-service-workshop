@@ -8,7 +8,7 @@ This workshop is designed to teach you about the Azure AI Agents Service and the
 
 ## Select Workshop Programming Language
 
-The workshop is available in both Python and C#. Please make sure to select the language that fits the lab room you are in, by using the language selector tabs. Note, don't switch languages mid-workshop.
+The workshop is available in Python, C# and TypeScript. Please make sure to select the language that fits the lab room you are in, by using the language selector tabs. Note, don't switch languages mid-workshop.
 
 **Select the language tab that matches your lab room:**
 
@@ -16,6 +16,8 @@ The workshop is available in both Python and C#. Please make sure to select the 
     The default language for the workshop is set to **Python**.
 === "C#"
     The default language for the workshop is set to **C#**.
+=== "TypeScript"
+    The default language for the workshop is set to **TypeScript**.
 
 ## Authenticate with Azure
 
