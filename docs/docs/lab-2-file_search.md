@@ -91,16 +91,96 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
 
       3. Review the `Lab3.cs` class to see how `InitialiseLabAsync` is used to add the PDF to a vector store and add the File Search tool to the agent, and `InitialiseToolResources` is used to add the File Search tool to the agent. These methods would be good places to add breakpoints to observe the process.
 
+
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters:
+
+        ```typescript
+        // INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        ```
+
+        and in the `addAgentTools` function:
+
+        ```typescript
+        // const vectorStore = await utilities.createVectorStore(
+        //     client,
+        //     [TENTS_DATA_SHEET_FILE],
+        //     "Contoso Product Information Vector Store"
+        // );
+        // const fileSearchTool: FileSearchToolDefinition = {
+        //     type: "file_search"
+        // };
+        // tools.push(fileSearchTool);
+        ```
+
+    3. Review the code in main.ts.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // Lab configuration - uncomment lines as you progress through labs
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+
+        And in the `addAgentTools` function:
+
+        ```typescript
+        async function addAgentTools(): Promise<void> {
+            // Add the functions tool
+            functionToolExecutor = new FunctionToolExecutor();
+            tools.push(...functionToolExecutor.getFunctionDefinitions());
+
+            // Add the tents data sheet to a new vector data store
+            const vectorStore = await utilities.createVectorStore(
+                client,
+                [TENTS_DATA_SHEET_FILE],
+                "Contoso Product Information Vector Store"
+            );
+            const fileSearchTool: FileSearchToolDefinition = {
+                type: "file_search"
+            };
+            tools.push(fileSearchTool);
+
+            // Add the code interpreter tool
+            // const codeInterpreterTool: CodeInterpreterToolDefinition = {
+            //     type: "code_interpreter"
+            // };
+            // tools.push(codeInterpreterTool);
+
+            // ... rest of the commented code
+        }
+        ```
+
 ## Review the Instructions
 
-1. Review the **create_vector_store** function in the **utilities.py** file. The create_vector_store function uploads the Tents Data Sheet and saves it in a vector store.
+=== "Python"
 
-    If you are comfortable using the VS Code debugger, then set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the **create_vector_store** function to observe how the vector store is created.
+    1. Review the **create_vector_store** function in the **utilities.py** file. The create_vector_store function uploads the Tents Data Sheet and saves it in a vector store.
+
+        If you are comfortable using the VS Code debugger, then set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the **create_vector_store** function to observe how the vector store is created.
+
+=== "C#"
+    1. Review the **CreateVectorStore**  method in the **Utils.cs** file. The CreateVectorStore method uploads the Tents Data Sheet and saves it in a vector store.
+
+        If you are comfortable using the VS Code debugger, then set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the **CreateVectorStore** method to observe how the vector store is created.
+
+=== "TypeScript"
+
+    1. Review the **createVectorStore** function in the **utilities.ts** file. The createVectorStore function uploads the Tents Data Sheet and saves it in a vector store.
+
+        If you are comfortable using the VS Code debugger, then set a [breakpoint](https://code.visualstudio.com/Docs/editor/debugging){:target="_blank"} in the **createVectorStore** function to observe how the vector store is created.
+
 
 2. Open the **shared/instructions/file_search.txt** file.
     
     Review the updates in the **Tools** section of the instructions file compared with the one we have used in the previous step.
-
 
 ## Run the Agent App
 
