@@ -77,6 +77,67 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
 
     3. Review the `Lab2.cs` class to see how the Code Interpreter is added to the Tools list.
 
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. Define a new instructions file for our agent and add the code interpreter in the agent's toolset. **Uncomment** the following lines by removing the **"// "** characters.
+
+        ```typescript
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        ```
+        and in the `addAgentTools` function:
+
+        ```typescript
+        // const codeInterpreterTool: CodeInterpreterToolDefinition = {
+        //    type: "code_interpreter"
+        // };
+        // tools.push(codeInterpreterTool);
+        ```
+
+    3. Review the code in the `main.ts` file.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        const INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        ```
+
+        And in the `addAgentTools` function:
+
+        ``` typescript
+        async function addAgentTools(): Promise<void> {
+        // Add the functions tool
+        functionToolExecutor = new FunctionToolExecutor();
+        tools.push(...functionToolExecutor.getFunctionDefinitions());
+
+        // Add the tents data sheet to a new vector data store
+        const vectorStore = await utilities.createVectorStore(
+            client,
+            [TENTS_DATA_SHEET_FILE],
+            "Contoso Product Information Vector Store"
+        );
+        const fileSearchTool: FileSearchToolDefinition = {
+            type: "file_search"
+        };
+        tools.push(fileSearchTool);
+
+        // Add the code interpreter tool
+        const codeInterpreterTool: CodeInterpreterToolDefinition = {
+            type: "code_interpreter"
+        };
+        tools.push(codeInterpreterTool);
+
+        // Add the Bing grounding tool
+        // const bingGroundingTool: BingGroundingToolDefinition = {
+        //     ... rest of the commented code
+        
+        ```
+
 ## Review the Instructions
 
 1. Open the **shared/instructions/code_interpreter.txt** file. This file replaces the instructions used in the previous lab.
