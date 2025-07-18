@@ -100,6 +100,62 @@ Once the task is complete, the pie chart image will be saved in the **shared/fil
 
     3. Review the `Lab5.cs` class to see how the Code Interpreter is added to the Tools list.
 
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters:
+
+        ```typescript
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+
+        And in the main function, right after creating the agent, to upload the font file and update the Code Interpreter tool:
+
+        ```typescript
+            // const fontFileInfo = await utilities.uploadFile(client, FONTS_ZIP);
+            // const codeInterpreterToolMultilingual: UpdateCodeInterpreterToolResourceOptions = {
+            //     fileIds: [fontFileInfo.id]
+            // };
+            // const updateOptions: UpdateToolResourcesOptions = {
+            //     codeInterpreter: codeInterpreterToolMultilingual
+            // };
+            // await client.agents.updateAgent(agent.id, {
+            //     toolResources: updateOptions
+            // });
+            // console.log("Updated agent with multilingual support.");
+        ```
+
+    3. Review the code in the `main.ts` file.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // Lab configuration - uncomment lines as you progress through labs
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+        
+        And in the `main` function:
+
+        ```typescript
+        // Add multilingual support to the code interpreter
+        const fontFileInfo = await utilities.uploadFile(client, FONTS_ZIP);
+        const codeInterpreterToolMultilingual: UpdateCodeInterpreterToolResourceOptions = {
+            fileIds: [fontFileInfo.id]
+        };
+        const updateOptions: UpdateToolResourcesOptions = {
+            codeInterpreter: codeInterpreterToolMultilingual
+        };
+        await client.agents.updateAgent(agent.id, {
+            toolResources: updateOptions
+        });
+        console.log("Updated agent with multilingual support.");
+        ```
+
 ## Review the Instructions
 
 1. Open the **shared/instructions/code_interpreter_multilingual.txt** file. This file replaces the instructions used in the previous lab.
