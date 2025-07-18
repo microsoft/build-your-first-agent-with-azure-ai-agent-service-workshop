@@ -121,6 +121,68 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
         ```
 
     3. Review the `Lab4.cs` class to see how `InitialiseLabTools` is used to add the Bing Grounding tool to the agent.
+    
+
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters:
+
+        ```typescript
+        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        ```
+
+        and in the `addAgentTools` function:
+
+        ```typescript
+        // if (AZURE_BING_CONNECTION_ID) {
+        //     const bingGroundingTool: BingGroundingToolDefinition = {
+        //         type: "bing_grounding",
+        //         bingGrounding: {
+        //           searchConfigurations: [
+        //             { connectionId: AZURE_BING_CONNECTION_ID }
+        //           ]
+        //         }
+        //     };
+        //     tools.push(bingGroundingTool);
+        // } else {
+        //     console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        // }
+        ```
+
+    3. Review the code in main.ts.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // Lab configuration - uncomment lines as you progress through labs
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+
+        And in the `addAgentTools` function:
+
+        ```typescript
+        // Add the Bing grounding tool
+        if (AZURE_BING_CONNECTION_ID) {
+            const bingGroundingTool: BingGroundingToolDefinition = {
+                type: "bing_grounding",
+                bingGrounding: {
+                  searchConfigurations: [
+                    { connectionId: AZURE_BING_CONNECTION_ID }
+                  ]
+                }
+            };
+            tools.push(bingGroundingTool);
+        } else {
+            console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        }
+        ```
+
 
 ### Review the Instructions
 
