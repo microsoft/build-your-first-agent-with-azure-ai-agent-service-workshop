@@ -1,8 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import * as util from 'util';
-import { ThreadMessage, MessageContent, MessageImageFileContent, isOutputOfType } from '@azure/ai-agents';
 import { AIProjectClient } from "@azure/ai-projects";
 import { TerminalColors as tc } from './terminalColors.js';
 
@@ -181,123 +179,51 @@ async getFile(
 async downloadFileWithName(client: AIProjectClient, fileId: string, fileName: string, subfolder: string = 'files'): Promise<void> {
   try {
     this.logMsgGreen(`Downloading file with ID: ${fileId} as ${fileName}`);
-    
     const filesDir = path.join(this.sharedFilesPath, subfolder);
     if (!fs.existsSync(filesDir)) {
       fs.mkdirSync(filesDir, { recursive: true });
     }
-
     const filePath = path.join(filesDir, fileName);
-    
     const streamableMethod = client.agents.files.getContent(fileId);
-    
     const response = await streamableMethod.asNodeStream();
-    
     let fileContent: Buffer;
-    
     if (response.body) {
       const chunks: Buffer[] = [];
-      
       await new Promise<void>((resolve, reject) => {
         response.body!.on('data', (chunk: any) => {
           chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
         });
-        
-        response.body!.on('end', () => {
-          resolve();
-        });
-        
-        response.body!.on('error', (error: Error) => {
-          reject(error);
-        });
+        response.body!.on('end', resolve);
+        response.body!.on('error', reject);
       });
-      
       fileContent = Buffer.concat(chunks);
     } else {
-      console.log('No body stream found, trying alternative approach...');
-      
-      const directResponse = await streamableMethod;
-      
+      const directResponse = await streamableMethod as any;
       if (directResponse instanceof Uint8Array) {
         fileContent = Buffer.from(directResponse);
       } else if (Buffer.isBuffer(directResponse)) {
         fileContent = directResponse;
       } else if (typeof directResponse === 'string') {
-        console.log('Response is a string, checking if base64...');
-        if (directResponse.match(/^[A-Za-z0-9+/]*={0,2}$/)) {
-          fileContent = Buffer.from(directResponse, 'base64');
+        fileContent = Buffer.from(directResponse, 'latin1');
+      } else if (directResponse && typeof directResponse === 'object' && 'body' in directResponse) {
+        const body = (directResponse as any).body;
+        if (body instanceof Uint8Array) {
+          fileContent = Buffer.from(body);
+        } else if (Buffer.isBuffer(body)) {
+          fileContent = body;
+        } else if (typeof body === 'string') {
+          fileContent = Buffer.from(body, 'latin1');
         } else {
-          fileContent = Buffer.from(directResponse, 'latin1');
-        }
-      } else if (directResponse && typeof directResponse === 'object') {
-        const respAny = directResponse as any;
-        
-        if (respAny.body instanceof Uint8Array) {
-          fileContent = Buffer.from(respAny.body);
-        } else if (Buffer.isBuffer(respAny.body)) {
-          fileContent = respAny.body;
-        } else if (typeof respAny.body === 'string') {
-          console.log('Body is string, using latin1 encoding to preserve binary data');
-          fileContent = Buffer.from(respAny.body, 'latin1');
-        } else {
-          throw new Error(`Unexpected response body type: ${typeof respAny.body}`);
+          throw new Error(`Unexpected response body type: ${typeof body}`);
         }
       } else {
         throw new Error(`Unexpected response type: ${typeof directResponse}`);
       }
     }
-    
-    console.log(`File content size: ${fileContent.length} bytes`);
-    console.log(`First 16 bytes (hex): ${fileContent.slice(0, 16).toString('hex')}`);
-    console.log(`First 16 bytes (ASCII): ${fileContent.slice(0, 16).toString('ascii').replace(/[^\x20-\x7E]/g, '.')}`);
-    
-    const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-    if (fileContent.slice(0, 8).equals(pngSignature)) {
-      console.log('✓ Valid PNG signature detected');
-    } else {
-      console.log('⚠️  Warning: File does not have a valid PNG signature');
-      console.log(`Expected: ${pngSignature.toString('hex')}`);
-      console.log(`Got:      ${fileContent.slice(0, 8).toString('hex')}`);
-      
-      if (fileContent[0] === 0xFF && fileContent[1] === 0xD8) {
-        console.log('✓ Valid JPEG signature detected');
-      }
-    }
-    
     await fs.promises.writeFile(filePath, fileContent);
-    
     this.logMsgGreen(`File saved to: ${path.relative(process.cwd(), filePath)}`);
-    
   } catch (error) {
     console.error(`Error downloading file ${fileId}:`, error);
-    
-    console.log('Trying alternative download approach...');
-    
-    try {
-      const response = await client.agents.files.getContent(fileId);
-      
-      if (typeof response === 'function') {
-        const result = await (response as () => Promise<any>)();
-        
-        if (result && result.body) {
-          const filePath = path.join(this.sharedFilesPath, subfolder, fileName);
-          
-          if (typeof result.body === 'string') {
-            await fs.promises.writeFile(filePath, result.body, 'latin1');
-          } else if (result.body instanceof Uint8Array) {
-            await fs.promises.writeFile(filePath, Buffer.from(result.body));
-          } else if (Buffer.isBuffer(result.body)) {
-            await fs.promises.writeFile(filePath, result.body);
-          }
-          
-          this.logMsgGreen(`File saved to: ${path.relative(process.cwd(), filePath)}`);
-          return;
-        }
-      }
-    } catch (altError) {
-      console.error('Alternative approach also failed:', altError);
-    }
-    
     throw error;
   }
 }
