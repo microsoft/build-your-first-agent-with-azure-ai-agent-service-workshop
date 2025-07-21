@@ -56,6 +56,18 @@ ENV_FILE_PATH="../src/python/workshop/.env"
 
 CSHARP_PROJECT_PATH="../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
 
+TS_ENV_FILE_PATH="../src/typescript/workshop/.env"
+
+# Delete the file if it exists
+[ -f "$TS_ENV_FILE_PATH" ] && rm "$TS_ENV_FILE_PATH"
+
+# Create a new file and write to it
+{
+  echo "PROJECT_ENDPOINT=$PROJECTS_ENDPOINT"
+  echo "AZURE_BING_CONNECTION_ID=$BING_CONNECTION_ID"
+  echo "MODEL_DEPLOYMENT_NAME=\"$MODEL_NAME\""
+} > "$TS_ENV_FILE_PATH"
+
 # Set the user secrets for the C# project
 dotnet user-secrets set "ConnectionStrings:AiAgentService" "$PROJECTS_ENDPOINT" --project "$CSHARP_PROJECT_PATH"
 dotnet user-secrets set "Azure:ModelName" "$MODEL_NAME" --project "$CSHARP_PROJECT_PATH"
@@ -106,3 +118,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "User role assignment succeeded."
+

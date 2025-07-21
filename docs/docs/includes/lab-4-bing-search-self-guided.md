@@ -125,17 +125,16 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
 
         ```typescript
         // if (AZURE_BING_CONNECTION_ID) {
-        //     const bingGroundingTool: BingGroundingToolDefinition = {
+        //     tools.push({
         //         type: "bing_grounding",
         //         bingGrounding: {
-        //           searchConfigurations: [
+        //         searchConfigurations: [
         //             { connectionId: AZURE_BING_CONNECTION_ID }
-        //           ]
+        //         ]
         //         }
-        //     };
-        //     tools.push(bingGroundingTool);
+        //     } as BingGroundingToolDefinition);
         // } else {
-        //     console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        // console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
         // }
         ```
 
@@ -157,17 +156,16 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
         ```typescript
         // Add the Bing grounding tool
         if (AZURE_BING_CONNECTION_ID) {
-            const bingGroundingTool: BingGroundingToolDefinition = {
+            tools.push({
                 type: "bing_grounding",
                 bingGrounding: {
-                  searchConfigurations: [
+                searchConfigurations: [
                     { connectionId: AZURE_BING_CONNECTION_ID }
-                  ]
+                ]
                 }
-            };
-            tools.push(bingGroundingTool);
+            } as BingGroundingToolDefinition);
         } else {
-            console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
         }
         ```
 

@@ -105,10 +105,10 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
         and in the `addAgentTools` function:
 
         ```typescript
-        // const vectorStore = await utilities.createVectorStore(
-        //     client,
-        //     [TENTS_DATA_SHEET_FILE],
-        //     "Contoso Product Information Vector Store"
+        // await utilities.createVectorStore(
+        // client,
+        // [TENTS_DATA_SHEET_FILE],
+        // "Contoso Product Information Vector Store"
         // );
         // const fileSearchTool: FileSearchToolDefinition = {
         //     type: "file_search"
@@ -134,14 +134,13 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
         ```typescript
         async function addAgentTools(): Promise<void> {
             // Add the functions tool
-            functionToolExecutor = new FunctionToolExecutor();
             tools.push(...functionToolExecutor.getFunctionDefinitions());
 
-            // Add the tents data sheet to a new vector data store
-            const vectorStore = await utilities.createVectorStore(
-                client,
-                [TENTS_DATA_SHEET_FILE],
-                "Contoso Product Information Vector Store"
+            // Add the tents data sheet to a new vector data store (file search tool)
+            await utilities.createVectorStore(
+            client,
+            [TENTS_DATA_SHEET_FILE],
+            "Contoso Product Information Vector Store"
             );
             const fileSearchTool: FileSearchToolDefinition = {
                 type: "file_search"
@@ -149,10 +148,7 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
             tools.push(fileSearchTool);
 
             // Add the code interpreter tool
-            // const codeInterpreterTool: CodeInterpreterToolDefinition = {
-            //     type: "code_interpreter"
-            // };
-            // tools.push(codeInterpreterTool);
+            // tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
 
             // ... rest of the commented code
         }

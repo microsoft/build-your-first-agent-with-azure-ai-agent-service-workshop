@@ -170,7 +170,7 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         and in the `addAgentTools` function:
 
         ```typescript
-        // functionToolExecutor = new FunctionToolExecutor();
+        // Add the functions tool
         // tools.push(...functionToolExecutor.getFunctionDefinitions());
         ```
 
@@ -182,9 +182,8 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         // Lab configuration - uncomment lines as you progress through labs
         INSTRUCTIONS_FILE = "instructions/function_calling.txt";
         // INSTRUCTIONS_FILE = "instructions/file_search.txt";
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
-        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+
+        // ... rest of the commented code
         ```
 
         And in the `addAgentTools` function:
@@ -192,14 +191,13 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         ```typescript
         async function addAgentTools(): Promise<void> {
             // Add the functions tool
-            functionToolExecutor = new FunctionToolExecutor();
             tools.push(...functionToolExecutor.getFunctionDefinitions());
 
-            // Add the tents data sheet to a new vector data store
-            // const vectorStore = await utilities.createVectorStore(
-            //     client,
-            //     [TENTS_DATA_SHEET_FILE],
-            //     "Contoso Product Information Vector Store"
+            // Add the tents data sheet to a new vector data store (file search tool)
+            // await utilities.createVectorStore(
+            // client,
+            // [TENTS_DATA_SHEET_FILE],
+            // "Contoso Product Information Vector Store"
             // );
             // const fileSearchTool: FileSearchToolDefinition = {
             //     type: "file_search"

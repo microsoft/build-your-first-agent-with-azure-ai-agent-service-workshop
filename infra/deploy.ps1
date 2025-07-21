@@ -58,6 +58,21 @@ AZURE_BING_CONNECTION_ID=$bingConnectionId
 MODEL_DEPLOYMENT_NAME="$MODEL_NAME"
 "@ | Set-Content -Path $ENV_FILE_PATH
 
+# Set the TypeScript .env file
+$TS_ENV_FILE_PATH = "../src/typescript/workshop/.env"
+
+# Delete the file if it exists
+if (Test-Path $TS_ENV_FILE_PATH) {
+    Remove-Item -Path $TS_ENV_FILE_PATH -Force
+}
+
+# Create a new file and write to it
+@"
+PROJECT_ENDPOINT=$projectsEndpoint
+AZURE_BING_CONNECTION_ID=$bingConnectionId
+MODEL_DEPLOYMENT_NAME="$MODEL_NAME"
+"@ | Set-Content -Path $TS_ENV_FILE_PATH
+
 # Set the C# project path
 $CSHARP_PROJECT_PATH = "../src/csharp/workshop/AgentWorkshop.Client/AgentWorkshop.Client.csproj"
 
