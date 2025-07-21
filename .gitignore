@@ -21,3 +21,8 @@ appsettings.*.json
 src/workshop/[.][v]env/
 
 /src/shared/files
+
+
+# TS stuff
+node_modules/
+.env

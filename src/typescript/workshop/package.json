@@ -1,0 +1,30 @@
+{
+  "name": "agents-workshop-typescript",
+  "version": "1.0.0",
+  "description": "A workshop for building agents with TypeScript",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" src/main.js",
+    "dev-test": "nodemon --exec \"node --loader ts-node/esm\" src/main-old.js"
+  },
+  "keywords": [],
+  "author": "juliamuiruri4",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/readline-sync": "^1.4.8",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@azure/ai-agents": "1.0.0-beta.6",
+    "@azure/ai-projects": "1.0.0-beta.6",
+    "@azure/identity": "^4.10.1",
+    "better-sqlite3": "^12.2.0",
+    "dotenv": "^17.0.0",
+    "readline-sync": "^1.4.10"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "Run Agent",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/main.ts",
+      "runtimeArgs": [
+        "--loader",
+        "ts-node/esm"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}
