@@ -109,7 +109,7 @@ Follow these steps to open the workshop in Visual Studio Code:
 
 === "TypeScript"
 
-    1. From a terminal window, execute the following commands to clone the workshop repository, navigate to the relevant folder, set up a virtual environment, activate it, and install the required packages:
+    1. From a terminal window, execute the following commands to clone the workshop repository, navigate to the relevant folder, and install the required packages:
 
         ```powershell
         git clone https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop.git `
@@ -120,7 +120,7 @@ Follow these steps to open the workshop in Visual Studio Code:
     2. Open in VS Code. From the terminal window, run the following command:
 
         ```powershell
-        code .vscode\typescript-workspace.code-workspace
+        code ../../../.vscode/typescript-workspace.code-workspace
         ```
 
 ## Azure AI Foundry Project Endpoint

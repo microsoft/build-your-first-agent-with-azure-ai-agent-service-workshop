@@ -1,15 +1,16 @@
 {
   "version": "0.2.0",
   "configurations": [
-    
     {
       "name": "Run Agent",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/src/main.ts",
+      "runtimeExecutable": "npx",
       "runtimeArgs": [
-        "--loader",
-        "ts-node/esm"
+        "--no-deprecation",
+        "tsx",
+        "--inspect",
+        "${workspaceFolder}/src/main.ts"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

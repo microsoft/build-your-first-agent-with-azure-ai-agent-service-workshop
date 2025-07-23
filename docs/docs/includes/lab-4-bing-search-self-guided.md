@@ -115,57 +115,54 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
 
     1. Open the `main.ts` file.
 
-    2. **Uncomment** the following lines by removing the **"// "** characters:
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `bing_grounding.txt` and add the Bing Grounding tool to the agent's toolset:
 
         ```typescript
-        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
         ```
 
-        and in the `addAgentTools` function:
+        *Note: You'll need to comment out the `code_interpreter.txt` line you added in the previous lab.*
+
+    3. In the `setupAgentTools()` function, **uncomment** the following lines to add the Bing Grounding tool:
 
         ```typescript
+        // ─── Uncomment the following lines to enable BING GROUNDING TOOL ───
         // if (AZURE_BING_CONNECTION_ID) {
-        //     tools.push({
-        //         type: "bing_grounding",
-        //         bingGrounding: {
-        //         searchConfigurations: [
-        //             { connectionId: AZURE_BING_CONNECTION_ID }
-        //         ]
-        //         }
-        //     } as BingGroundingToolDefinition);
+        //   tools.push({
+        //     type: "bing_grounding",
+        //     bingGrounding: {
+        //       searchConfigurations: [{ connectionId: AZURE_BING_CONNECTION_ID }]
+        //     }
+        //   } as BingGroundingToolDefinition);
         // } else {
-        // console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        //  console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set.${tc.RESET}`);
         // }
         ```
 
-    3. Review the code in main.ts.
+    4. Review the code in main.ts.
 
         After uncommenting, your code should look like this:
 
         ```typescript
-        // Lab configuration - uncomment lines as you progress through labs
-        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
-        INSTRUCTIONS_FILE = "instructions/file_search.txt";
-        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
-        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+
+        // ... rest of the commented code
         ```
 
-        And in the `addAgentTools` function:
+        And in the `setupAgentTools()` function:
 
         ```typescript
-        // Add the Bing grounding tool
+        // ─── Uncomment the following lines to enable BING GROUNDING TOOL ───
         if (AZURE_BING_CONNECTION_ID) {
             tools.push({
-                type: "bing_grounding",
-                bingGrounding: {
-                searchConfigurations: [
-                    { connectionId: AZURE_BING_CONNECTION_ID }
-                ]
-                }
+            type: "bing_grounding",
+            bingGrounding: {
+                searchConfigurations: [{ connectionId: AZURE_BING_CONNECTION_ID }]
+            }
             } as BingGroundingToolDefinition);
         } else {
-        console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set. Skipping Bing grounding tool.${tc.RESET}`);
+        console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set.${tc.RESET}`);
         }
         ```
 

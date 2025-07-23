@@ -96,62 +96,57 @@ A [vector store](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"
 
     1. Open the `main.ts` file.
 
-    2. **Uncomment** the following lines by removing the **"// "** characters:
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `file_search.txt` and to create a vector store for the Tents Data Sheet.
 
         ```typescript
-        // INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        // const INSTRUCTIONS_FILE = "instructions/file_search.txt";
         ```
 
-        and in the `addAgentTools` function:
+        *Note: You'll need to comment out the `function_calling.txt` line you used in the previous lab.*
+
+    3. In the `setupAgentTools()` function, 
+    
+        a) **Uncomment** the following lines to add the File Search tool:
 
         ```typescript
-        // await utilities.createVectorStore(
-        // client,
-        // [TENTS_DATA_SHEET_FILE],
-        // "Contoso Product Information Vector Store"
-        // );
-        // const fileSearchTool: FileSearchToolDefinition = {
-        //     type: "file_search"
-        // };
-        // tools.push(fileSearchTool);
+        // ─── Uncomment the following lines to enable FILE SEARCH TOOL ───
+        // const uploadedFile = await utilities.uploadFile(client, path.join(utilities.sharedFilesPath, TENTS_DATA_SHEET_FILE));
+        // const vectorStoreId = await utilities.createVectorStore(client, [uploadedFile.id], "Contoso Vector Store");
+        // const fileSearchTool = ToolUtility.createFileSearchTool([vectorStoreId]);
+        // tools.push(fileSearchTool.definition);
+        ```
+        b) In the `return` statement, **replace** `toolResources: functionExecutor` with `toolResources: fileSearchTool.resources`:
+
+        ```typescript
+        // ─── Replace this ───
+        return { tools, toolResources: functionExecutor, functionExecutor };
+        // ─── With this ───
+        return { tools, toolResources: fileSearchTool.resources, functionExecutor };
         ```
 
-    3. Review the code in main.ts.
+    4. Review the code in `main.ts`.
 
         After uncommenting, your code should look like this:
 
         ```typescript
-        // Lab configuration - uncomment lines as you progress through labs
-        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
-        INSTRUCTIONS_FILE = "instructions/file_search.txt";
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
-        // INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        // const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        const INSTRUCTIONS_FILE = "instructions/file_search.txt";
+
+        // ... rest of the commented code
         ```
 
-        And in the `addAgentTools` function:
+        And in the `setupAgentTools()` function:
 
         ```typescript
-        async function addAgentTools(): Promise<void> {
-            // Add the functions tool
-            tools.push(...functionToolExecutor.getFunctionDefinitions());
+        // ─── Uncomment the following lines to enable FILE SEARCH TOOL ───
+        const uploadedFile = await utilities.uploadFile(client, path.join(utilities.sharedFilesPath, TENTS_DATA_SHEET_FILE));
+        const vectorStoreId = await utilities.createVectorStore(client, [uploadedFile.id], "Contoso Vector Store");
+        const fileSearchTool = ToolUtility.createFileSearchTool([vectorStoreId]);
+        tools.push(fileSearchTool.definition);
 
-            // Add the tents data sheet to a new vector data store (file search tool)
-            await utilities.createVectorStore(
-            client,
-            [TENTS_DATA_SHEET_FILE],
-            "Contoso Product Information Vector Store"
-            );
-            const fileSearchTool: FileSearchToolDefinition = {
-                type: "file_search"
-            };
-            tools.push(fileSearchTool);
+        // ... rest of the commented code
 
-            // Add the code interpreter tool
-            // tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
-
-            // ... rest of the commented code
-        }
+        return { tools, toolResources: fileSearchTool.resources, functionExecutor };
         ```
 
 ## Review the Instructions

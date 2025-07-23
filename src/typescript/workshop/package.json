@@ -5,8 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec \"node --loader ts-node/esm\" src/main.js",
-    "dev-test": "nodemon --exec \"node --loader ts-node/esm\" src/main-old.js"
+    "dev": "tsx --no-deprecation watch src/main.ts"
   },
   "keywords": [],
   "author": "juliamuiruri4",
@@ -14,14 +13,14 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/readline-sync": "^1.4.8",
-    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@azure/ai-agents": "1.0.0-beta.6",
-    "@azure/ai-projects": "1.0.0-beta.6",
+    "@azure/ai-agents": "1.0.0",
+    "@azure/ai-projects": "1.0.0-beta.10",
     "@azure/identity": "^4.10.1",
     "better-sqlite3": "^12.2.0",
     "dotenv": "^17.0.0",

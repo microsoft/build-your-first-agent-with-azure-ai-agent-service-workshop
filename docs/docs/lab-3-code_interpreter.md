@@ -81,51 +81,38 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
 
     1. Open the `main.ts` file.
 
-    2. Define a new instructions file for our agent and add the code interpreter in the agent's toolset. **Uncomment** the following lines by removing the **"// "** characters.
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `code_interpreter.txt` and add the Code Interpreter tool to the agent's toolset:
 
         ```typescript
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
         ```
-        and in the `addAgentTools` function:
+
+        *Note: You'll need to comment out the `file_search.txt` line you added in the previous lab.*
+
+    3. In the `setupAgentTools()` function, **uncomment** the following line to add the Code Interpreter tool:
 
         ```typescript
+        // ─── Uncomment the following line to enable CODE INTERPRETER ───
         // tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
         ```
 
-    3. Review the code in the `main.ts` file.
+    4. Review the code in the `main.ts` file.
 
         After uncommenting, your code should look like this:
 
         ```typescript
-        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
-        const INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        // const INSTRUCTIONS_FILE = "instructions/file_search.txt";
         const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
-        // const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
-        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+
+        // ... rest of the commented code
         ```
 
-        And in the `addAgentTools` function:
+        And in the `setupAgentTools()` function:
 
         ``` typescript
-        async function addAgentTools(): Promise<void> {
-        // Add the functions tool
-        tools.push(...functionToolExecutor.getFunctionDefinitions());
-
-        // Add the tents data sheet to a new vector data store (file search tool)
-        await utilities.createVectorStore(
-        client,
-        [TENTS_DATA_SHEET_FILE],
-        "Contoso Product Information Vector Store"
-        );
-        const fileSearchTool: FileSearchToolDefinition = {
-            type: "file_search"
-        };
-        tools.push(fileSearchTool);
-
-        // Add the code interpreter tool
+        // ─── Uncomment the following line to enable CODE INTERPRETER ───
         tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
-
-        // Add the Bing grounding tool
+        
         //     ... rest of the commented code
         
         ```

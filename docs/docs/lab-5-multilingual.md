@@ -104,56 +104,41 @@ Once the task is complete, the pie chart image will be saved in the **shared/fil
 
     1. Open the `main.ts` file.
 
-    2. **Uncomment** the following lines by removing the **"// "** characters:
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `code_interpreter_multilingual.txt`:
 
         ```typescript
-        // INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
         ```
 
-        And in the main function, right after creating the agent, to upload the font file and update the Code Interpreter tool:
+        *Note: You'll need to comment out the `bing_grounding.txt` line you added in the previous lab.*
+
+    3. In the main function below the `setupAgentTools()` function, right after creating the agent, **uncomment** the following lines to upload the font file and update the Code Interpreter tool:
 
         ```typescript
-            // const fontFileInfo = await utilities.uploadFile(client, FONTS_ZIP);
-            // const codeInterpreterToolMultilingual: UpdateCodeInterpreterToolResourceOptions = {
-            //     fileIds: [fontFileInfo.id]
-            // };
-            // const updateOptions: UpdateToolResourcesOptions = {
-            //     codeInterpreter: codeInterpreterToolMultilingual
-            // };
-            // await client.agents.updateAgent(agent.id, {
-            //     toolResources: updateOptions
-            // });
-            // console.log("Updated agent with multilingual support.");
+        // ─── Uncomment the following lines to add MULTILINGUAL SUPPORT to the CODE INTERPRETER ───
+        // const fontFile = await utilities.uploadFile(client, FONTS_ZIP);
+        // await client.agents.updateAgent(agent.id, {
+        //   toolResources: { codeInterpreter: { fileIds: [fontFile.id] } }
+        // });
         ```
 
-    3. Review the code in the `main.ts` file.
+    4. Review the code in the `main.ts` file.
 
         After uncommenting, your code should look like this:
 
         ```typescript
-        // Lab configuration - uncomment lines as you progress through labs
-        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
-        INSTRUCTIONS_FILE = "instructions/file_search.txt";
-        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
-        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
-        INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
         ```
         
         And in the `main` function:
 
         ```typescript
-        // Add multilingual support to the code interpreter
-        const fontFileInfo = await utilities.uploadFile(client, FONTS_ZIP);
-        const codeInterpreterToolMultilingual: UpdateCodeInterpreterToolResourceOptions = {
-            fileIds: [fontFileInfo.id]
-        };
-        const updateOptions: UpdateToolResourcesOptions = {
-            codeInterpreter: codeInterpreterToolMultilingual
-        };
+        // ─── Uncomment the following lines to add MULTILINGUAL SUPPORT to the CODE INTERPRETER ───
+        const fontFile = await utilities.uploadFile(client, FONTS_ZIP);
         await client.agents.updateAgent(agent.id, {
-            toolResources: updateOptions
+            toolResources: { codeInterpreter: { fileIds: [fontFile.id] } }
         });
-        console.log("Updated agent with multilingual support.");
         ```
 
 ## Review the Instructions

@@ -60,24 +60,21 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
 
     ```typescript
     this.functionTools = [
-            {
-                func: this.fetchSalesDataUsingQuery,
-                ...ToolUtility.createFunctionTool({
-                    name: "fetchSalesDataUsingQuery",
-                    description: "This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.",
-                    parameters: {
-                        type: "object",
-                        properties: {
-                            query: {
-                                type: "string",
-                                description: "The input should be a well-formed SQLite query to extract information based on the user's question. The query result will be returned as a JSON object."
-                            }
-                        },
-                        required: ["query"]
-                    }
-                })
+        {
+        func: this.fetchSalesDataUsingQuery,
+        ...ToolUtility.createFunctionTool({
+            name: "fetchSalesDataUsingQuery",
+            description: "Answer user questions about Contoso sales data by executing SQLite queries against the database.",
+            parameters: {
+                type: "object",
+                properties: {
+                    query: { type: "string", description: "A well-formed SQLite query to extract information based on the user's question." }
+                },
+                required: ["query"]
             }
-        ]
+        })
+        }
+    ];
     ```
 
 ### Dynamic SQL Generation
@@ -161,50 +158,40 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
 
     1. Open the `main.ts` file.
 
-    2. **Uncomment** the following lines by removing the **"// "** characters:
+    2. The instructions file has already been set to `function_calling.txt` for this lab:
 
         ```typescript
-        // INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
         ```
 
-        and in the `addAgentTools` function:
+    3. In the `setupAgentTools()` function, **uncomment** the following line to add the function tool executor:
 
         ```typescript
-        // Add the functions tool
-        // tools.push(...functionToolExecutor.getFunctionDefinitions());
+        // ─── Uncomment the following line to enable FUNCTION CALLING ───
+        // tools.push(...functionExecutor.getFunctionDefinitions());
         ```
 
-    3. Review the code in main.ts.
+    4. Review the code in `main.ts`.
 
         After uncommenting, your code should look like this:
 
         ```typescript
-        // Lab configuration - uncomment lines as you progress through labs
-        INSTRUCTIONS_FILE = "instructions/function_calling.txt";
-        // INSTRUCTIONS_FILE = "instructions/file_search.txt";
+        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
 
         // ... rest of the commented code
         ```
 
-        And in the `addAgentTools` function:
+        And in the `setupAgentTools()` function:
 
         ```typescript
-        async function addAgentTools(): Promise<void> {
-            // Add the functions tool
-            tools.push(...functionToolExecutor.getFunctionDefinitions());
+        async function setupAgentTools(): Promise<{ tools: ToolDefinition[], toolResources: any, functionExecutor: FunctionToolExecutor }> {
+        const tools: ToolDefinition[] = [];
+        const functionExecutor = new FunctionToolExecutor();
 
-            // Add the tents data sheet to a new vector data store (file search tool)
-            // await utilities.createVectorStore(
-            // client,
-            // [TENTS_DATA_SHEET_FILE],
-            // "Contoso Product Information Vector Store"
-            // );
-            // const fileSearchTool: FileSearchToolDefinition = {
-            //     type: "file_search"
-            // };
-            // tools.push(fileSearchTool);
+        // ─── Uncomment the following line to enable FUNCTION CALLING ───
+        tools.push(...functionExecutor.getFunctionDefinitions());
 
-            // ... rest of the commented code
+        // ... rest of the commented code
         }
         ```
 
@@ -251,7 +238,8 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
 
             ```typescript
             // Replace the placeholder with the database schema string
-            instructions = instructions.replace("{database_schema_string}", databaseSchemaString);
+            const schema = await salesData.getDatabaseInfo();
+            instructions = instructions.replace("{database_schema_string}", schema);
             ```
 
 ## Run the Agent App
