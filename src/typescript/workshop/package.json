@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --no-deprecation watch src/main.ts"
+    "dev": "tsx --no-deprecation --watch src/main.ts"
   },
   "keywords": [],
   "author": "juliamuiruri4",

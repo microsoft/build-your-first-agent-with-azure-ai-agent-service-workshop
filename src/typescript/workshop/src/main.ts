@@ -27,6 +27,7 @@ import { TerminalColors as tc } from './terminalColors.js';
 dotenv.config();
 const AGENT_NAME = "Contoso Sales Agent";
 const PROJECT_ENDPOINT = process.env.PROJECT_ENDPOINT;
+const MODEL_DEPLOYMENT_NAME = process.env.MODEL_DEPLOYMENT_NAME;
 const AZURE_BING_CONNECTION_ID = process.env.AZURE_BING_CONNECTION_ID;
 
 if (!PROJECT_ENDPOINT) throw new Error("PROJECT_ENDPOINT is not defined");
@@ -80,10 +81,8 @@ async function setupAgentTools(): Promise<{ tools: ToolDefinition[], toolResourc
 
 // ─── Main Logic ─────────────────────────────────────────────
 async function main(): Promise<void> {
-  if (!INSTRUCTIONS_FILE) {
-    console.error("Set INSTRUCTIONS_FILE");
-    return;
-  }
+  if (!INSTRUCTIONS_FILE) throw new Error("INSTRUCTIONS_FILE is not set");
+  if (!MODEL_DEPLOYMENT_NAME) throw new Error("MODEL_DEPLOYMENT_NAME is not defined");
 
   let instructions = utilities.loadInstructions(INSTRUCTIONS_FILE);
   await salesData.connect();
@@ -93,7 +92,7 @@ async function main(): Promise<void> {
   const { tools, toolResources, functionExecutor } = await setupAgentTools();
 
   console.log("Creating agent...");
-  const agent = await client.agents.createAgent("gpt-4.1-mini", {
+  const agent = await client.agents.createAgent(MODEL_DEPLOYMENT_NAME, {
     name: AGENT_NAME,
     instructions,
     tools,
