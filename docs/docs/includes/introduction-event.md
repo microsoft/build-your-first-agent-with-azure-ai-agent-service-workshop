@@ -8,7 +8,7 @@ This workshop is designed to teach you about the Azure AI Agents Service and the
 
 ## Select Workshop Programming Language
 
-The workshop is available in both Python and C#. Please make sure to select the language that fits the lab room you are in, by using the language selector tabs. Note, don't switch languages mid-workshop.
+The workshop is available in Python, C# and TypeScript. Please make sure to select the language that fits the lab room you are in, by using the language selector tabs. Note, don't switch languages mid-workshop.
 
 **Select the language tab that matches your lab room:**
 
@@ -16,6 +16,8 @@ The workshop is available in both Python and C#. Please make sure to select the 
     The default language for the workshop is set to **Python**.
 === "C#"
     The default language for the workshop is set to **C#**.
+=== "TypeScript"
+    The default language for the workshop is set to **TypeScript**.
 
 ## Authenticate with Azure
 
@@ -104,6 +106,22 @@ Follow these steps to open the workshop in Visual Studio Code:
             ```
 
             !!! note "You may be asked what program to open the solution with. Select **Visual Studio 2022**."
+
+=== "TypeScript"
+
+    1. From a terminal window, execute the following commands to clone the workshop repository, navigate to the relevant folder, and install the required packages:
+
+        ```powershell
+        git clone https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop.git `
+        cd build-your-first-agent-with-azure-ai-agent-service-workshop/src/typescript/workshop `
+        npm install `
+        ```
+
+    2. Open in VS Code. From the terminal window, run the following command:
+
+        ```powershell
+        code ../../../.vscode/typescript-workspace.code-workspace
+        ```
 
 ## Azure AI Foundry Project Endpoint
 
@@ -212,6 +230,52 @@ Next, we log in to Azure AI Foundry to retrieve the project endpoint, which the 
     - The **instructions** folder: Contains the instructions passed to the LLM.
 
     ![Lab folder structure](../media/project-structure-self-guided-csharp.png)
+
+=== "TypeScript"
+
+    ## Configure the Workshop
+
+    1. Switch back to the workshop you opened in VS Code.
+
+    2. **Rename** the `.env.sample` file to `.env`.
+
+        - Select the **.env.sample** file in the VS Code **Explorer** panel.
+        - Right-click the file and select **Rename**, or press <kbd>F2</kbd>.
+        - Change the file name to `.env` and press <kbd>Enter</kbd>.
+
+    3. Paste the **Project endpoint** you copied from Azure AI Foundry into the `.env` file.
+
+        ```typescript
+        PROJECT_ENDPOINT="<your_project_endpoint>"
+        ```
+
+        Your `.env` file should look similar to this but with your project endpoint.
+
+        ```typescript
+        MODEL_DEPLOYMENT_NAME="gpt-4o"
+        AZURE_BING_CONNECTION_ID="/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.CognitiveServices/accounts/<ai_account>/projects/<project_name>/connections/groundingwithbingsearch"
+        PROJECT_ENDPOINT="<your_project_endpoint>"
+        ```
+
+    4. Save the `.env` file.
+
+    ## Project Structure
+
+    Be sure to familiarize yourself with the key **subfolders** and **files** you’ll be working with throughout the workshop.
+
+    ### The workshop folder
+
+    - The **main.ts** file: The entry point for the app, containing its main logic for agent creation, configuration and thread management.
+    - The **salesData.ts** file: Handles the database connection and function logic to execute dynamic SQL queries against the SQLite database.
+    - The **streamEventHandler.ts** file: Manages real-time interactions with the agent, including message content handling, file attachments, and run status monitoring.
+
+    ### The shared folder
+
+    - The **files** folder: Contains the files created by the agent app.
+    - The **fonts** folder: Contains the multilingual fonts used by Code Interpreter.
+    - The **instructions** folder: Contains the instructions passed to the LLM.
+
+    ![Lab folder structure](../media/project-structure-self-guided-typescript.png)
 
 ## Pro Tips
 

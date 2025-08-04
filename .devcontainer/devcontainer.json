@@ -12,8 +12,11 @@
         },
         "ghcr.io/devcontainers/features/dotnet:latest": {
             "version": "9.0"
+        },
+        "ghcr.io/devcontainers/features/node": {
+            "version": "lts"
         }
-    },
+        },
     "customizations": {
         "vscode": {
             "extensions": [
@@ -25,5 +28,6 @@
                 "ms-dotnettools.csdevkit"
             ]
         }
-    }
+    },
+    "postCreateCommand": "cd src/typescript/workshop && npm install"
 }

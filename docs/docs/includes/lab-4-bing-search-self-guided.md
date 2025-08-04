@@ -53,62 +53,118 @@ For more information, visit the [Grounding with Bing Search](https://learn.micro
 
 ### Enable Grounding with Bing Search in the Agent App
 
-1. Open the file `main.py`.
+=== "Python"
+    1. Open the file `main.py`.
 
-1. **Uncomment** the following lines by removing the **"# "** characters
+    1. **Uncomment** the following lines by removing the **"# "** characters
 
-    ```python
-    # INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
+        ```python
+        # INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
 
-    # bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)
-    # toolset.add(bing_grounding)
-    ```
+        # bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)
+        # toolset.add(bing_grounding)
+        ```
 
-    !!! warning
-        The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.
+        !!! warning
+            The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.
 
-1. Review the code in the `main.py` file.
+    1. Review the code in the `main.py` file.
 
-    After uncommenting, your code should look like this:
+        After uncommenting, your code should look like this:
 
-    ```python
-    INSTRUCTIONS_FILE = "instructions/function_calling.txt"
-    INSTRUCTIONS_FILE = "instructions/file_search.txt"
-    INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
-    INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
-    # INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
-    
+        ```python
+        INSTRUCTIONS_FILE = "instructions/function_calling.txt"
+        INSTRUCTIONS_FILE = "instructions/file_search.txt"
+        INSTRUCTIONS_FILE = "instructions/code_interpreter.txt"
+        INSTRUCTIONS_FILE = "instructions/bing_grounding.txt"
+        # INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt"
+        
 
-    async def add_agent_tools() -> None:
-        """Add tools for the agent."""
-        font_file_info = None
+        async def add_agent_tools() -> None:
+            """Add tools for the agent."""
+            font_file_info = None
 
-        # Add the functions tool
-        toolset.add(functions)
+            # Add the functions tool
+            toolset.add(functions)
 
-        # Add the tents data sheet to a new vector data store
-        vector_store = await utilities.create_vector_store(
-            agents_client,
-            files=[TENTS_DATA_SHEET_FILE],
-            vector_store_name="Contoso Product Information Vector Store",
-        )
-        file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
-        toolset.add(file_search_tool)
+            # Add the tents data sheet to a new vector data store
+            vector_store = await utilities.create_vector_store(
+                agents_client,
+                files=[TENTS_DATA_SHEET_FILE],
+                vector_store_name="Contoso Product Information Vector Store",
+            )
+            file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])
+            toolset.add(file_search_tool)
 
-        # Add the code interpreter tool
-        code_interpreter = CodeInterpreterTool()
-        toolset.add(code_interpreter)
+            # Add the code interpreter tool
+            code_interpreter = CodeInterpreterTool()
+            toolset.add(code_interpreter)
 
-        # Add the Bing grounding tool
-        bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)
-        toolset.add(bing_grounding)
+            # Add the Bing grounding tool
+            bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)
+            toolset.add(bing_grounding)
 
-        # Add multilingual support to the code interpreter
-        # font_file_info = await utilities.upload_file(agents_client, utilities.shared_files_path / FONTS_ZIP)
-        # code_interpreter.add_file(file_id=font_file_info.id)
+            # Add multilingual support to the code interpreter
+            # font_file_info = await utilities.upload_file(agents_client, utilities.shared_files_path / FONTS_ZIP)
+            # code_interpreter.add_file(file_id=font_file_info.id)
 
-        return font_file_info
-    ```
+            return font_file_info
+        ```
+
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `bing_grounding.txt` and add the Bing Grounding tool to the agent's toolset:
+
+        ```typescript
+        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        ```
+
+        *Note: You'll need to comment out the `code_interpreter.txt` line you added in the previous lab.*
+
+    3. In the `setupAgentTools()` function, **uncomment** the following lines to add the Bing Grounding tool:
+
+        ```typescript
+        // ─── Uncomment the following lines to enable BING GROUNDING TOOL ───
+        // if (AZURE_BING_CONNECTION_ID) {
+        //   tools.push({
+        //     type: "bing_grounding",
+        //     bingGrounding: {
+        //       searchConfigurations: [{ connectionId: AZURE_BING_CONNECTION_ID }]
+        //     }
+        //   } as BingGroundingToolDefinition);
+        // } else {
+        //  console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set.${tc.RESET}`);
+        // }
+        ```
+
+    4. Review the code in main.ts.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
+        const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+
+        // ... rest of the commented code
+        ```
+
+        And in the `setupAgentTools()` function:
+
+        ```typescript
+        // ─── Uncomment the following lines to enable BING GROUNDING TOOL ───
+        if (AZURE_BING_CONNECTION_ID) {
+            tools.push({
+            type: "bing_grounding",
+            bingGrounding: {
+                searchConfigurations: [{ connectionId: AZURE_BING_CONNECTION_ID }]
+            }
+            } as BingGroundingToolDefinition);
+        } else {
+        console.log(`${tc.YELLOW}Warning: AZURE_BING_CONNECTION_ID is not set.${tc.RESET}`);
+        }
+        ```
 
 ### Review the Instructions
 

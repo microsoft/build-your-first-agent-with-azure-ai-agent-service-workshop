@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Test Debug Launch",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--loader",
+				"ts-node/esm",
+				"src/main.ts"
+			],
+			"group": "test",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

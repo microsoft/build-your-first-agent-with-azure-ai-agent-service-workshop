@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"path": "../src/typescript/workshop"
+		},
+		{
+			"path": "../src/shared"
+		}
+	],
+	"settings": {
+		"peacock.remoteColor": "#6c10ad",
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#8914dc",
+			"activityBar.background": "#8914dc",
+			"activityBar.foreground": "#e7e7e7",
+			"activityBar.inactiveForeground": "#e7e7e799",
+			"activityBarBadge.background": "#cd7f13",
+			"activityBarBadge.foreground": "#15202b",
+			"commandCenter.border": "#e7e7e799",
+			"sash.hoverBorder": "#8914dc",
+			"statusBar.background": "#6c10ad",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBarItem.hoverBackground": "#8914dc",
+			"statusBarItem.remoteBackground": "#6c10ad",
+			"statusBarItem.remoteForeground": "#e7e7e7",
+			"titleBar.activeBackground": "#6c10ad",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#6c10ad99",
+			"titleBar.inactiveForeground": "#e7e7e799"
+		},
+		"peacock.color": "#6c10ad"
+	}
+}

@@ -100,6 +100,47 @@ Once the task is complete, the pie chart image will be saved in the **shared/fil
 
     3. Review the `Lab5.cs` class to see how the Code Interpreter is added to the Tools list.
 
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `code_interpreter_multilingual.txt`:
+
+        ```typescript
+        // const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+
+        *Note: You'll need to comment out the `bing_grounding.txt` line you added in the previous lab.*
+
+    3. In the main function below the `setupAgentTools()` function, right after creating the agent, **uncomment** the following lines to upload the font file and update the Code Interpreter tool:
+
+        ```typescript
+        // ─── Uncomment the following lines to add MULTILINGUAL SUPPORT to the CODE INTERPRETER ───
+        // const fontFile = await utilities.uploadFile(client, FONTS_ZIP);
+        // await client.agents.updateAgent(agent.id, {
+        //   toolResources: { codeInterpreter: { fileIds: [fontFile.id] } }
+        // });
+        ```
+
+    4. Review the code in the `main.ts` file.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        // const INSTRUCTIONS_FILE = "instructions/bing_grounding.txt";
+        const INSTRUCTIONS_FILE = "instructions/code_interpreter_multilingual.txt";
+        ```
+        
+        And in the `main` function:
+
+        ```typescript
+        // ─── Uncomment the following lines to add MULTILINGUAL SUPPORT to the CODE INTERPRETER ───
+        const fontFile = await utilities.uploadFile(client, FONTS_ZIP);
+        await client.agents.updateAgent(agent.id, {
+            toolResources: { codeInterpreter: { fileIds: [fontFile.id] } }
+        });
+        ```
+
 ## Review the Instructions
 
 1. Open the **shared/instructions/code_interpreter_multilingual.txt** file. This file replaces the instructions used in the previous lab.

@@ -52,6 +52,31 @@ If you’re familiar with [Azure OpenAI Function Calling](https://learn.microsof
     )
     ```
 
+=== "TypeScript"
+
+    With the Foundry Agent Service and its TypeScript SDK, you define the function schema as part of the code when adding the function to the agent.
+
+    For example, in the **main.ts** file, the function is defined and registered using `ToolUtility.createFunctionTool`:
+
+    ```typescript
+    this.functionTools = [
+        {
+        func: this.fetchSalesDataUsingQuery,
+        ...ToolUtility.createFunctionTool({
+            name: "fetchSalesDataUsingQuery",
+            description: "Answer user questions about Contoso sales data by executing SQLite queries against the database.",
+            parameters: {
+                type: "object",
+                properties: {
+                    query: { type: "string", description: "A well-formed SQLite query to extract information based on the user's question." }
+                },
+                required: ["query"]
+            }
+        })
+        }
+    ];
+    ```
+
 ### Dynamic SQL Generation
 
 When the app starts, it incorporates the database schema and key data into the instructions for the Foundry Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.
@@ -129,6 +154,48 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
         await lab.RunAsync();
         ```
 
+=== "TypeScript"
+
+    1. Open the `main.ts` file.
+
+    2. The instructions file has already been set to `function_calling.txt` for this lab:
+
+        ```typescript
+        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+        ```
+
+    3. In the `setupAgentTools()` function, **uncomment** the following line to add the function tool executor:
+
+        ```typescript
+        // ─── Uncomment the following line to enable FUNCTION CALLING ───
+        // tools.push(...functionExecutor.getFunctionDefinitions());
+        ```
+
+    4. Review the code in `main.ts`.
+
+        After uncommenting, your code should look like this:
+
+        ```typescript
+        const INSTRUCTIONS_FILE = "instructions/function_calling.txt";
+
+        // ... rest of the commented code
+        ```
+
+        And in the `setupAgentTools()` function:
+
+        ```typescript
+        async function setupAgentTools(): Promise<{ tools: ToolDefinition[], toolResources: any, functionExecutor: FunctionToolExecutor }> {
+        const tools: ToolDefinition[] = [];
+        const functionExecutor = new FunctionToolExecutor();
+
+        // ─── Uncomment the following line to enable FUNCTION CALLING ───
+        tools.push(...functionExecutor.getFunctionDefinitions());
+
+        // ... rest of the commented code
+        }
+        ```
+
+
 ### Review the Instructions
 
  1. Open the **shared/instructions/function_calling.txt** file.
@@ -165,6 +232,14 @@ In this lab, you will enable the function logic to execute dynamic SQL queries a
             ```csharp
             // Replace the placeholder with the database schema string
             instructions = instructions.Replace("{database_schema_string}", databaseSchemaString);
+            ```
+
+        === "TypeScript"
+
+            ```typescript
+            // Replace the placeholder with the database schema string
+            const schema = await salesData.getDatabaseInfo();
+            instructions = instructions.replace("{database_schema_string}", schema);
             ```
 
 ## Run the Agent App
