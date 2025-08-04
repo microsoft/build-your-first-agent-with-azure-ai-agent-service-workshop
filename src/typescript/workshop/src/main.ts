@@ -9,7 +9,6 @@ import {
 } from "@azure/ai-agents";
 import type {
   ToolDefinition,
-  CodeInterpreterToolDefinition,
   BingGroundingToolDefinition,
   RequiredToolCall,
   ToolOutput,
@@ -61,8 +60,9 @@ async function setupAgentTools(): Promise<{ tools: ToolDefinition[], toolResourc
   // const fileSearchTool = ToolUtility.createFileSearchTool([vectorStoreId]);
   // tools.push(fileSearchTool.definition);
 
-  // ─── Uncomment the following line to enable CODE INTERPRETER ───
-  // tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
+  // ─── Uncomment the following lines to enable CODE INTERPRETER ───
+  // const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
+  // tools.push(codeInterpreterTool.definition);
 
   // ─── Uncomment the following lines to enable BING GROUNDING TOOL ───
   // if (AZURE_BING_CONNECTION_ID) {

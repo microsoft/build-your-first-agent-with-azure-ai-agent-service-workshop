@@ -81,7 +81,7 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
 
     1. Open the `main.ts` file.
 
-    2. **Uncomment** the following lines by removing the **"// "** characters to set the instructions file to `code_interpreter.txt` and add the Code Interpreter tool to the agent's toolset:
+    2. **Uncomment** the following line by removing the **"// "** characters to set the instructions file to `code_interpreter.txt` and add the Code Interpreter tool to the agent's toolset:
 
         ```typescript
         // const INSTRUCTIONS_FILE = "instructions/code_interpreter.txt";
@@ -89,11 +89,12 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
 
         *Note: You'll need to comment out the `file_search.txt` line you added in the previous lab.*
 
-    3. In the `setupAgentTools()` function, **uncomment** the following line to add the Code Interpreter tool:
+    3. In the `setupAgentTools()` function, **uncomment** the following lines to add the Code Interpreter tool:
 
         ```typescript
         // ─── Uncomment the following line to enable CODE INTERPRETER ───
-        // tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
+        // const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
+        // tools.push(codeInterpreterTool.definition);
         ```
 
     4. Review the code in the `main.ts` file.
@@ -110,8 +111,9 @@ In this lab, you'll enable the Code Interpreter to execute Python code generated
         And in the `setupAgentTools()` function:
 
         ``` typescript
-        // ─── Uncomment the following line to enable CODE INTERPRETER ───
-        tools.push({ type: "code_interpreter" } as CodeInterpreterToolDefinition);
+        // ─── Uncomment the following lines to enable CODE INTERPRETER ───
+        const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
+        tools.push(codeInterpreterTool.definition);
         
         //     ... rest of the commented code
         
