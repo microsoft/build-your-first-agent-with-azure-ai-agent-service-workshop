@@ -1,0 +1,1106 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../media/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>Lab 4 bing search - Build your code-first agent with Azure AI Foundry</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Build your code-first agent with Azure AI Foundry" class="md-header__button md-logo" aria-label="Build your code-first agent with Azure AI Foundry" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Build your code-first agent with Azure AI Foundry
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 4 bing search
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Build your code-first agent with Azure AI Foundry
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Build your code-first agent with Azure AI Foundry" class="md-nav__button md-logo" aria-label="Build your code-first agent with Azure AI Foundry" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    Build your code-first agent with Azure AI Foundry
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Build your code-first agent with Azure AI Foundry
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-1-function_calling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 Function Calling Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-2-file_search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 Grounding with Documents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-3-code_interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 3 Intro to the Code Interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-5-multilingual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 4 Multilingual Visualizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finishing-up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 5 Finishing Up
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grounding-with-bing-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grounding with Bing Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-grounding-with-bing-search-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Grounding with Bing Search resource
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bing-search-connection-in-ai-foundry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Bing Search Connection in AI Foundry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-the-agent-in-azure-ai-foundry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explore the Agent in Azure AI Foundry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grounding-with-bing-search_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grounding with Bing Search
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-grounding-with-bing-search-resource_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Grounding with Bing Search resource
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-bing-search-connection-in-ai-foundry_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Bing Search Connection in AI Foundry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-the-agent-in-azure-ai-foundry_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explore the Agent in Azure AI Foundry
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Lab 4 bing search</h1>
+
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Grounding conversations with Bing is one of several tools provided by the Foundry Agent Service. Grounding with Bing allows your app to search for information relevant to the conversation and that cannot be provided in advance to the agent in a vector store or SQL db. For example, you might want to search for competitive product information.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">@Skillable Workshop</label><label for="__tabbed_1_2">Self-Guided Learners</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<h2 id="grounding-with-bing-search">Grounding with Bing Search<a class="headerlink" href="#grounding-with-bing-search" title="Permanent link">&para;</a></h2>
+<p>This lab requires the <em>Grounding with Bing Search</em> service. Follow the lab instructions to create the resource and connect it to the given Azure AI project. , </p>
+<h2 id="lab-exercise">Lab Exercise<a class="headerlink" href="#lab-exercise" title="Permanent link">&para;</a></h2>
+<p>In this lab, you'll enable Bing Grounding to provide competitive sales analysis of Contoso products and categories.</p>
+<h2 id="create-a-grounding-with-bing-search-resource">Create a Grounding with Bing Search resource<a class="headerlink" href="#create-a-grounding-with-bing-search-resource" title="Permanent link">&para;</a></h2>
+<p>Follow these steps to create a Grounding with Bing Search Resource:</p>
+<ol>
+<li>
+<p><a href="https://portal.azure.com/#view/Microsoft_Azure_Marketplace/GalleryItemDetailsBladeNopdl/id/Microsoft.BingGroundingSearch" target="_blank">Click to create a Grounding with Bing Search Resource</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You may need to sign in to Azure and/or clear the welcome screen to access the Azure portal. Always use the Azure credentials provided in the <strong>Resources</strong> tab of the lab instructions.</p>
+</div>
+</li>
+<li>
+<p>Select <strong>Create</strong>.</p>
+</li>
+<li>Select the <strong>rg-agent-workshop-</strong>**** resource group from the drop-down list.</li>
+<li>
+<p>Name the resource as follows:</p>
+<div class="highlight"><pre><span></span><code>groundingwithbingsearch
+</code></pre></div>
+</li>
+<li>
+<p>Select the <strong>Grounding with Bing Search</strong> pricing tier.</p>
+</li>
+<li>Confirm <strong>I confirm I have read and understood the notice above</strong>.</li>
+<li>Select <strong>Review + create</strong>.</li>
+<li>Select <strong>Create</strong>.</li>
+<li>Wait for deployment to complete, then click <strong>Go to resource</strong>.</li>
+<li>Click on the resource you just created.</li>
+<li>Select <strong>Overview</strong> from the sidebar menu.</li>
+<li>Select the <strong>Go to Azure AI Foundry Portal</strong> button.
+<!-- 1. Select **Sign in** and enter your Azure account credentials. --></li>
+</ol>
+<h2 id="create-a-bing-search-connection-in-ai-foundry">Create a Bing Search Connection in AI Foundry<a class="headerlink" href="#create-a-bing-search-connection-in-ai-foundry" title="Permanent link">&para;</a></h2>
+<p>Next, we will create a Bing Search connection in the Azure AI Foundry portal. This connection enables the agent app to access the Bing Search service using the agent <strong>Grounding-with-Bing-Search</strong>.</p>
+<p>To create a Bing Search connection in the Azure AI Foundry portal, follow these steps:</p>
+<ol>
+<li>Verify that your Foundry <strong>project-</strong>**** is selected.</li>
+<li>From the sidebar menu, click the <strong>Management Center</strong> button. The button is pinned at the <strong>bottom</strong> of the sidebar.</li>
+<li>From the sidebar menu, select <strong>Connected resources</strong>.</li>
+<li>Click <strong>+ New connection</strong>.</li>
+<li>Scroll to the Knowledge section and select <strong>Grounding with Bing Search</strong>.</li>
+<li>Click the <strong>Add connection</strong> button to the right of your <code>groundingwithbingsearch</code> resource.</li>
+<li>Click <strong>Close</strong></li>
+<li>Verify that the new API Key connection is listed among the connected resources (you might need to <em>Refresh</em> to view changes).</li>
+</ol>
+<p>For more information, visit the <a href="https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding" target="_blank">Grounding with Bing Search</a> documentation.</p>
+<h3 id="enable-grounding-with-bing-search-in-the-agent-app">Enable Grounding with Bing Search in the Agent App<a class="headerlink" href="#enable-grounding-with-bing-search-in-the-agent-app" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Open the file <code>main.py</code>.</p>
+</li>
+<li>
+<p><strong>Uncomment</strong> the following lines by removing the <strong>"# "</strong> characters</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)</span>
+<span class="c1"># toolset.add(bing_grounding)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.</p>
+</div>
+</li>
+<li>
+<p>Review the code in the <code>main.py</code> file.</p>
+<p>After uncommenting, your code should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/function_calling.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/file_search.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/code_interpreter.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/bing_grounding.txt&quot;</span>
+<span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/code_interpreter_multilingual.txt&quot;</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">add_agent_tools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add tools for the agent.&quot;&quot;&quot;</span>
+    <span class="n">font_file_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Add the functions tool</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+
+    <span class="c1"># Add the tents data sheet to a new vector data store</span>
+    <span class="n">vector_store</span> <span class="o">=</span> <span class="k">await</span> <span class="n">utilities</span><span class="o">.</span><span class="n">create_vector_store</span><span class="p">(</span>
+        <span class="n">agents_client</span><span class="p">,</span>
+        <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="n">TENTS_DATA_SHEET_FILE</span><span class="p">],</span>
+        <span class="n">vector_store_name</span><span class="o">=</span><span class="s2">&quot;Contoso Product Information Vector Store&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">file_search_tool</span> <span class="o">=</span> <span class="n">FileSearchTool</span><span class="p">(</span><span class="n">vector_store_ids</span><span class="o">=</span><span class="p">[</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file_search_tool</span><span class="p">)</span>
+
+    <span class="c1"># Add the code interpreter tool</span>
+    <span class="n">code_interpreter</span> <span class="o">=</span> <span class="n">CodeInterpreterTool</span><span class="p">()</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">code_interpreter</span><span class="p">)</span>
+
+    <span class="c1"># Add the Bing grounding tool</span>
+    <span class="n">bing_grounding</span> <span class="o">=</span> <span class="n">BingGroundingTool</span><span class="p">(</span><span class="n">connection_id</span><span class="o">=</span><span class="n">AZURE_BING_CONNECTION_ID</span><span class="p">)</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">bing_grounding</span><span class="p">)</span>
+    <span class="c1"># Add multilingual support to the code interpreter</span>
+    <span class="c1"># font_file_info = await utilities.upload_file(agents_client, utilities.shared_files_path / FONTS_ZIP)</span>
+    <span class="c1"># code_interpreter.add_file(file_id=font_file_info.id)</span>
+
+    <span class="k">return</span> <span class="n">font_file_info</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>Open the <code>Program.cs</code> file.</li>
+<li>
+<p><strong>Update</strong> the creation of the lab to use the <code>Lab4</code> class.</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">Lab</span><span class="w"> </span><span class="n">lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Lab4</span><span class="p">(</span><span class="n">projectClient</span><span class="p">,</span><span class="w"> </span><span class="n">apiDeploymentName</span><span class="p">,</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">);</span>
+</code></pre></div>
+</li>
+<li>
+<p>Review the <code>Lab4.cs</code> class to see how <code>InitialiseLabTools</code> is used to add the Bing Grounding tool to the agent.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<h3 id="review-the-instructions">Review the Instructions<a class="headerlink" href="#review-the-instructions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open the <strong>shared/instructions/bing_grounding.txt</strong> file. This file replaces the instructions used in the previous lab.</li>
+<li>
+<p>The <strong>Tools</strong> section now includes a “Competitive Insights for Products and Categories” capability, enabling the agent to:</p>
+<ul>
+<li>Use Bing Search to gather competitor product names, company names, and prices.</li>
+<li>Restrict responses to topics related to outdoor camping and sports gear.</li>
+<li>Ensure search results are concise and directly relevant to the query.</li>
+</ul>
+</li>
+</ol>
+<h3 id="run-the-agent-app">Run the Agent App<a class="headerlink" href="#run-the-agent-app" title="Permanent link">&para;</a></h3>
+<p>First, launch the app from the terminal as before:</p>
+<ol>
+<li>Press <kbd>F5</kbd> to run the app.</li>
+</ol>
+<h3 id="start-a-conversation-with-the-agent">Start a Conversation with the Agent<a class="headerlink" href="#start-a-conversation-with-the-agent" title="Permanent link">&para;</a></h3>
+<p>The agent combines data from the Contoso sales database, the Tents Data Sheet, and Bing Search to provide comprehensive responses, so the results will vary depending on the query.</p>
+<ol>
+<li>
+<p><strong>What beginner tents do we sell?</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This information mainly comes from the file we provided in the vector information store.</p>
+</div>
+</li>
+<li>
+<p><strong>What beginner tents do our competitors sell? Include prices.</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This information comes from the internet, and includes real-world product names and prices.</p>
+</div>
+</li>
+<li>
+<p><strong>Show as a bar chart</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>AI Agent Service is again using Code Interpreter to create the chart, but this time with
+real-world data sourced in the previous query. As before, look in <code>shared/files</code> to view the chart.</p>
+</div>
+</li>
+<li>
+<p><strong>Show the tents we sell by region that are a similar price to our competitors beginner tents.</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This query relies on the reasoning capabilities of the underlying large language model, along with the data returned by function calling.</p>
+</div>
+</li>
+<li>
+<p><strong>Download the data as a human-readable JSON file</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This query again relies on Code Interpreter to create the file from the context in the
+previous queries.</p>
+</div>
+</li>
+</ol>
+<h3 id="stop-the-agent-app">Stop the Agent App<a class="headerlink" href="#stop-the-agent-app" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Type <strong>save</strong> to save the agent app state. This stops the agent app without deleting its state, allowing you to explore the agent in the Azure AI Foundry’s Agents playground.</li>
+<li>Press <kbd>Shift</kbd>+<kbd>F5</kbd> to <strong>stop debugging</strong> the agent app.</li>
+<li>
+<p><strong>Copy</strong> the Agent ID from the terminal output. The Agent ID is required to explore the agent in the Azure AI Foundry portal. The Agent ID will look similar to this example:</p>
+<div class="highlight"><pre><span></span><code>Agent ID: asst_pskNeFYuoCPogDnmfaqIUwoU
+</code></pre></div>
+</li>
+</ol>
+<h2 id="explore-the-agent-in-azure-ai-foundry">Explore the Agent in Azure AI Foundry<a class="headerlink" href="#explore-the-agent-in-azure-ai-foundry" title="Permanent link">&para;</a></h2>
+<p>The Azure AI Foundry includes a playground that lets you interact with the agent app and test how it responds to various queries. Keep in mind that this playground is not a full chatbot experience—it’s a testing tool. Also, you won’t have real-time access to the Contoso sales database, as that resource is available only locally.</p>
+<ol>
+<li>From your browser, navigate to the <a href="https://ai.azure.com/" target="_blank">Azure AI Foundry portal</a>.</li>
+<li>Select <strong>Playgrounds</strong> from the left-hand navigation.</li>
+<li>Select <strong>Try the Agents playground</strong>.</li>
+<li>Select the recommended <strong>Azure OpenAI Service resource</strong> from the dropdown menu - which is the one connected to your project. Click on <strong>Let's go</strong>.</li>
+<li>Verify that the <strong>Agent ID</strong> you copied earlier is the same you see into the <strong>Agent id</strong> field.</li>
+</ol>
+<h3 id="review-the-agents-instructions">Review the Agent's Instructions<a class="headerlink" href="#review-the-agents-instructions" title="Permanent link">&para;</a></h3>
+<p>You'll recognize the instructions from the <code>instructions_bing_grounding.txt</code> file. These instructions are used to guide the agent in responding to queries.</p>
+<h3 id="start-a-conversation-with-the-agent-in-the-playground">Start a Conversation with the Agent in the Playground<a class="headerlink" href="#start-a-conversation-with-the-agent-in-the-playground" title="Permanent link">&para;</a></h3>
+<p>Use the playground to test different queries and observe how the agent responds. You can reuse the same queries from the terminal or try new ones. Keep in mind that the agent pulls information from the Tents Data Sheet and Bing Search, but unlike the local app version, it does not have access to the Contoso sales database.</p>
+<p><a class="glightbox" href="../media/agents-playground.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Azure AI Foundry Playground" src="../media/agents-playground.png" /></a></p>
+</div>
+<div class="tabbed-block">
+<h2 id="grounding-with-bing-search_1">Grounding with Bing Search<a class="headerlink" href="#grounding-with-bing-search_1" title="Permanent link">&para;</a></h2>
+<p>This lab requires the Grounding with Bing Search service, which may not be available in your Azure subscription. To check if you have access, follow the lab instructions to create the resource, if you don’t have access, an error message will appear. Even if you’re unable to use the service, be sure to read through the lab to understand how Grounding with Bing Search works.</p>
+<h2 id="lab-exercise_1">Lab Exercise<a class="headerlink" href="#lab-exercise_1" title="Permanent link">&para;</a></h2>
+<p>In this lab, you'll enable Bing Grounding to provide competitive sales analysis of Contoso products and categories.</p>
+<h2 id="create-a-grounding-with-bing-search-resource_1">Create a Grounding with Bing Search resource<a class="headerlink" href="#create-a-grounding-with-bing-search-resource_1" title="Permanent link">&para;</a></h2>
+<p>You'll need to create a <strong>Grounding with Bing Search Service</strong> resource in the Azure portal and connect it to the Azure AI Foundry portal.</p>
+<p>Follow these steps to create a Grounding with Bing Search Resource:</p>
+<ol>
+<li>
+<p><a href="https://portal.azure.com/#view/Microsoft_Azure_Marketplace/GalleryItemDetailsBladeNopdl/id/Microsoft.BingGroundingSearch" target="_blank">Click to create a Grounding with Bing Search Resource</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You may need to sign in to your Azure account and or clear the welcome screen to access the Azure portal.</p>
+</div>
+</li>
+<li>
+<p>Select <strong>Create</strong>.</p>
+</li>
+<li>Select the <strong>rg-agent-workshop-</strong>**** resource group from the drop-down list.</li>
+<li>
+<p>Name the resource as follows:</p>
+<div class="highlight"><pre><span></span><code>groundingwithbingsearch
+</code></pre></div>
+</li>
+<li>
+<p>Select the <strong>Grounding with Bing Search</strong> pricing tier.</p>
+</li>
+<li>Confirm <strong>I confirm I have read and understood the notice above</strong>.</li>
+<li>Select <strong>Review + create</strong>.</li>
+<li>Select <strong>Create</strong>.</li>
+<li>Wait for deployment to complete, then click <strong>Go to resource</strong>.</li>
+<li>Select <strong>Overview</strong> from the sidebar menu.</li>
+<li>Select the <strong>Go to Azure AI Foundry Portal</strong> button.
+<!-- 1. Select **Sign in** and enter your Azure account credentials. --></li>
+</ol>
+<h2 id="create-a-bing-search-connection-in-ai-foundry_1">Create a Bing Search Connection in AI Foundry<a class="headerlink" href="#create-a-bing-search-connection-in-ai-foundry_1" title="Permanent link">&para;</a></h2>
+<p>Next, we will create a Bing Search connection in the Azure AI Foundry portal. This connection enables the agent app to access the Bing Search service using the agent <strong>Grounding-with-Bing-Search</strong>.</p>
+<p>To create a Bing Search connection in the Azure AI Foundry portal, follow these steps:</p>
+<ol>
+<li>Verify that your Foundry <strong>project-</strong>**** is selected.</li>
+<li>From the sidebar menu, click the <strong>Management Center</strong> button. The button is pinned at the <strong>bottom</strong> of the sidebar.</li>
+<li>From the sidebar menu, select <strong>Connected resources</strong>.</li>
+<li>Click <strong>+ New connection</strong>.</li>
+<li>Scroll to the Knowledge section and select <strong>Grounding with Bing Search</strong>.</li>
+<li>Click the <strong>Add connection</strong> button to the right of your <code>groundingwithbingsearch</code> resource.</li>
+<li>Click <strong>Close</strong></li>
+</ol>
+<p>For more information, visit the <a href="https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding" target="_blank">Grounding with Bing Search</a> documentation.</p>
+<h3 id="enable-grounding-with-bing-search-in-the-agent-app_1">Enable Grounding with Bing Search in the Agent App<a class="headerlink" href="#enable-grounding-with-bing-search-in-the-agent-app_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Open the file <code>main.py</code>.</p>
+</li>
+<li>
+<p><strong>Uncomment</strong> the following lines by removing the <strong>"# "</strong> characters</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># bing_grounding = BingGroundingTool(connection_id=AZURE_BING_CONNECTION_ID)</span>
+<span class="c1"># toolset.add(bing_grounding)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it.</p>
+</div>
+</li>
+<li>
+<p>Review the code in the <code>main.py</code> file.</p>
+<p>After uncommenting, your code should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/function_calling.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/file_search.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/code_interpreter.txt&quot;</span>
+<span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/bing_grounding.txt&quot;</span>
+<span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/code_interpreter_multilingual.txt&quot;</span>
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">add_agent_tools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add tools for the agent.&quot;&quot;&quot;</span>
+    <span class="n">font_file_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Add the functions tool</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+
+    <span class="c1"># Add the tents data sheet to a new vector data store</span>
+    <span class="n">vector_store</span> <span class="o">=</span> <span class="k">await</span> <span class="n">utilities</span><span class="o">.</span><span class="n">create_vector_store</span><span class="p">(</span>
+        <span class="n">agents_client</span><span class="p">,</span>
+        <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="n">TENTS_DATA_SHEET_FILE</span><span class="p">],</span>
+        <span class="n">vector_store_name</span><span class="o">=</span><span class="s2">&quot;Contoso Product Information Vector Store&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">file_search_tool</span> <span class="o">=</span> <span class="n">FileSearchTool</span><span class="p">(</span><span class="n">vector_store_ids</span><span class="o">=</span><span class="p">[</span><span class="n">vector_store</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">file_search_tool</span><span class="p">)</span>
+
+    <span class="c1"># Add the code interpreter tool</span>
+    <span class="n">code_interpreter</span> <span class="o">=</span> <span class="n">CodeInterpreterTool</span><span class="p">()</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">code_interpreter</span><span class="p">)</span>
+
+    <span class="c1"># Add the Bing grounding tool</span>
+    <span class="n">bing_grounding</span> <span class="o">=</span> <span class="n">BingGroundingTool</span><span class="p">(</span><span class="n">connection_id</span><span class="o">=</span><span class="n">AZURE_BING_CONNECTION_ID</span><span class="p">)</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">bing_grounding</span><span class="p">)</span>
+
+    <span class="c1"># Add multilingual support to the code interpreter</span>
+    <span class="c1"># font_file_info = await utilities.upload_file(agents_client, utilities.shared_files_path / FONTS_ZIP)</span>
+    <span class="c1"># code_interpreter.add_file(file_id=font_file_info.id)</span>
+
+    <span class="k">return</span> <span class="n">font_file_info</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="review-the-instructions_1">Review the Instructions<a class="headerlink" href="#review-the-instructions_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open the <strong>shared/instructions/bing_grounding.txt</strong> file. This file replaces the instructions used in the previous lab.</li>
+<li>
+<p>The <strong>Tools</strong> section now includes a “Competitive Insights for Products and Categories” capability, enabling the agent to:</p>
+<ul>
+<li>Use Bing Search to gather competitor product names, company names, and prices.</li>
+<li>Restrict responses to topics related to outdoor camping and sports gear.</li>
+<li>Ensure search results are concise and directly relevant to the query.</li>
+</ul>
+</li>
+</ol>
+<h3 id="run-the-agent-app_1">Run the Agent App<a class="headerlink" href="#run-the-agent-app_1" title="Permanent link">&para;</a></h3>
+<p>First, launch the app from the terminal as before:</p>
+<ol>
+<li>Press <kbd>F5</kbd> to run the app.</li>
+</ol>
+<h3 id="start-a-conversation-with-the-agent_1">Start a Conversation with the Agent<a class="headerlink" href="#start-a-conversation-with-the-agent_1" title="Permanent link">&para;</a></h3>
+<p>The agent combines data from the Contoso sales database, the Tents Data Sheet, and Bing Search to provide comprehensive responses, so the results will vary depending on the query.</p>
+<ol>
+<li>
+<p><strong>What beginner tents do we sell?</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This information mainly comes from the file we provided in the vector information store.</p>
+</div>
+</li>
+<li>
+<p><strong>What beginner tents do our competitors sell? Include prices.</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This information comes from the internet, and includes real-world product names and prices.</p>
+</div>
+</li>
+<li>
+<p><strong>Show as a bar chart</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>AI Agent Service is again using Code Interpreter to create the chart, but this time with
+real-world data sourced in the previous query. As before, look in <code>shared/files</code> to view the chart.</p>
+</div>
+</li>
+<li>
+<p><strong>Show the tents we sell by region that are a similar price to our competitors beginner tents.</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This query relies on the reasoning capabilities of the underlying large language model, along with the data returned by function calling.</p>
+</div>
+</li>
+<li>
+<p><strong>Download the data as a human-readable JSON file</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This query again relies on Code Interpreter to create the file from the context in the
+previous queries.</p>
+</div>
+</li>
+</ol>
+<h3 id="stop-the-agent-app_1">Stop the Agent App<a class="headerlink" href="#stop-the-agent-app_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Type <strong>save</strong> to save the agent app state. This stops the agent app without deleting its state, allowing you to explore the agent in the Azure AI Foundry’s Agents playground.</li>
+<li>Press <kbd>Shift</kbd>+<kbd>F5</kbd> to <strong>stop debugging</strong> the agent app.</li>
+<li>
+<p><strong>Copy</strong> the Agent ID from the terminal output. The Agent ID is required to explore the agent in the Azure AI Foundry portal. The Agent ID will look similar to this example:</p>
+<div class="highlight"><pre><span></span><code>Agent ID: asst_pskNeFYuoCPogDnmfaqIUwoU
+</code></pre></div>
+</li>
+</ol>
+<h2 id="explore-the-agent-in-azure-ai-foundry_1">Explore the Agent in Azure AI Foundry<a class="headerlink" href="#explore-the-agent-in-azure-ai-foundry_1" title="Permanent link">&para;</a></h2>
+<p>The Azure AI Foundry includes a playground that lets you interact with the agent app and test how it responds to various queries. Keep in mind that this playground is not a full chatbot experience—it’s a testing tool. Also, you won’t have real-time access to the Contoso sales database, as that resource is available only locally.</p>
+<ol>
+<li>From your browser, navigate to the <a href="https://ai.azure.com/" target="_blank">Azure AI Foundry portal</a>.</li>
+<li>Select <strong>Playgrounds</strong> from the left-hand navigation.</li>
+<li>Select <strong>Try the Agents playground</strong>.</li>
+<li>Paste the <strong>Agent ID</strong> you copied earlier into the <strong>Agent id</strong> field.</li>
+</ol>
+<h3 id="review-the-agents-instructions_1">Review the Agent's Instructions<a class="headerlink" href="#review-the-agents-instructions_1" title="Permanent link">&para;</a></h3>
+<p>You'll recognize the instructions from the <code>instructions_bing_grounding.txt</code> file. These instructions are used to guide the agent in responding to queries.</p>
+<h3 id="start-a-conversation-with-the-agent-in-the-playground_1">Start a Conversation with the Agent in the Playground<a class="headerlink" href="#start-a-conversation-with-the-agent-in-the-playground_1" title="Permanent link">&para;</a></h3>
+<p>Use the playground to test different queries and observe how the agent responds. You can reuse the same queries from the terminal or try new ones. Keep in mind that the agent pulls information from the Tents Data Sheet and Bing Search, but unlike the local app version, it does not have access to the Contoso sales database.</p>
+<p><a class="glightbox" href="../media/agents-playground.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Azure AI Foundry Playground" src="../media/agents-playground.png" /></a></p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.footer", "content.code.copy", "navigation.tabs.sticky", "content.tabs.link"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../js/custom-nav.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

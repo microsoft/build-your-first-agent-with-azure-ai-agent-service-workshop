@@ -1,0 +1,1021 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../getting-started/">
+      
+      
+        <link rel="next" href="../lab-2-file_search/">
+      
+      
+      <link rel="icon" href="../media/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>Lab 1 Function Calling Power - Build your code-first agent with Azure AI Foundry</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Build your code-first agent with Azure AI Foundry" class="md-header__button md-logo" aria-label="Build your code-first agent with Azure AI Foundry" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Build your code-first agent with Azure AI Foundry
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 1 Function Calling Power
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Build your code-first agent with Azure AI Foundry
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Build your code-first agent with Azure AI Foundry" class="md-nav__button md-logo" aria-label="Build your code-first agent with Azure AI Foundry" data-md-component="logo">
+      
+  <img src="../media/favicon.png" alt="logo">
+
+    </a>
+    Build your code-first agent with Azure AI Foundry
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/microsoft/build-your-first-agent-with-azure-ai-agent-service-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Build your code-first agent with Azure AI Foundry
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 Function Calling Power
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 Function Calling Power
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-agent-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the Agent App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-debug-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Optional) Debug the App
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-2-file_search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 Grounding with Documents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-3-code_interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 3 Intro to the Code Interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab-5-multilingual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 4 Multilingual Visualizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finishing-up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab 5 Finishing Up
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-agent-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the Agent App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-debug-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Optional) Debug the App
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Lab 1 Function Calling Power</h1>
+
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-function-calling">What is Function Calling<a class="headerlink" href="#what-is-function-calling" title="Permanent link">&para;</a></h3>
+<p>Function calling enables Large Language Models to interact with external systems. The LLM determines when to invoke a function based on instructions, function definitions, and user prompts. The LLM then returns structured data that can be used by the agent app to invoke a function.</p>
+<p>It's up to the developer to implement the function logic within the agent app. In this workshop, we use function logic to execute SQLite queries that are dynamically generated by the LLM.</p>
+<h3 id="enabling-function-calling">Enabling Function Calling<a class="headerlink" href="#enabling-function-calling" title="Permanent link">&para;</a></h3>
+<p>If you’re familiar with <a href="https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling" target="_blank">Azure OpenAI Function Calling</a>, you know it requires you to define a function schema for the LLM.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>With the Foundry Agent Service and its Python SDK, you can define the function schema directly within the Python function’s docstring. This approach keeps the definition and implementation together, simplifying maintenance and enhancing readability.</p>
+<p>For example, in the <strong>sales_data.py</strong> file, the <strong>async_fetch_sales_data_using_sqlite_query</strong> function uses a docstring to specify its signature, inputs, and outputs. The SDK parses this docstring to generate the callable function for the LLM:</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">async_fetch_sales_data_using_sqlite_query</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;SalesData&quot;</span><span class="p">,</span> <span class="n">sqlite_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.</span>
+
+<span class="sd">    :param sqlite_query: The input should be a well-formed SQLite query to extract information based on the user&#39;s question. The query result will be returned as a JSON object.</span>
+<span class="sd">    :return: Return data in JSON serializable format.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>With the Foundry Agent Service and its .NET SDK, you define the function schema as part of the C# code when adding the function to the agent.</p>
+<p>For example, in the <strong>Lab.cs</strong> file, the <code>InitialiseTools</code> method defines the function schema for the <code>FetchSalesDataAsync</code> function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">new</span><span class="w"> </span><span class="nf">FunctionToolDefinition</span><span class="p">(</span>
+<span class="w">    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="k">nameof</span><span class="p">(</span><span class="n">SalesData</span><span class="p">.</span><span class="n">FetchSalesDataAsync</span><span class="p">),</span>
+<span class="w">    </span><span class="n">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;This function is used to answer user questions about Contoso sales data by executing SQLite queries against the database.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">BinaryData</span><span class="p">.</span><span class="n">FromObjectAsJson</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">Properties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The input should be a well-formed SQLite query to extract information based on the user&#39;s question. The query result will be returned as a JSON object.&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="n">Required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;query&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">JsonSerializerOptions</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">PropertyNamingPolicy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JsonNamingPolicy</span><span class="p">.</span><span class="n">CamelCase</span><span class="w"> </span><span class="p">})</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="dynamic-sql-generation">Dynamic SQL Generation<a class="headerlink" href="#dynamic-sql-generation" title="Permanent link">&para;</a></h3>
+<p>When the app starts, it incorporates the database schema and key data into the instructions for the Foundry Agent Service. Using this input, the LLM generates SQLite-compatible SQL queries to respond to user requests expressed in natural language.</p>
+<h2 id="lab-exercise">Lab Exercise<a class="headerlink" href="#lab-exercise" title="Permanent link">&para;</a></h2>
+<p>In this lab, you will enable the function logic to execute dynamic SQL queries against the SQLite database. The function is called by the LLM to answer user questions about Contoso sales data.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Open the <code>main.py</code>.</p>
+</li>
+<li>
+<p><strong>Uncomment</strong> the following lines by removing the <strong>"# "</strong> characters</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/instructions_function_calling.txt&quot;</span>
+
+<span class="c1"># toolset.add(functions)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The lines to be uncommented are not adjacent. When removing the # character, ensure you also delete the space that follows it. You might want to use the shortcut <strong>CTRL-K + CTRL-U</strong> to uncomment a selected code section quicker.  </p>
+</div>
+</li>
+<li>
+<p>Review the Code in main.py.</p>
+<p>After uncommenting, your code should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">INSTRUCTIONS_FILE</span> <span class="o">=</span> <span class="s2">&quot;instructions/function_calling.txt&quot;</span>
+<span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/file_search.txt&quot;</span>
+<span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/code_interpreter.txt&quot;</span>
+<span class="c1"># INSTRUCTIONS_FILE = &quot;instructions/code_interpreter_multilingual.txt&quot;</span>
+
+
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">add_agent_tools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add tools for the agent.&quot;&quot;&quot;</span>
+    <span class="n">font_file_info</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Add the functions tool</span>
+    <span class="n">toolset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+
+    <span class="c1"># Add the tents data sheet to a new vector data store</span>
+    <span class="c1"># vector_store = await utilities.create_vector_store(</span>
+    <span class="c1">#     agents_client,</span>
+    <span class="c1">#     files=[TENTS_DATA_SHEET_FILE],</span>
+    <span class="c1">#     vector_store_name=&quot;Contoso Product Information Vector Store&quot;,</span>
+    <span class="c1"># )</span>
+    <span class="c1"># file_search_tool = FileSearchTool(vector_store_ids=[vector_store.id])</span>
+    <span class="c1"># toolset.add(file_search_tool)</span>
+
+    <span class="c1"># Add the code interpreter tool</span>
+    <span class="c1"># code_interpreter = CodeInterpreterTool()</span>
+    <span class="c1"># toolset.add(code_interpreter)</span>
+
+    <span class="c1"># Add multilingual support to the code interpreter</span>
+    <span class="c1"># font_file_info = await utilities.upload_file(agents_client, utilities.shared_files_path / FONTS_ZIP)</span>
+    <span class="c1"># code_interpreter.add_file(file_id=font_file_info.id)</span>
+
+    <span class="k">return</span> <span class="n">font_file_info</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Open the <code>Program.cs</code> file.</p>
+</li>
+<li>
+<p><strong>Uncomment</strong> and update the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="nn">Lab</span><span class="w"> </span><span class="n">lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Lab1</span><span class="p">(</span><span class="n">projectClient</span><span class="p">,</span><span class="w"> </span><span class="n">apiDeploymentName</span><span class="p">);</span>
+<span class="k">await</span><span class="w"> </span><span class="n">lab</span><span class="p">.</span><span class="n">RunAsync</span><span class="p">();</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<h3 id="review-the-instructions">Review the Instructions<a class="headerlink" href="#review-the-instructions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Open the <strong>shared/instructions/function_calling.txt</strong> file.</p>
+<div class="admonition tip">
+<p class="admonition-title">In VS Code, press Alt + Z (Windows/Linux) or Option + Z (Mac) to enable word wrap mode, making the instructions easier to read.</p>
+</div>
+</li>
+<li>
+<p>Review how the instructions define the agent app’s behavior:</p>
+<ul>
+<li><strong>Role definition</strong>: The agent assists Contoso users with sales data inquiries in a polite, professional, and friendly manner.</li>
+<li><strong>Context</strong>: Contoso is an online retailer specializing in camping and sports gear.</li>
+<li><strong>Tool description – “Sales Data Assistance”</strong>:<ul>
+<li>Enables the agent to generate and run SQL queries.</li>
+<li>Includes database schema details for query building.</li>
+<li>Limits results to aggregated data with a maximum of 30 rows.</li>
+<li>Formats output as Markdown tables.</li>
+</ul>
+</li>
+<li><strong>Response guidance</strong>: Emphasizes actionable, relevant replies.</li>
+<li><strong>User support tips</strong>: Provides suggestions for assisting users.</li>
+<li><strong>Safety and conduct</strong>: Covers how to handle unclear, out-of-scope, or malicious queries.</li>
+</ul>
+<p>During the workshop, we’ll extend these instructions by introducing new tools to enhance the agent’s capabilities.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The {database_schema_string} placeholder in the instructions is replaced with the database schema when the app initializes.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Replace the placeholder with the database schema string</span>
+<span class="n">instructions</span> <span class="o">=</span> <span class="n">instructions</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{database_schema_string}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">database_schema_string</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// Replace the placeholder with the database schema string</span>
+<span class="n">instructions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instructions</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;{database_schema_string}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">databaseSchemaString</span><span class="p">);</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</li>
+</ol>
+<h2 id="run-the-agent-app">Run the Agent App<a class="headerlink" href="#run-the-agent-app" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Press <kbd>F5</kbd> to run the app.</li>
+<li>
+<p>In the terminal, you'll see the app start, and the agent app will prompt you to <strong>Enter your query</strong>.</p>
+<p><a class="glightbox" href="../media/run-the-agent.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Agent App" src="../media/run-the-agent.png" width="600" /></a></p>
+</li>
+</ol>
+<h3 id="start-a-conversation-with-the-agent">Start a Conversation with the Agent<a class="headerlink" href="#start-a-conversation-with-the-agent" title="Permanent link">&para;</a></h3>
+<p>Start asking questions about Contoso sales data. For example:</p>
+<ol>
+<li>
+<p><strong>Help</strong></p>
+<p>Here is an example of the LLM response to the <strong>help</strong> query:</p>
+<p><em>I’m here to help with your sales data inquiries at Contoso. Could you please provide more details about what you need assistance with? Here are some example queries you might consider:</em></p>
+<ul>
+<li><em>What were the sales by region?</em></li>
+<li><em>What was last quarter's revenue?</em></li>
+<li><em>Which products sell best in Europe?</em></li>
+<li><em>Total shipping costs by region?</em></li>
+</ul>
+<p><em>Feel free to ask any specific questions related to Contoso sales data!</em></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The LLM will provide a list of starter questions that were defined in the instructions file. Try asking for help in your language, for example <code>help in Hindi</code>, <code>help in Italian</code>, or <code>help in Korean</code>.</p>
+</div>
+</li>
+<li>
+<p><strong>Show the 3 most recent transaction details</strong></p>
+<p>In the response you can see the raw data stored in the SQLite database. Each record is a single
+sales transaction for Contoso, with information about the product, product category, sale amount and region, date, and much more.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The agent may refuse to respond to this query with a message like "I'm unable to provide individual transaction details". This is because the instructions direct it to "provide aggregated results by default". If this happens, try again, or reword your query.</p>
+<p>Large Language models have non-deterministic behavior, and may give different responses even if you repeat the same query.</p>
+</div>
+</li>
+<li>
+<p><strong>What are the sales by region?</strong></p>
+<p>Here is an example of the LLM response to the <strong>sales by region</strong> query:</p>
+<pre><code>| Region         | Total Revenue  |
+|----------------|----------------|
+| AFRICA         | $5,227,467     |
+| ASIA-PACIFIC   | $5,363,718     |
+| CHINA          | $10,540,412    |
+| EUROPE         | $9,990,708     |
+| LATIN AMERICA  | $5,386,552     |
+| MIDDLE EAST    | $5,312,519     |
+| NORTH AMERICA  | $15,986,462    |
+</code></pre>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>So, what’s happening behind the scenes to make it all work?</p>
+<p>The LLM orchestrates the following steps:</p>
+<ol>
+<li>
+<p>The LLM generates a SQL query to answer the user's question. For the question <strong>"What are the sales by region?"</strong>, the following SQL query is generated:</p>
+<p><strong>SELECT region, SUM(revenue) AS total_revenue FROM sales_data GROUP BY region;</strong></p>
+</li>
+<li>
+<p>The LLM then asks the agent app to call the <strong>async_fetch_sales_data_using_sqlite_query</strong> function, which retrieves the required data from the SQLite database and returns it to the LLM.</p>
+</li>
+<li>The LLM uses the retrieved data to create a Markdown table, which it then returns to the user. Check the instructions file, you'll see that Markdown is the default output format.</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Show sales by category in Europe</strong></p>
+<p>In this case, an even more complex SQL query is run by the agent app.</p>
+</li>
+<li>
+<p><strong>Breakout sales by footwear</strong></p>
+<p>Notice how the agent figures out which products fit under the "footwear" category and understands the intent behind the term "<strong>breakout</strong>".</p>
+</li>
+<li>
+<p><strong>What brands of tents do we sell?</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>We haven't provided the agent with any data containing information about product brands. That's why the agent isn't able to properly answer this question.</p>
+<p>In the previous responses you may have noticed that the transaction history from the underlying database did not include any product brands or descriptions, either. We'll fix this in the next lab!</p>
+</div>
+</li>
+</ol>
+<h2 id="optional-debug-the-app">(Optional) Debug the App<a class="headerlink" href="#optional-debug-the-app" title="Permanent link">&para;</a></h2>
+<p>Set a <a href="https://code.visualstudio.com/Docs/editor/debugging" target="_blank">breakpoint</a> in the <code>async_fetch_sales_data_using_sqlite_query</code> function located in <code>sales_data.py</code> to observe how the LLM requests data.</p>
+<div class="admonition info">
+<p class="admonition-title">Note: To use the debug feature, exit the previous run. Then set the breakpoint. Then run the application using the debugger icon in the sidebar. This will open up the debug sidebar, allowing you to watch stack traces and step through execution.</p>
+</div>
+<p><a class="glightbox" href="../media/breakpoint.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Breakpoint" src="../media/breakpoint.png" width="600" /></a></p>
+<h3 id="ask-more-questions">Ask More Questions<a class="headerlink" href="#ask-more-questions" title="Permanent link">&para;</a></h3>
+<p>Now that you’ve set a breakpoint, ask additional questions about Contoso sales data to observe the function logic in action. Step through the function to execute the database query and return the results to the LLM.</p>
+<p>Try these questions:</p>
+<ol>
+<li><strong>What regions have the highest sales?</strong></li>
+<li><strong>What were the sales of tents in the United States in April 2022?</strong></li>
+</ol>
+<h3 id="disable-the-breakpoint">Disable the Breakpoint<a class="headerlink" href="#disable-the-breakpoint" title="Permanent link">&para;</a></h3>
+<p>Remember to disable the breakpoint before running the app again.</p>
+<h3 id="stop-the-agent-app">Stop the Agent App<a class="headerlink" href="#stop-the-agent-app" title="Permanent link">&para;</a></h3>
+<p>When you're done, type <strong>exit</strong> to clean up the agent resources and stop the app.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Getting Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../lab-2-file_search/" class="md-footer__link md-footer__link--next" aria-label="Next: Lab 2 Grounding with Documents">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Lab 2 Grounding with Documents
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.footer", "content.code.copy", "navigation.tabs.sticky", "content.tabs.link"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../js/custom-nav.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
