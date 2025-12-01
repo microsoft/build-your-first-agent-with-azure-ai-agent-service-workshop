@@ -92,9 +92,17 @@ We have provided a bash script to automate the deployment of the resources requi
 
 The script `deploy.sh` deploys to the `westus` region by default; edit the file to change the region or resource names. To run the script, open the VS Code terminal and run the following command:
 
-```bash
-cd infra && ./deploy.sh
-```
+    ```bash
+    cd infra
+ 
+    # Make the script executable if you get "permission denied"
+    # chmod 755 sets explicit permissions:
+    chmod 755 deploy.sh
+
+    # Then run the deploy script
+    ./deploy.sh
+    ```
+
 
 ### Workshop Configuration
 
